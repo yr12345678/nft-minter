@@ -1,13 +1,13 @@
+use layers::*;
 use random::Random;
+use scrypto::crypto::hash;
 use scrypto::prelude::*;
 use types::ImageNft;
-use scrypto::crypto::hash;
 
 // SVG related stuff
-use svg::node::element::path::Data;
-use svg::node::element::{Circle, Definitions, LinearGradient, Path, Rectangle, Stop};
 use svg::Document;
 
+pub mod layers;
 pub mod types;
 
 #[blueprint]
@@ -17,7 +17,7 @@ mod nft_minter {
         image_nft_manager: ResourceManager,
         next_nft_id: u64,
         used_seeds: KeyValueStore<Vec<u8>, NonFungibleLocalId>,
-        existing_hashes: KeyValueStore<Hash, NonFungibleLocalId>
+        existing_hashes: KeyValueStore<Hash, NonFungibleLocalId>,
     }
 
     impl NftMinter {
@@ -50,7 +50,7 @@ mod nft_minter {
                 image_nft_manager,
                 next_nft_id: 1,
                 used_seeds: KeyValueStore::<Vec<u8>, NonFungibleLocalId>::new(),
-                existing_hashes: KeyValueStore::<Hash, NonFungibleLocalId>::new()
+                existing_hashes: KeyValueStore::<Hash, NonFungibleLocalId>::new(),
             }
             .instantiate()
             .prepare_to_globalize(OwnerRole::None)
@@ -72,8 +72,7 @@ mod nft_minter {
             );
 
             // Generate our SVG data
-            let svg_document =
-                NftMinter::generate_image_svg_data(&seed);
+            let svg_document = NftMinter::generate_image_svg_data(&seed);
 
             let encoded_document = urlencoding::encode(&svg_document).into_owned();
             let svg_data = format!("data:image/svg+xml,{encoded_document}");
@@ -92,7 +91,7 @@ mod nft_minter {
                 ImageNft {
                     key_image_url: Url::of(svg_data.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
-                    svg_data: svg_document
+                    svg_data: hex::encode(svg_document)
                 },
             );
 
@@ -107,105 +106,48 @@ mod nft_minter {
         }
 
         fn generate_image_svg_data(seed: &Vec<u8>) -> String {
-            // Get random number in range and colors
+            // Instantiate the random
             let mut random = Random::new(seed);
-            let eye_random_r = random.in_range::<u8>(0, 255);
-            let eye_random_g = random.in_range::<u8>(0, 255);
-            let eye_random_b = random.in_range::<u8>(0, 255);
-            let face_color = format!("rgb({eye_random_r}, {eye_random_g}, {eye_random_b})");
-            let background_1_random_r = random.in_range::<u8>(0, 255);
-            let background_1_random_g = random.in_range::<u8>(0, 255);
-            let background_1_random_b = random.in_range::<u8>(0, 255);
-            let gradient_color_1 = format!(
-                "rgb({background_1_random_r}, {background_1_random_g}, {background_1_random_b})"
+
+            // Create a new document
+            let document = Document::new().set("viewBox", (0, 0, 1000, 1000));
+
+            // Add a background
+            let random_number = random.roll::<u8>(100);
+            let background_type = if random_number == 0 {
+                BackgroundType::RadixGradient
+            } else if random_number < 55 {
+                BackgroundType::RandomSolid
+            } else if random_number < 75 {
+                BackgroundType::RandomGradient
+            } else if random_number < 85 {
+                BackgroundType::DiagonalSplit
+            } else {
+                BackgroundType::PatternStripes
+            };
+
+            let document = layers::Layer::add(
+                document,
+                LayerType::Background { background_type },
+                &mut random,
             );
-            let background_2_random_r = random.in_range::<u8>(0, 255);
-            let background_2_random_g = random.in_range::<u8>(0, 255);
-            let background_2_random_b = random.in_range::<u8>(0, 255);
-            let gradient_color_2 = format!(
-                "rgb({background_2_random_r}, {background_2_random_g}, {background_2_random_b})"
-            );
 
-            // Set up Radix gradient background
-            let radix_gradient_stop1 = Stop::new().set("offset", "0%").set("stop-color", "#1cdcfb");
+            // Add a half circle? Chance of adding it is 2:1
+            let document = if random.roll::<u8>(3) < 2 {
+                layers::Layer::add(document, LayerType::HalfCircle, &mut random)
+            } else {
+                document
+            };
 
-            let radix_gradient_stop2 = Stop::new()
-                .set("offset", "50%")
-                .set("stop-color", "#052bc0");
-
-            let radix_gradient_stop3 = Stop::new()
-                .set("offset", "100%")
-                .set("stop-color", "#fe42cb");
-
-            let radix_gradient = LinearGradient::new()
-                .set("id", "radix")
-                .set("x1", "0%")
-                .set("x2", "100%")
-                .set("y1", "0%")
-                .set("y2", "0%")
-                .add(radix_gradient_stop1)
-                .add(radix_gradient_stop2)
-                .add(radix_gradient_stop3);
-
-            // Set up random gradient
-            let random_gradient_stop1 = Stop::new()
-                .set("offset", "0%")
-                .set("stop-color", gradient_color_1.clone());
-
-            let random_gradient_stop2 = Stop::new()
-                .set("offset", "100%")
-                .set("stop-color", gradient_color_2.clone());
-
-            let random_gradient = LinearGradient::new()
-                .set("id", "random_gradient")
-                .set("x1", "0%")
-                .set("x2", "100%")
-                .set("y1", "0%")
-                .set("y2", "0%")
-                .add(random_gradient_stop1)
-                .add(random_gradient_stop2);
-
-            let defs = Definitions::new().add(radix_gradient).add(random_gradient);
-
-            // Our eyes
-            let eye1 = Circle::new()
-                .set("cx", 350)
-                .set("cy", 350)
-                .set("r", 50)
-                .set("fill", face_color.clone());
-
-            let eye2 = Circle::new()
-                .set("cx", 650)
-                .set("cy", 350)
-                .set("r", 50)
-                .set("fill", face_color.clone());
-
-            // Mouth
-            let mouth_data = Data::new()
-                .move_to((250, 650))
-                .line_to((750, 650))
-                .vertical_line_to(700)
-                .line_to((250, 700));
-
-            let mouth = Path::new()
-                .set("fill", face_color.clone())
-                .set("d", mouth_data);
-
-            // The background
-            let background = Rectangle::new()
-                .set("width", "100%")
-                .set("height", "100%")
-                .set("fill", "url(#random_gradient)");
+            // Add a whole circle? Chance of adding it is 2:1
+            let document = if random.roll::<u8>(3) < 2 {
+                layers::Layer::add(document, LayerType::Circle, &mut random)
+            } else {
+                document
+            };
 
             // Bring it all together
-            Document::new()
-                .set("viewBox", (0, 0, 1000, 1000))
-                .add(defs)
-                .add(background)
-                .add(eye1)
-                .add(eye2)
-                .add(mouth)
-                .to_string()
+            document.to_string()
         }
     }
 }
