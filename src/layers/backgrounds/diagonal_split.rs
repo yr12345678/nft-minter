@@ -5,6 +5,7 @@ use svg::node::element::{Element, Polygon};
 
 pub struct DiagonalSplitBackground;
 
+// FIXME: gradients don't work here...
 impl Layer for DiagonalSplitBackground {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Generate the two triangles that will make up the diagonal split background

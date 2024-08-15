@@ -9,17 +9,23 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
     // Set up our stack of layers
     let mut layers: Vec<Box<dyn Layer>> = Vec::new();
 
-    // Always add a background
-    layers.push(random_background(&mut random));
+    // Make sure we have at least 2 layers (background + ...)
+    while layers.len() < 2 {
+        // Start clean
+        layers.clear();
 
-    // Potentially add a big element
-    if random.next_bool() {
-        layers.push(random_big_element(&mut random));
-    }
+        // Always add a background
+        layers.push(random_background(&mut random));
 
-    // Potentially add a small element
-    if random.next_bool() {
-        layers.push(random_small_element(&mut random));
+        // Potentially add a big element
+        if random.next_bool() {
+            layers.push(random_big_element(&mut random));
+        }
+
+        // Potentially add a small element
+        if random.next_bool() {
+            layers.push(random_small_element(&mut random));
+        }
     }
 
     // Generate the SVG
