@@ -17,6 +17,11 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
         layers.push(random_big_element(&mut random));
     }
 
+    // Potentially add a small element
+    if random.next_bool() {
+        layers.push(random_small_element(&mut random));
+    }
+
     // Generate the SVG
     let document = generate_svg(layers, &mut random);
 
