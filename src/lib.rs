@@ -1,18 +1,18 @@
-use layers::*;
 use random::Random;
 use scrypto::crypto::hash;
 use scrypto::prelude::*;
-use types::ImageNft;
+use types::NFTImage;
 
 // SVG related stuff
 use svg::Document;
 
 pub mod layers;
+pub mod nft_generator;
 pub mod types;
+pub mod utils;
 
 #[blueprint]
 mod nft_minter {
-
     struct NftMinter {
         image_nft_manager: ResourceManager,
         next_nft_id: u64,
@@ -26,7 +26,7 @@ mod nft_minter {
                 Runtime::allocate_component_address(NftMinter::blueprint_id());
 
             // Create the NFT manager
-            let image_nft_manager = ResourceBuilder::new_integer_non_fungible::<ImageNft>(OwnerRole::None)
+            let image_nft_manager = ResourceBuilder::new_integer_non_fungible::<NFTImage>(OwnerRole::None)
                 .mint_roles(mint_roles!(
                     minter => rule!(require(global_caller(component_address)));
                     minter_updater => rule!(deny_all);
@@ -42,7 +42,7 @@ mod nft_minter {
                         "icon_url" => Url::of("https://commons.wikimedia.org/wiki/File:Bitterballen_mosterd_mayo.jpg"), locked;
                         "tags" => vec!["nft", "collection"], updatable;
                     }
-                })                
+                })
                 .create_with_no_initial_supply();
 
             // Instantiate
@@ -72,9 +72,9 @@ mod nft_minter {
             );
 
             // Generate our SVG data
-            let svg_document = NftMinter::generate_image_svg_data(&seed);
+            let nft_image_data = nft_generator::generate_nft_image_data(&seed);
 
-            let encoded_document = urlencoding::encode(&svg_document).into_owned();
+            let encoded_document = urlencoding::encode(&nft_image_data).into_owned();
             let svg_data = format!("data:image/svg+xml,{encoded_document}");
             let svg_hash = hash(svg_data.clone());
 
@@ -86,12 +86,12 @@ mod nft_minter {
 
             // Mint the NFT
             let nft_id = NonFungibleLocalId::integer(self.next_nft_id);
-            let nft_bucket = self.image_nft_manager.mint_non_fungible::<ImageNft>(
+            let nft_bucket = self.image_nft_manager.mint_non_fungible::<NFTImage>(
                 &nft_id,
-                ImageNft {
+                NFTImage {
                     key_image_url: Url::of(svg_data.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
-                    svg_data: hex::encode(svg_document)
+                    svg_data: hex::encode(nft_image_data),
                 },
             );
 
@@ -103,51 +103,6 @@ mod nft_minter {
             self.next_nft_id += 1;
 
             nft_bucket
-        }
-
-        fn generate_image_svg_data(seed: &Vec<u8>) -> String {
-            // Instantiate the random
-            let mut random = Random::new(seed);
-
-            // Create a new document
-            let document = Document::new().set("viewBox", (0, 0, 1000, 1000));
-
-            // Add a background
-            let random_number = random.roll::<u8>(100);
-            let background_type = if random_number == 0 {
-                BackgroundType::RadixGradient
-            } else if random_number < 55 {
-                BackgroundType::RandomSolid
-            } else if random_number < 75 {
-                BackgroundType::RandomGradient
-            } else if random_number < 85 {
-                BackgroundType::DiagonalSplit
-            } else {
-                BackgroundType::PatternStripes
-            };
-
-            let document = layers::Layer::add(
-                document,
-                LayerType::Background { background_type },
-                &mut random,
-            );
-
-            // Add a half circle? Chance of adding it is 2:1
-            let document = if random.roll::<u8>(3) < 2 {
-                layers::Layer::add(document, LayerType::HalfCircle, &mut random)
-            } else {
-                document
-            };
-
-            // Add a whole circle? Chance of adding it is 2:1
-            let document = if random.roll::<u8>(3) < 2 {
-                layers::Layer::add(document, LayerType::Circle, &mut random)
-            } else {
-                document
-            };
-
-            // Bring it all together
-            document.to_string()
         }
     }
 }

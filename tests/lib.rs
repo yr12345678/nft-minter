@@ -1,4 +1,4 @@
-use nft_minter::{nft_minter_test::*, types::ImageNft};
+use nft_minter::{nft_minter_test::*, types::NFTImage};
 use radix_common::network::NetworkDefinition;
 use rand::prelude::*;
 use scrypto_test::prelude::*;
@@ -26,7 +26,7 @@ fn mint_nft() -> Result<(), RuntimeError> {
         let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;
 
         let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
-        let nft_data = resource_manager.get_non_fungible_data::<_, _, ImageNft>(
+        let nft_data = resource_manager.get_non_fungible_data::<_, _, NFTImage>(
             nft_bucket
                 .non_fungible_local_ids(&mut env)?
                 .first()
@@ -35,8 +35,11 @@ fn mint_nft() -> Result<(), RuntimeError> {
             &mut env,
         )?;
 
-        fs::write(format!("test_images/{i}.svg"), hex::decode(nft_data.svg_data).unwrap())
-            .expect("Failed to write SVG file.");
+        fs::write(
+            format!("test_images/{i}.svg"),
+            hex::decode(nft_data.svg_data).unwrap(),
+        )
+        .expect("Failed to write SVG file.");
     }
 
     Ok(())
@@ -56,14 +59,8 @@ fn build_mint_manifest() -> Result<(), RuntimeError> {
         )
         .unwrap();
 
-        manifest = manifest
-            .call_method(
-                component_address,
-                "mint_nft",
-                manifest_args!(
-                    data.to_vec()
-                )
-            );
+        manifest =
+            manifest.call_method(component_address, "mint_nft", manifest_args!(data.to_vec()));
     }
 
     manifest = manifest.deposit_batch(
