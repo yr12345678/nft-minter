@@ -1,5 +1,5 @@
-use crate::layers::Layer;
-use crate::utils::random_color;
+use crate::{layers::Layer, utils::HSL};
+// use crate::utils::random_color;
 use random::Random;
 use svg::node::element::{Element, Line, Pattern, Rectangle};
 
@@ -8,9 +8,14 @@ pub struct ThreeStripesBackground;
 impl Layer for ThreeStripesBackground {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Generate random colors for the three stripes
-        let random_color1 = random_color(random);
-        let random_color2 = random_color(random);
-        let random_color3 = random_color(random);
+        let (random_color1, random_color2, random_color3) =
+            match random.roll::<u8>(4) {
+                0 => HSL::new_vibrant_random(random).triadic_colors_as_strings(),
+                1 => HSL::new_vibrant_random(random).analogous_colors_colors_as_strings(),
+                2 => HSL::new_vibrant_random(random).monochromatic_colors_as_strings(),
+                3 => HSL::new_vibrant_random(random).split_complementary_colors_as_strings(),
+                _ => panic!("Invalid color variant")
+            };
 
         // Randomly set rotation and stroke widths
         let valid_rotate_amounts = [-45, 0, 45, 90];
@@ -18,9 +23,9 @@ impl Layer for ThreeStripesBackground {
             .get(random.roll::<usize>(4))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
-        let valid_stroke_widths = [10, 20, 40, 50]; // must be divisible by 2, but also 1000 must be divisible by it
+        let valid_stroke_widths = [20, 40, 50]; // must be divisible by 2, but also 1000 must be divisible by it
         let stroke_width = valid_stroke_widths
-            .get(random.roll::<usize>(4))
+            .get(random.roll::<usize>(3))
             .expect("Did not find a valid stroke width. This should never happen.");
 
         // Generate the stripes

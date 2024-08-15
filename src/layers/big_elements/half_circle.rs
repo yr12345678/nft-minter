@@ -1,5 +1,5 @@
 use random::Random;
-use crate::{layers::Layer, utils::{random_color, random_gradient_definition}};
+use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode, HSL}};
 use svg::node::element::{path::Data, Element, Path};
 
 pub struct HalfCircle;
@@ -19,13 +19,21 @@ impl Layer for HalfCircle {
         // Set the fill, which can be either solid or gradient with a 50/50 chance
         if random.next_bool() {
             // Pick a solid color
-            let random_color = random_color(random);
+            // let random_color = random_color(random);
+            let random_color = HSL::new_random(random).as_string();
             path = path.set("fill", random_color);
 
             vec![path.into()]
         } else {
+            // Randomize the color mode, but prefer vibrant
+            let color_mode = if random.roll::<u8>(100) < 20 {
+                ColorMode::Normal
+            } else {
+                ColorMode::Vibrant
+            };
+
             // Get a gradient definition and name and add it as a fill to the path
-            let (random_gradient, gradient_name) = random_gradient_definition(random, None);
+            let (random_gradient, gradient_name) = random_gradient_definition(random, None, &color_mode);
             path = path.set("fill", format!("url(#{gradient_name})",));
 
             vec![random_gradient.into(), path.into()]

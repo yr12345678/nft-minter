@@ -1,5 +1,5 @@
 use random::Random;
-use crate::{layers::Layer, utils::{random_color, random_gradient_definition}};
+use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode}};
 use svg::node::element::{Element, Circle};
 
 pub struct SmallCircle;
@@ -22,8 +22,15 @@ impl Layer for SmallCircle {
 
             vec![circle.into()]
         } else {
+            // Randomize the color mode, but prefer vibrant
+            let color_mode = if random.roll::<u8>(100) < 20 {
+                ColorMode::Normal
+            } else {
+                ColorMode::Vibrant
+            };
+                        
             // Get a gradient definition and name and add it as a fill to the path
-            let (random_gradient, gradient_name) = random_gradient_definition(random, None);
+            let (random_gradient, gradient_name) = random_gradient_definition(random, None, &color_mode);
             circle = circle.set("fill", format!("url(#{gradient_name})",));
 
             vec![random_gradient.into(), circle.into()]
