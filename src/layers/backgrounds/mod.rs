@@ -1,6 +1,6 @@
+use random::Random;
 use crate::layers::Layer;
 use gradient::GradientBackground;
-use random::Random;
 use solid::SolidBackground;
 
 pub mod gradient;

@@ -7,6 +7,7 @@ pub fn random_color(random: &mut Random) -> String {
     let g = random.roll::<u8>(255);
     let b = random.roll::<u8>(255);
 
+    println!("rgb({r},{g},{b})");
     format!("rgb({r},{g},{b})")
 }
 

@@ -1,10 +1,6 @@
-use random::Random;
 use scrypto::crypto::hash;
 use scrypto::prelude::*;
 use types::NFTImage;
-
-// SVG related stuff
-use svg::Document;
 
 pub mod layers;
 pub mod nft_generator;
@@ -73,14 +69,14 @@ mod nft_minter {
 
             // Generate our SVG data
             let nft_image_data = nft_generator::generate_nft_image_data(&seed);
-
-            let encoded_document = urlencoding::encode(&nft_image_data).into_owned();
-            let svg_data = format!("data:image/svg+xml,{encoded_document}");
-            let svg_hash = hash(svg_data.clone());
+            println!("{:?}", nft_image_data);
+            let url_encoded_nft_image_data = urlencoding::encode(&nft_image_data).into_owned();
+            let svg_data_uri = format!("data:image/svg+xml,{url_encoded_nft_image_data}");
+            let svg_data_uri_hash = hash(svg_data_uri.clone());
 
             // Make sure hash does not yet exist
             assert!(
-                self.existing_hashes.get(&svg_hash).is_none(),
+                self.existing_hashes.get(&svg_data_uri_hash).is_none(),
                 "This image already exsists!"
             );
 
@@ -89,7 +85,7 @@ mod nft_minter {
             let nft_bucket = self.image_nft_manager.mint_non_fungible::<NFTImage>(
                 &nft_id,
                 NFTImage {
-                    key_image_url: Url::of(svg_data.clone()),
+                    key_image_url: Url::of(svg_data_uri.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
                     svg_data: hex::encode(nft_image_data),
                 },
@@ -97,7 +93,7 @@ mod nft_minter {
 
             // Add the seed and NonFungibleLocalId to the used_seeds KeyValueStore
             self.used_seeds.insert(seed, nft_id.clone());
-            self.existing_hashes.insert(svg_hash, nft_id.clone());
+            self.existing_hashes.insert(svg_data_uri_hash, nft_id.clone());
 
             // Increment our NFT id counter for the next mint
             self.next_nft_id += 1;
