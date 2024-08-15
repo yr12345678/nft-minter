@@ -19,14 +19,13 @@ impl Layer for HalfCircle {
         // Set the fill, which can be either solid or gradient with a 50/50 chance
         if random.next_bool() {
             // Pick a solid color
-            // let random_color = random_color(random);
             let random_color = HSL::new_random(random).as_string();
             path = path.set("fill", random_color);
 
             vec![path.into()]
         } else {
             // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 20 {
+            let color_mode = if random.roll::<u8>(100) < 10 {
                 ColorMode::Normal
             } else {
                 ColorMode::Vibrant

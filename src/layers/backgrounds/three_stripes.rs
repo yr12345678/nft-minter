@@ -10,7 +10,13 @@ impl Layer for ThreeStripesBackground {
         // Generate random colors for the three stripes
         let (random_color1, random_color2, random_color3) =
             match random.roll::<u8>(4) {
-                0 => HSL::new_vibrant_random(random).triadic_colors_as_strings(),
+                0 => {
+                    (
+                        HSL::new_vibrant_random(random).as_string(),
+                        HSL::new_vibrant_random(random).as_string(),
+                        HSL::new_vibrant_random(random).as_string()
+                    )
+                },
                 1 => HSL::new_vibrant_random(random).analogous_colors_colors_as_strings(),
                 2 => HSL::new_vibrant_random(random).monochromatic_colors_as_strings(),
                 3 => HSL::new_vibrant_random(random).split_complementary_colors_as_strings(),

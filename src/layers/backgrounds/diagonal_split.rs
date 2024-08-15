@@ -33,7 +33,7 @@ impl Layer for DiagonalSplitBackground {
             vec![triangle1.into(), triangle2.into()]
         } else {
             // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 20 {
+            let color_mode = if random.roll::<u8>(100) < 10 {
                 ColorMode::Normal
             } else {
                 ColorMode::Vibrant
