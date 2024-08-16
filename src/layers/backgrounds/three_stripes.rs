@@ -9,7 +9,7 @@ impl Layer for ThreeStripesBackground {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Generate random colors for the three stripes
         let (random_color1, random_color2, random_color3) =
-            match random.roll::<u8>(4) {
+            match random.roll::<u8>(3) {
                 0 => {
                     (
                         HSL::new_vibrant_random(random).as_string(),
@@ -19,7 +19,6 @@ impl Layer for ThreeStripesBackground {
                 },
                 1 => HSL::new_vibrant_random(random).analogous_colors_colors_as_strings(),
                 2 => HSL::new_vibrant_random(random).monochromatic_colors_as_strings(),
-                3 => HSL::new_vibrant_random(random).split_complementary_colors_as_strings(),
                 _ => panic!("Invalid color variant")
             };
 
