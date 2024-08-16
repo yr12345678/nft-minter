@@ -7,7 +7,7 @@ pub mod small_circle;
 pub mod small_heart;
 
 pub fn random_small_element(random: &mut Random) -> Box<dyn Layer> {
-    let variant = random.roll::<u8>(2);
+    let variant = random.roll::<u8>(1);
 
     match variant {
         0 => Box::new(SmallCircle),
