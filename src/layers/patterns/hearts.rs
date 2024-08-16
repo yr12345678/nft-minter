@@ -25,8 +25,8 @@ impl Layer for HeartsPattern {
         // Add the data to a path and the path to a pattern
         let path = Path::new()
             .set("d", data)
-            .set("scale", *scale)
-            .set("fill", "hsla(0,100%,100%,0.7)"); // Translucent white
+            .set("transform", *scale)
+            .set("fill", "hsla(0,100%,100%,0.1)"); // Translucent white
 
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
@@ -35,6 +35,7 @@ impl Layer for HeartsPattern {
             .set("y", 0)
             .set("width", *width_height)
             .set("height", *width_height)
+            .set("patternUnits", "userSpaceOnUse")
             .add(path);
 
         // Generate the rectangle that will be filled with the pattern
