@@ -39,7 +39,7 @@ impl Layer for HalfCircle {
                     .move_to((0, 500))
                     .elliptical_arc_to((45, 45, 0, 0, 1, 1000, 500))
             },
-            4 => { 
+            5 => { 
                 // Outside to right
                 Data::new()
                     .move_to((500, 0))
