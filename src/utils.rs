@@ -89,11 +89,18 @@ impl HSL {
 
     // Method to return analogous colors
     pub fn analogous_colors(&self) -> (HSL, HSL, HSL) {
-        let hue1 = Self::normalize_hue(self.hue + 30);
-        let hue2 = Self::normalize_hue(self.hue + 60);
+        let (hue1, hue2, hue3) = if self.hue <= 30 {
+            // Base color is near 0, so increase hue for the other two variants
+            (self.hue, self.hue + 30, self.hue + 60)
+        } else if self.hue >= 330 {
+            // Base color is near 100, so decrease hue for the other two variants
+            (self.hue - 60, self.hue - 30, self.hue)
+        } else {
+            // Base color is in the middle, adjust both directions
+            (self.hue - 30, self.hue, self.hue + 30)
+        };        
 
         (
-            *self,
             HSL {
                 hue: hue1,
                 saturation: self.saturation,
@@ -103,7 +110,12 @@ impl HSL {
                 hue: hue2,
                 saturation: self.saturation,
                 lightness: self.lightness
-            }            
+            },
+            HSL {
+                hue: hue3,
+                saturation: self.saturation,
+                lightness: self.lightness
+            },                       
         )
     }
 
