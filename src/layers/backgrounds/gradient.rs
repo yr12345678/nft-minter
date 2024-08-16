@@ -8,8 +8,8 @@ pub struct GradientBackground;
 impl Layer for GradientBackground {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Randomize the color mode, but prefer vibrant
-        let color_mode = if random.roll::<u8>(100) < 20 {
-            ColorMode::Normal
+        let color_mode = if random.roll::<u8>(100) < 50 {
+            ColorMode::Light
         } else {
             ColorMode::Vibrant
         };

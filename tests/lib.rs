@@ -19,7 +19,7 @@ fn mint_nft() -> Result<(), RuntimeError> {
     // Create images directory if necessary
     let _ = fs::create_dir_all("test_images");
 
-    for i in 1..1001 {
+    for i in 1..10001 {
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
         // let seed = random_string.into_bytes();

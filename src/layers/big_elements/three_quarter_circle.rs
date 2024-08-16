@@ -45,14 +45,18 @@ impl Layer for ThreeQuarterCircle {
         // Set the fill, which can be either solid or gradient with a 50/50 chance
         if random.next_bool() {
             // Pick a solid color
-            let random_color = HSL::new_random(random).as_string();
+            let random_color = if random.roll::<u8>(100) < 50 {
+                HSL::new_light_random(random).as_string()
+            } else {
+                HSL::new_vibrant_random(random).as_string()
+            };
             path = path.set("fill", random_color);
 
             vec![path.into()]
         } else {
             // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 10 {
-                ColorMode::Normal
+            let color_mode = if random.roll::<u8>(100) < 50 {
+                ColorMode::Light
             } else {
                 ColorMode::Vibrant
             };

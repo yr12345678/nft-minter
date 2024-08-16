@@ -3,7 +3,8 @@ use svg::node::element::{Definitions, LinearGradient, Stop};
 
 pub enum ColorMode {
     Normal,
-    Vibrant
+    Vibrant,
+    Light
 }
 
 // TODO: move to separate file
@@ -39,7 +40,7 @@ impl HSL {
     // Generates a vibrant random HSL struct
     pub fn new_vibrant_random(random: &mut Random) -> Self {
         let hue = random.in_range::<u16>(0, 360);
-        let saturation = random.in_range::<u8>(70, 100); 
+        let saturation = random.in_range::<u8>(80, 100); 
         let lightness = random.in_range::<u8>(40, 60);
 
         HSL {
@@ -47,7 +48,20 @@ impl HSL {
             saturation: saturation.try_into().unwrap(),
             lightness: lightness.try_into().unwrap()
         }                
-    }   
+    }  
+
+    // Generates a vibrant random HSL struct
+    pub fn new_light_random(random: &mut Random) -> Self {
+        let hue = random.in_range::<u16>(0, 360);
+        let saturation = 100; 
+        let lightness = random.in_range::<u8>(60, 85);
+
+        HSL {
+            hue: hue.try_into().unwrap(),
+            saturation: saturation.try_into().unwrap(),
+            lightness: lightness.try_into().unwrap()
+        }                
+    }     
 
     // Method to normalize the hue to stay within 0 to 360
     fn normalize_hue(hue: i16) -> i16 {
@@ -270,7 +284,8 @@ pub fn random_gradient_definition(
     // Get a random base color
     let random_color = match color_mode {
         ColorMode::Normal => HSL::new_random(random),
-        ColorMode::Vibrant => HSL::new_vibrant_random(random)
+        ColorMode::Vibrant => HSL::new_vibrant_random(random),
+        ColorMode::Light => HSL::new_light_random(random)
     };
 
     // Generate our color set
@@ -291,7 +306,8 @@ pub fn random_gradient_definition(
         3 => {
             let color2 = match color_mode {
                 ColorMode::Normal => HSL::new_random(random),
-                ColorMode::Vibrant => HSL::new_vibrant_random(random)
+                ColorMode::Vibrant => HSL::new_vibrant_random(random),
+                ColorMode::Light => HSL::new_light_random(random)
             };
 
             (random_color.as_string(), color2.as_string())

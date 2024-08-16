@@ -1,5 +1,5 @@
 use crate::{layers::Layer, utils::random_gradient_definition};
-use crate::utils::{random_color, ColorMode};
+use crate::utils::{random_color, ColorMode, HSL};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
@@ -23,8 +23,16 @@ impl Layer for DiagonalSplitBackground {
         // Set the colors and return the result
         if random.next_bool() {
             // Pick two solid colors
-            let random_color1 = random_color(random);
-            let random_color2 = random_color(random);              
+            let random_color1 = if random.roll::<u8>(100) < 50 {
+                HSL::new_light_random(random).as_string()
+            } else {
+                HSL::new_vibrant_random(random).as_string()
+            };
+            let random_color2  = if random.roll::<u8>(100) < 50 {
+                HSL::new_light_random(random).as_string()
+            } else {
+                HSL::new_vibrant_random(random).as_string()
+            };              
 
             // Add the fill to the triangles
             triangle1 = triangle1.set("fill", random_color1);
@@ -33,8 +41,8 @@ impl Layer for DiagonalSplitBackground {
             vec![triangle1.into(), triangle2.into()]
         } else {
             // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 10 {
-                ColorMode::Normal
+            let color_mode = if random.roll::<u8>(100) < 50 {
+                ColorMode::Light
             } else {
                 ColorMode::Vibrant
             };
