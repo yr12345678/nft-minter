@@ -17,6 +17,11 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
         // Always add a background
         layers.push(random_background(&mut random));
 
+        // Potentially add a pattern
+        if random.roll::<u8>(100) < 20 {
+            layers.push(random_pattern(&mut random));
+        };
+
         // Potentially add a big element
         if random.next_bool() {
             layers.push(random_big_element(&mut random));
