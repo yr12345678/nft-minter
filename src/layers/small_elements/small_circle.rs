@@ -15,7 +15,7 @@ impl Layer for SmallCircle {
             .set("r", random_radius);
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
-        if random.roll::<u8>(100) < 85 {
+        if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let random_color = if random.roll::<u8>(100) < 50 {
                 HSL::new_light_random(random).as_string()

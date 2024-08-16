@@ -1,6 +1,5 @@
 use random::Random;
-use scrypto::prelude::hash_map_new;
-use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode, HSL}};
+use crate::{layers::Layer, utils::HSL};
 use svg::node::element::{Element, Circle};
 
 pub struct ConcentricCircles;
@@ -11,7 +10,11 @@ impl Layer for ConcentricCircles {
         let start_radius = random.in_range::<u16>(25, 40) * 2; // Always an even number
     
         // Pick a random color for all circles
-        let random_color = HSL::new_vibrant_random(random).as_string();
+        let random_color = if random.roll::<u8>(100) < 50 {
+            HSL::new_light_random(random).as_string()
+        } else {
+            HSL::new_vibrant_random(random).as_string()
+        };
 
         // Generate our 10 circles
         let mut circles: Vec<Element> = Vec::new();

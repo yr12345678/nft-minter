@@ -62,8 +62,8 @@ impl Layer for HalfCircle {
 
         let mut path = Path::new().set("d", data);
 
-        // Set the fill, which can be either solid or gradient with a 50/50 chance
-        if random.next_bool() {
+        // Set the fill, which can be either solid or gradient
+        if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let random_color = if random.roll::<u8>(100) < 50 {
                 HSL::new_light_random(random).as_string()

@@ -21,7 +21,7 @@ impl Layer for DiagonalSplitBackground {
         }        
 
         // Set the colors and return the result
-        if random.next_bool() {
+        if random.roll::<u8>(100) < 80 {
             // Pick two solid colors
             let random_color1 = if random.roll::<u8>(100) < 50 {
                 HSL::new_light_random(random).as_string()

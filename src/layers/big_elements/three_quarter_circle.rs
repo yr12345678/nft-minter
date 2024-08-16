@@ -1,5 +1,5 @@
 use random::Random;
-use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode, HSL}};
+use crate::{layers::Layer, utils::{random_gradient_definition, ColorMode, HSL}};
 use svg::node::element::{path::Data, Element, Path};
 
 pub struct ThreeQuarterCircle;
@@ -42,8 +42,8 @@ impl Layer for ThreeQuarterCircle {
 
         let mut path = Path::new().set("d", data);
 
-        // Set the fill, which can be either solid or gradient with a 50/50 chance
-        if random.next_bool() {
+        // Set the fill, which can be either solid or gradient
+        if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let random_color = if random.roll::<u8>(100) < 50 {
                 HSL::new_light_random(random).as_string()
