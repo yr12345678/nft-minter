@@ -1,17 +1,14 @@
-use crate::{layers::Layer, utils::HSL};
+use crate::layers::Layer;
+use crate::utils::random_color;
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct SolidBackground;
+pub struct HeartsPattern;
 
-impl Layer for SolidBackground {
+impl Layer for HeartsPattern {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
-        // Randomize the color, but prefer vibrant
-        let random_color = if random.roll::<u8>(100) < 10 {
-            HSL::new_random(random).as_string()
-        } else {
-            HSL::new_vibrant_random(random).as_string()
-        };
+        // Generate a random color
+        let random_color = random_color(random);
 
         // Generate the rectangle that will be our background
         let background = Rectangle::new()
