@@ -28,7 +28,7 @@ impl Layer for ThreeStripesBackground {
             .get(random.roll::<usize>(4))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
-        let valid_stroke_widths = [20, 40, 50]; // must be divisible by 2, but also 1000 must be divisible by it
+        let valid_stroke_widths = [40, 50, 100]; // must be divisible by 2, but also 1000 must be divisible by it
         let stroke_width = valid_stroke_widths
             .get(random.roll::<usize>(3))
             .expect("Did not find a valid stroke width. This should never happen.");

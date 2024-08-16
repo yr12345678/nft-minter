@@ -18,8 +18,8 @@ impl Layer for SmallHeart {
         // Define the heart shape path
         let data = Data::new()
             .move_to((500, 500))
-            .elliptical_arc_to((10, 10, 0, 0, 1, 520, 500))
-            .elliptical_arc_to((10, 10, 0, 0, 1, 640, 500))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 520, 500))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 640, 500))
             .quadratic_curve_to((45, 30, 25, 45))
             .quadratic_curve_to((5, 30, 5, 15))
             .close();
