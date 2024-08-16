@@ -1,13 +1,12 @@
 use crate::layers::Layer;
-use crate::utils::random_color;
 use random::Random;
-use svg::node::element::{path::Data, Element, Path, Pattern, Rectangle};
+use svg::node::element::{path::Data, Element, Path, Pattern, Rectangle, Definitions};
 
 pub struct HeartsPattern;
 
 impl Layer for HeartsPattern {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
-        // Randomly pick our scale
+        // Randomly pick our scale. Can't work with floats, so scale is a string.
         let valid_scales = [("scale(0.5)", 25), ("scale(1)", 50), ("scale(2)", 100)];
         let (scale, width_height) = valid_scales
             .get(random.roll::<usize>(3))
@@ -22,7 +21,7 @@ impl Layer for HeartsPattern {
             .quadratic_curve_to((5, 30, 5, 15))
             .close();
 
-        // Add the data to a path and the path to a pattern
+        // Add the data to a path and the path to a pattern, and add that pattern to the definitions
         let path = Path::new()
             .set("d", data)
             .set("transform", *scale)
@@ -38,13 +37,15 @@ impl Layer for HeartsPattern {
             .set("patternUnits", "userSpaceOnUse")
             .add(path);
 
+        let defs = Definitions::new().add(pattern);
+
         // Generate the rectangle that will be filled with the pattern
         let background = Rectangle::new()
             .set("width", "100%")
             .set("height", "100%")
             .set("fill", format!("url(#{pattern_name})"));
 
-        vec![pattern.into(), background.into()]
+        vec![defs.into(), background.into()]
     }
 }
 

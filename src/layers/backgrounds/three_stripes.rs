@@ -1,7 +1,7 @@
 use crate::{layers::Layer, utils::HSL};
 // use crate::utils::random_color;
 use random::Random;
-use svg::node::element::{Element, Line, Pattern, Rectangle};
+use svg::node::element::{Definitions, Element, Line, Pattern, Rectangle};
 
 pub struct ThreeStripesBackground;
 
@@ -62,7 +62,7 @@ impl Layer for ThreeStripesBackground {
                 format!("stroke:{random_color3}; stroke-width:{stroke_width}"),
             );
 
-        // Add the stripes to a pattern
+        // Add the stripes to a pattern an add that to the definitions
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
             .set("id", pattern_name.clone())
@@ -74,12 +74,14 @@ impl Layer for ThreeStripesBackground {
             .add(line2)
             .add(line3);
 
+        let defs = Definitions::new().add(pattern);
+
         // Create a rectangle with that pattern, which serves as the background
         let background = Rectangle::new()
             .set("width", "100%")
             .set("height", "100%")
             .set("fill", format!("url(#{pattern_name})"));
 
-        vec![pattern.into(), background.into()]
+        vec![defs.into(), background.into()]
     }
 }
