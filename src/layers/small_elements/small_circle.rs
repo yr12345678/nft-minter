@@ -28,7 +28,7 @@ impl Layer for SmallCircle {
         } else {
             // Randomize the color mode, but prefer vibrant
             let color_mode = if random.roll::<u8>(100) < 10 {
-                ColorMode::Normal
+                ColorMode::Light
             } else {
                 ColorMode::Vibrant
             };

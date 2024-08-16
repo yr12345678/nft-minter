@@ -1,5 +1,5 @@
 use crate::{layers::Layer, utils::random_gradient_definition};
-use crate::utils::{random_color, ColorMode, HSL};
+use crate::utils::{ColorMode, HSL};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
