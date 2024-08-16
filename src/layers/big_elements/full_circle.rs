@@ -2,12 +2,12 @@ use random::Random;
 use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode}};
 use svg::node::element::{Element, Circle};
 
-pub struct SmallCircle;
+pub struct FullCircle;
 
 // TODO: split up gradient and solid into separate variants?
-impl Layer for SmallCircle {
+impl Layer for FullCircle {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
-        let random_radius = random.in_range::<u16>(50, 150) * 2; // Always an even number
+        let random_radius = random.in_range::<u16>(150, 250) * 2; // Always an even number
     
         let mut circle = Circle::new()
             .set("cx", 500)
