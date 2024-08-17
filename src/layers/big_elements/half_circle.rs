@@ -1,5 +1,5 @@
 use random::Random;
-use crate::{layers::Layer, utils::{random_color, random_gradient_definition, ColorMode, HSL}};
+use crate::{layers::Layer, utils::{random_gradient_definition, ColorMode, HSL}};
 use svg::node::element::{path::Data, Element, Path};
 
 pub struct HalfCircle;
