@@ -71,7 +71,7 @@ impl HSL {
     }
 
     /// Returns the other two triadic colors based on the provided color. Also returns the provided color.
-    pub fn triadic_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn triadic_colors(&self) -> (Self, Self, Self) {
         let hue1 = Self::normalize_hue(self.hue + 120);
         let hue2 = Self::normalize_hue(self.hue + 240);
 
@@ -84,7 +84,7 @@ impl HSL {
 
     /// Method to return analogous colors based on the provided color, meaning a 30 hue shift for each color.
     /// Returns three colors, including the provided color, because its position in the pallette depends on its value.
-    pub fn analogous_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn analogous_colors(&self) -> (Self, Self, Self) {
         let (hue1, hue2, hue3) = if self.hue <= 30 {
             // Base color is near 0, so increase hue for the other two variants
             (self.hue, self.hue + 30, self.hue + 60)
@@ -106,7 +106,7 @@ impl HSL {
     /// Returns the complementary color based on the provided color. Also returns the provided color.
     ///
     /// (Provided color, Complementary color)
-    pub fn complementary_colors(&self) -> (HSL, HSL) {
+    pub fn complementary_colors(&self) -> (Self, Self) {
         let complementary_hue = Self::normalize_hue(self.hue + 180);
 
         (
@@ -123,7 +123,7 @@ impl HSL {
     /// Method to return monochromatic colors based on the provided color, meaning a 10 lightness shift for each color.
     /// Returns three colors, including the provided color, because its position in the pallette depends on its value.
     /// The colors are always sorted from light to dark.
-    pub fn monochromatic_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn monochromatic_colors(&self) -> (Self, Self, Self) {
         let (lightness1, lightness2, lightness3) = if self.lightness <= 10 {
             // Base color is near 0, so increase lightness for the other two variants
             (self.lightness + 20, self.lightness + 10, self.lightness)
@@ -143,7 +143,7 @@ impl HSL {
     }
 
     /// Returns the split-complementary colors based on the provided color. Also returns the provided color.
-    pub fn split_complementary_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn split_complementary_colors(&self) -> (Self, Self, Self) {
         let hue1 = Self::normalize_hue(self.hue + 150);
         let hue2 = Self::normalize_hue(self.hue - 150);
 
