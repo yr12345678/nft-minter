@@ -1,17 +1,17 @@
 use random::Random;
-use svg::node::element::Ellipse;
 
 // A relatively simple implementation of HSL so we can randomly
 // generate colors and have some proper influence on how they are
 // generated, such as setting ranges for hue, saturation and lightness.
-// 
+//
 // Includes methods to take an HSL color and return additional colors,
 // such as complementary colors or monochromatic variants.
-// 
+//
 // The implementation is not very sophisticated, but it serves our
 // needs and prevents needing another dependency and cutting all float
 // usage from that.
 
+#[derive(Debug, Clone, Copy)]
 pub enum ColorMode {
     Normal,
     Vibrant,
@@ -20,55 +20,49 @@ pub enum ColorMode {
 
 #[derive(Debug, Clone, Copy)]
 pub struct HSL {
-    pub hue: u16, // 0-360
-    pub saturation: u8, // 0-100
-    pub lightness: u8, // 0-100
-    pub opacity: u8 // 0-100 - Can't use floats
+    pub hue: i16,       // 0-360
+    pub saturation: i8, // 0-100
+    pub lightness: i8,  // 0-100
+    pub opacity: i8,    // 0-100 - Can't use floats
 }
 
 impl HSL {
     /// Returns a new HSL struct with according to the provided values
-    pub fn new(hue: u16, saturation: u8, lightness: u8, opacity: u8) -> Self {
+    pub fn new(hue: i16, saturation: i8, lightness: i8, opacity: i8) -> Self {
         HSL {
             hue,
             saturation,
             lightness,
-            opacity
+            opacity,
         }
     }
 
     /// Uses Random to generate a random color. If necessary, takes a desired color mode into account.
-    pub fn new_random(random: &mut Random, color_mode: ColorMode, opacity: u8) -> Self {
+    pub fn new_random(random: &mut Random, color_mode: ColorMode, opacity: i8) -> Self {
         match color_mode {
-            ColorMode::Normal => {
-                Self::new (
-                    random.in_range::<u16>(0, 360),
-                    random.in_range::<u8>(0, 100),
-                    random.in_range::<u8>(0, 100),
-                    opacity
-                )
-            },
-            ColorMode::Vibrant => {
-                Self::new (
-                    random.in_range::<u16>(0, 360),
-                    random.in_range::<u8>(80, 100),
-                    random.in_range::<u8>(40, 60),
-                    opacity
-                )
-            },
-            ColorMode::Light => {
-                Self::new (
-                    random.in_range::<u16>(0, 360),
-                    100,
-                    random.in_range::<u8>(70, 85),
-                    opacity
-                )
-            }
-        }        
+            ColorMode::Normal => Self::new(
+                random.in_range::<u16>(0, 360) as i16,
+                random.in_range::<u8>(0, 100) as i8,
+                random.in_range::<u8>(0, 100) as i8,
+                opacity,
+            ),
+            ColorMode::Vibrant => Self::new(
+                random.in_range::<u16>(0, 360) as i16,
+                random.in_range::<u8>(80, 100) as i8,
+                random.in_range::<u8>(40, 60) as i8,
+                opacity,
+            ),
+            ColorMode::Light => Self::new(
+                random.in_range::<u16>(0, 360) as i16,
+                100,
+                random.in_range::<u8>(70, 85) as i8,
+                opacity,
+            ),
+        }
     }
 
     // Helper method to normalize the hue to stay within 0 to 360
-    fn normalize_hue(hue: u16) -> u16 {
+    fn normalize_hue(hue: i16) -> i16 {
         if hue >= 360 {
             hue - 360
         } else {
@@ -82,19 +76,9 @@ impl HSL {
         let hue2 = Self::normalize_hue(self.hue + 240);
 
         (
-            *self, 
-            Self::new (
-                hue1,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
-            Self::new (
-                hue2,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
+            *self,
+            Self::new(hue1, self.saturation, self.lightness, self.opacity),
+            Self::new(hue2, self.saturation, self.lightness, self.opacity),
         )
     }
 
@@ -113,29 +97,14 @@ impl HSL {
         };
 
         (
-            Self::new (
-                hue1,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
-            Self::new (
-                hue2,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
-            Self::new (
-                hue3,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
+            Self::new(hue1, self.saturation, self.lightness, self.opacity),
+            Self::new(hue2, self.saturation, self.lightness, self.opacity),
+            Self::new(hue3, self.saturation, self.lightness, self.opacity),
         )
     }
 
     /// Returns the complementary color based on the provided color. Also returns the provided color.
-    /// 
+    ///
     /// (Provided color, Complementary color)
     pub fn complementary_colors(&self) -> (HSL, HSL) {
         let complementary_hue = Self::normalize_hue(self.hue + 180);
@@ -146,8 +115,8 @@ impl HSL {
                 complementary_hue,
                 self.saturation,
                 self.lightness,
-                self.opacity
-            )
+                self.opacity,
+            ),
         )
     }
 
@@ -157,7 +126,7 @@ impl HSL {
     pub fn monochromatic_colors(&self) -> (HSL, HSL, HSL) {
         let (lightness1, lightness2, lightness3) = if self.lightness <= 10 {
             // Base color is near 0, so increase lightness for the other two variants
-            (self.lightness +20, self.lightness + 10, self.lightness)
+            (self.lightness + 20, self.lightness + 10, self.lightness)
         } else if self.lightness >= 90 {
             // Base color is near 100, so decrease lightness for the other two variants
             (self.lightness, self.lightness - 10, self.lightness - 20)
@@ -167,24 +136,9 @@ impl HSL {
         };
 
         (
-            Self::new( 
-                self.hue,
-                self.saturation,
-                lightness1,
-                self.opacity
-            ),
-            Self::new( 
-                self.hue,
-                self.saturation,
-                lightness2,
-                self.opacity
-            ),
-            Self::new( 
-                self.hue,
-                self.saturation,
-                lightness3,
-                self.opacity
-            ),            
+            Self::new(self.hue, self.saturation, lightness1, self.opacity),
+            Self::new(self.hue, self.saturation, lightness2, self.opacity),
+            Self::new(self.hue, self.saturation, lightness3, self.opacity),
         )
     }
 
@@ -195,23 +149,13 @@ impl HSL {
 
         (
             *self,
-            Self::new(
-                hue1,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
-            Self::new(
-                hue2,
-                self.saturation,
-                self.lightness,
-                self.opacity
-            ),
+            Self::new(hue1, self.saturation, self.lightness, self.opacity),
+            Self::new(hue2, self.saturation, self.lightness, self.opacity),
         )
     }
 
     /// Returns triadic colors as strings in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn triadic_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::triadic_colors(self);
@@ -220,7 +164,7 @@ impl HSL {
     }
 
     /// Returns analogous colors as strings in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn analogous_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::analogous_colors(self);
@@ -229,7 +173,7 @@ impl HSL {
     }
 
     /// Returns complementary colors as strings in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn complementary_colors_as_string(&self) -> (String, String) {
         let (color1, color2) = Self::complementary_colors(self);
@@ -238,7 +182,7 @@ impl HSL {
     }
 
     /// Returns monochromatic colors as strings in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn monochromatic_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::monochromatic_colors(self);
@@ -246,7 +190,7 @@ impl HSL {
         (color1.as_string(), color2.as_string(), color3.as_string())
     }
     /// Returns split-complementary colors as strings in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn split_complementary_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::split_complementary_colors(self);
@@ -255,15 +199,18 @@ impl HSL {
     }
 
     /// Returns the HSL color formatted as a string fit for use in SVG code in the following format:
-    /// 
+    ///
     /// hsla(hue,saturation%,lightness%,opacity)
     pub fn as_string(&self) -> String {
         // Can't use floats, so we create a string for the opacity
         let opacity_string = match self.opacity {
             100 => "1".to_string(),
-            _ => format!("0.{:0>2}", self.opacity)
+            _ => format!("0.{:0>2}", self.opacity),
         };
 
-        format!("hsla({},{}%,{}%,{})", self.hue, self.saturation, self.lightness, opacity_string)
+        format!(
+            "hsla({},{}%,{}%,{})",
+            self.hue, self.saturation, self.lightness, opacity_string
+        )
     }
 }

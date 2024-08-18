@@ -1,7 +1,5 @@
-use crate::{
-    layers::Layer,
-    utils::{random_color, random_gradient_definition, ColorMode, HSL},
-};
+use crate::hsl::*;
+use crate::{layers::Layer, utils::random_gradient_definition};
 use random::Random;
 use svg::node::element::{Circle, Element};
 
@@ -21,24 +19,21 @@ impl Layer for SmallCircle {
         if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let random_color = if random.roll::<u8>(100) < 50 {
-                HSL::new_light_random(random).as_string()
+                HSL::new_random(random, ColorMode::Light, 100).as_string()
             } else {
-                HSL::new_vibrant_random(random).as_string()
+                HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
             };
             circle = circle.set("fill", random_color);
 
             vec![circle.into()]
         } else {
-            // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 10 {
-                ColorMode::Light
+            // Get a gradient definition and name and add it as a fill to the path
+            let (random_gradient, gradient_name) = if random.roll::<u8>(100) < 10 {
+                random_gradient_definition(random, None, ColorMode::Light, 100)
             } else {
-                ColorMode::Vibrant
+                random_gradient_definition(random, None, ColorMode::Vibrant, 100)
             };
 
-            // Get a gradient definition and name and add it as a fill to the path
-            let (random_gradient, gradient_name) =
-                random_gradient_definition(random, None, &color_mode);
             circle = circle.set("fill", format!("url(#{gradient_name})",));
 
             vec![random_gradient.into(), circle.into()]

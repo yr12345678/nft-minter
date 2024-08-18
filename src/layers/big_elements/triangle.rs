@@ -1,4 +1,4 @@
-use crate::utils::{ColorMode, HSL};
+use crate::hsl::*;
 use crate::{layers::Layer, utils::random_gradient_definition};
 use random::Random;
 use svg::node::element::{Element, Polygon};
@@ -23,11 +23,11 @@ impl Layer for BigTriangle {
 
         // Set the colors and return the result
         if random.roll::<u8>(100) < 80 {
-            // Pick two solid colors
+            // Pick a solid color
             let random_color1 = if random.roll::<u8>(100) < 50 {
-                HSL::new_light_random(random).as_string()
+                HSL::new_random(random, ColorMode::Light, 100).as_string()
             } else {
-                HSL::new_vibrant_random(random).as_string()
+                HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
             };
 
             // Add the fill to the triangle
@@ -35,18 +35,13 @@ impl Layer for BigTriangle {
 
             vec![triangle.into()]
         } else {
-            // Randomize the color mode
-            let color_mode = if random.roll::<u8>(100) < 50 {
-                ColorMode::Light
+            // Generate a gradient definition and add it to the triangle
+            let (random_gradient, gradient_name1) = if random.roll::<u8>(100) < 50 {
+                random_gradient_definition(random, None, ColorMode::Light, 100)
             } else {
-                ColorMode::Vibrant
+                random_gradient_definition(random, None, ColorMode::Vibrant, 100)
             };
 
-            // Generate two gradient definitions
-            let (random_gradient, gradient_name1) =
-                random_gradient_definition(random, None, &color_mode);
-
-            // Add the fill to the triangle
             triangle = triangle.set("fill", format!("url(#{gradient_name1})"));
 
             vec![random_gradient.into(), triangle.into()]

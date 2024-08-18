@@ -1,5 +1,6 @@
+use crate::hsl::*;
+use crate::layers::Layer;
 use crate::utils::random_gradient_definition;
-use crate::{layers::Layer, utils::ColorMode};
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
@@ -16,7 +17,7 @@ impl Layer for GradientBackground {
 
         // Generate a gradient
         let (random_gradient, gradient_name) =
-            random_gradient_definition(random, None, &color_mode);
+            random_gradient_definition(random, None, color_mode, 100);
 
         // Generate the rectangle that serves as the background, referring to the gradient we generated
         let background = Rectangle::new()

@@ -2,11 +2,11 @@ use scrypto::crypto::hash;
 use scrypto::prelude::*;
 use types::NFTImage;
 
+pub mod hsl;
 pub mod layers;
 pub mod nft_generator;
 pub mod types;
 pub mod utils;
-pub mod hsl;
 
 #[blueprint]
 mod nft_minter {

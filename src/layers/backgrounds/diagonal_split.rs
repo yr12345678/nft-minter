@@ -1,4 +1,4 @@
-use crate::utils::{ColorMode, HSL};
+use crate::hsl::*;
 use crate::{layers::Layer, utils::random_gradient_definition};
 use random::Random;
 use svg::node::element::{Element, Polygon};
@@ -21,16 +21,14 @@ impl Layer for DiagonalSplitBackground {
         // Set the colors and return the result
         if random.roll::<u8>(100) < 80 {
             // Pick two solid colors
-            let random_color1 = if random.roll::<u8>(100) < 50 {
-                HSL::new_light_random(random).as_string()
-            } else {
-                HSL::new_vibrant_random(random).as_string()
+            let color_mode = match random.roll::<u8>(2) {
+                0 => ColorMode::Light,
+                1 => ColorMode::Vibrant,
+                _ => panic!("Invalid color mode"),
             };
-            let random_color2 = if random.roll::<u8>(100) < 50 {
-                HSL::new_light_random(random).as_string()
-            } else {
-                HSL::new_vibrant_random(random).as_string()
-            };
+
+            let random_color1 = HSL::new_random(random, color_mode, 100).as_string();
+            let random_color2 = HSL::new_random(random, color_mode, 100).as_string();
 
             // Add the fill to the triangles
             triangle1 = triangle1.set("fill", random_color1);
@@ -38,18 +36,18 @@ impl Layer for DiagonalSplitBackground {
 
             vec![triangle1.into(), triangle2.into()]
         } else {
-            // Randomize the color mode, but prefer vibrant
-            let color_mode = if random.roll::<u8>(100) < 50 {
-                ColorMode::Light
-            } else {
-                ColorMode::Vibrant
+            // Randomize the color mode
+            let color_mode = match random.roll::<u8>(2) {
+                0 => ColorMode::Light,
+                1 => ColorMode::Vibrant,
+                _ => panic!("Invalid color mode"),
             };
 
             // Generate two gradient definitions
             let (random_gradient1, gradient_name1) =
-                random_gradient_definition(random, Some(45), &color_mode);
+                random_gradient_definition(random, Some(45), color_mode, 100);
             let (random_gradient2, gradient_name2) =
-                random_gradient_definition(random, Some(45), &color_mode);
+                random_gradient_definition(random, Some(45), color_mode, 100);
 
             // Add the fill to the triangles
             triangle1 = triangle1.set("fill", format!("url(#{gradient_name1})"));

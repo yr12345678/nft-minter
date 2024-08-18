@@ -1,5 +1,5 @@
-use crate::{layers::Layer, utils::HSL};
-// use crate::utils::random_color;
+use crate::hsl::*;
+use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Definitions, Element, Line, Pattern, Rectangle};
 
@@ -10,12 +10,12 @@ impl Layer for ThreeStripesBackground {
         // Generate random colors for the three stripes
         let (random_color1, random_color2, random_color3) = match random.roll::<u8>(3) {
             0 => (
-                HSL::new_vibrant_random(random).as_string(),
-                HSL::new_vibrant_random(random).as_string(),
-                HSL::new_vibrant_random(random).as_string(),
+                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
+                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
+                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
             ),
-            1 => HSL::new_vibrant_random(random).analogous_colors_colors_as_strings(),
-            2 => HSL::new_vibrant_random(random).monochromatic_colors_as_strings(),
+            1 => HSL::new_random(random, ColorMode::Vibrant, 100).analogous_colors_as_strings(),
+            2 => HSL::new_random(random, ColorMode::Vibrant, 100).monochromatic_colors_as_strings(),
             _ => panic!("Invalid color variant"),
         };
 

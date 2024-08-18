@@ -1,4 +1,5 @@
-use crate::{layers::Layer, utils::HSL};
+use crate::hsl::*;
+use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Circle, Element};
 
@@ -15,12 +16,12 @@ impl Layer for ConcentricCircles {
 
         // Pick a random color for all circles
         let random_color = if random.roll::<u8>(100) < 50 {
-            HSL::new_light_random(random).as_string()
+            HSL::new_random(random, ColorMode::Light, 100).as_string()
         } else {
-            HSL::new_vibrant_random(random).as_string()
+            HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
         };
 
-        // Generate our 10 circles
+        // Generate our circles
         let mut circles: Vec<Element> = Vec::new();
         for i in 1..7 {
             let circle = Circle::new()
