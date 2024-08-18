@@ -48,8 +48,8 @@ impl HSL {
             ),
             ColorMode::Vibrant => Self::new(
                 random.in_range::<u16>(0, 360) as i16,
-                random.in_range::<u8>(80, 100) as i8,
-                random.in_range::<u8>(40, 60) as i8,
+                100,
+                random.in_range::<u8>(50, 70) as i8,
                 opacity,
             ),
             ColorMode::Light => Self::new(
