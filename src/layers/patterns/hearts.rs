@@ -1,3 +1,4 @@
+use crate::hsl::*;
 use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{path::Data, Definitions, Element, Path, Pattern, Rectangle};
@@ -5,7 +6,7 @@ use svg::node::element::{path::Data, Definitions, Element, Path, Pattern, Rectan
 pub struct HeartsPattern;
 
 impl Layer for HeartsPattern {
-    fn generate(&self, random: &mut Random) -> Vec<Element> {
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Randomly pick our scale. Can't work with floats, so scale is a string.
         let valid_scales = [("scale(0.5)", 25), ("scale(1)", 50), ("scale(2)", 100)];
         let (scale, width_height) = valid_scales

@@ -1,5 +1,5 @@
 use crate::hsl::*;
-use crate::{layers::Layer, utils::random_gradient_definition};
+use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
@@ -7,7 +7,7 @@ pub struct BigTriangle;
 
 // TODO: add rotation angle?
 impl Layer for BigTriangle {
-    fn generate(&self, random: &mut Random) -> Vec<Element> {
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate a triangle with a random positioning
         let mut triangle = match random.roll::<u8>(8) {
             0 => Polygon::new().set("points", "0,0 500,500 0,1000"), // Base to left side
@@ -21,30 +21,49 @@ impl Layer for BigTriangle {
             _ => panic!("No matching triangle variant"),
         };
 
-        // Set the colors and return the result
-        if random.roll::<u8>(100) < 80 {
-            // Pick a solid color
-            let random_color1 = if random.roll::<u8>(100) < 50 {
-                HSL::new_random(random, ColorMode::Light, 100).as_string()
+        // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
+        if random.roll::<u8>(100) < 85 {
+            let color = if base_color.is_some() {
+                // Use the base color and derive something similar
+                base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
+                // Pick a random color
+                let color_mode = if random.roll::<u8>(100) < 50 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
+                };
+
+                HSL::new_random(random, color_mode, 100).as_string()
             };
 
             // Add the fill to the triangle
-            triangle = triangle.set("fill", random_color1);
+            triangle = triangle.set("fill", color);
 
             vec![triangle.into()]
         } else {
-            // Generate a gradient definition and add it to the triangle
-            let (random_gradient, gradient_name1) = if random.roll::<u8>(100) < 50 {
-                random_gradient_definition(random, None, ColorMode::Light, 100)
+            // Get a gradient definition
+            let (gradient, gradient_name) = if base_color.is_some() {
+                // We have a base color, so we derive something similar
+                let color1 = base_color.unwrap().derive_similar_color(random);
+                let color2 = base_color.unwrap().derive_similar_color(random);
+
+                gradient_definition(random, None, color1, color2)
             } else {
-                random_gradient_definition(random, None, ColorMode::Vibrant, 100)
+                // Randomize the color mode, but prefer vibrant
+                let color_mode = if random.roll::<u8>(100) < 30 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
+                };
+
+                random_gradient_definition(random, None, color_mode, 100)
             };
 
-            triangle = triangle.set("fill", format!("url(#{gradient_name1})"));
+            // Add the fill to the triangle
+            triangle = triangle.set("fill", format!("url(#{gradient_name})"));
 
-            vec![random_gradient.into(), triangle.into()]
-        }
+            vec![gradient.into(), triangle.into()]
+        }        
     }
 }

@@ -1,6 +1,7 @@
+use crate::hsl::*;
 use random::Random;
 use svg::node::element::Element;
 
 pub trait Layer {
-    fn generate(&self, random: &mut Random) -> Vec<Element>;
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element>;
 }

@@ -71,7 +71,7 @@ impl HSL {
     }
 
     /// Returns the other two triadic colors based on the provided color. Also returns the provided color.
-    pub fn triadic_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn triadic_colors(&self) -> (Self, Self, Self) {
         let hue1 = Self::normalize_hue(self.hue + 120);
         let hue2 = Self::normalize_hue(self.hue + 240);
 
@@ -84,11 +84,11 @@ impl HSL {
 
     /// Method to return analogous colors based on the provided color, meaning a 30 hue shift for each color.
     /// Returns three colors, including the provided color, because its position in the pallette depends on its value.
-    pub fn analogous_colors(&self) -> (HSL, HSL, HSL) {
-        let (hue1, hue2, hue3) = if self.hue <= 30 {
+    pub fn analogous_colors(&self) -> (Self, Self, Self) {
+        let (hue1, hue2, hue3) = if self.hue < 30 {
             // Base color is near 0, so increase hue for the other two variants
             (self.hue, self.hue + 30, self.hue + 60)
-        } else if self.hue >= 330 {
+        } else if self.hue > 330 {
             // Base color is near 100, so decrease hue for the other two variants
             (self.hue - 60, self.hue - 30, self.hue)
         } else {
@@ -106,7 +106,7 @@ impl HSL {
     /// Returns the complementary color based on the provided color. Also returns the provided color.
     ///
     /// (Provided color, Complementary color)
-    pub fn complementary_colors(&self) -> (HSL, HSL) {
+    pub fn complementary_colors(&self) -> (Self, Self) {
         let complementary_hue = Self::normalize_hue(self.hue + 180);
 
         (
@@ -123,11 +123,11 @@ impl HSL {
     /// Method to return monochromatic colors based on the provided color, meaning a 10 lightness shift for each color.
     /// Returns three colors, including the provided color, because its position in the pallette depends on its value.
     /// The colors are always sorted from light to dark.
-    pub fn monochromatic_colors(&self) -> (HSL, HSL, HSL) {
-        let (lightness1, lightness2, lightness3) = if self.lightness <= 10 {
+    pub fn monochromatic_colors(&self) -> (Self, Self, Self) {
+        let (lightness1, lightness2, lightness3) = if self.lightness < 10 {
             // Base color is near 0, so increase lightness for the other two variants
             (self.lightness + 20, self.lightness + 10, self.lightness)
-        } else if self.lightness >= 90 {
+        } else if self.lightness > 90 {
             // Base color is near 100, so decrease lightness for the other two variants
             (self.lightness, self.lightness - 10, self.lightness - 20)
         } else {
@@ -143,7 +143,7 @@ impl HSL {
     }
 
     /// Returns the split-complementary colors based on the provided color. Also returns the provided color.
-    pub fn split_complementary_colors(&self) -> (HSL, HSL, HSL) {
+    pub fn split_complementary_colors(&self) -> (Self, Self, Self) {
         let hue1 = Self::normalize_hue(self.hue + 150);
         let hue2 = Self::normalize_hue(self.hue - 150);
 
@@ -215,9 +215,46 @@ impl HSL {
     }
 
     /// Derives a color close to this color
-    /// 
+    ///
     /// Returns the derived color
-    pub fn derive_similar_color(&self) -> HSL {
-        
+    pub fn derive_similar_color(&self, random: &mut Random) -> HSL {
+        // Pick a new hue
+        let new_hue = if self.hue < 40 {
+            self.hue + random.in_range::<u8>(20, 40) as i16
+        } else if self.hue > 320 {
+            self.hue - random.in_range::<u8>(20, 40) as i16
+        } else {
+            match random.next_bool() {
+                true => self.hue + random.in_range::<u8>(20, 40) as i16,
+                false => self.hue - random.in_range::<u8>(20, 40) as i16,
+            }
+        };
+
+        // Pick a new saturation
+        let new_saturation = if self.saturation < 30 {
+            self.saturation + random.in_range::<u8>(15, 30) as i8
+        } else if self.saturation > 70 {
+            self.saturation - random.in_range::<u8>(15, 30) as i8
+        } else {
+            match random.next_bool() {
+                true => self.saturation + random.in_range::<u8>(15, 30) as i8,
+                false => self.saturation - random.in_range::<u8>(15, 30) as i8,
+            }
+        };
+
+        // Pick a new lightness
+        let new_lightness = if self.lightness < 30 {
+            self.lightness + random.in_range::<u8>(15, 30) as i8
+        } else if self.lightness > 70 {
+            self.lightness - random.in_range::<u8>(15, 30) as i8
+        } else {
+            match random.next_bool() {
+                true => self.lightness + random.in_range::<u8>(15, 30) as i8,
+                false => self.lightness - random.in_range::<u8>(15, 30) as i8,
+            }
+        };
+
+        // Return the new color
+        Self::new(new_hue, new_saturation, new_lightness, self.opacity)
     }
 }

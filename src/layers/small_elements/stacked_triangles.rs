@@ -1,5 +1,5 @@
 use crate::hsl::*;
-use crate::{layers::Layer, utils::random_gradient_definition};
+use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
@@ -7,7 +7,7 @@ pub struct StackedTriangles;
 
 // TODO: add rotation angle?
 impl Layer for StackedTriangles {
-    fn generate(&self, random: &mut Random) -> Vec<Element> {
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate stacked triangles with a random positioning
         let (mut triangle1, mut triangle2) = match random.roll::<u8>(8) {
             0 => {
@@ -69,32 +69,50 @@ impl Layer for StackedTriangles {
             _ => panic!("No matching triangle variant"),
         };
 
-        // Set the colors and return the result
-        if random.roll::<u8>(100) < 80 {
-            // Pick a solid color
-            let random_color1 = if random.roll::<u8>(100) < 50 {
-                HSL::new_random(random, ColorMode::Light, 100).as_string()
+        // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
+        if random.roll::<u8>(100) < 85 {
+            let color = if base_color.is_some() {
+                // Use the base color and derive something similar
+                base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
+                // Pick a random color
+                let color_mode = if random.roll::<u8>(100) < 50 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
+                };
+
+                HSL::new_random(random, color_mode, 100).as_string()
             };
 
             // Add the fill to the triangle
-            triangle1 = triangle1.set("fill", random_color1.clone());
-            triangle2 = triangle2.set("fill", random_color1);
+            triangle1 = triangle1.set("fill", color.clone());
+            triangle2 = triangle2.set("fill", color);
 
             vec![triangle1.into(), triangle2.into()]
         } else {
-            // Generate two gradient definitions and add it to the triangles
-            let (random_gradient, gradient_name1) = if random.roll::<u8>(100) < 50 {
-                random_gradient_definition(random, None, ColorMode::Light, 100)
+            // Get a gradient definition
+            let (gradient, gradient_name) = if base_color.is_some() {
+                // We have a base color, so we derive something similar
+                let color1 = base_color.unwrap().derive_similar_color(random);
+                let color2 = base_color.unwrap().derive_similar_color(random);
+
+                gradient_definition(random, None, color1, color2)
             } else {
-                random_gradient_definition(random, None, ColorMode::Vibrant, 100)
+                // Randomize the color mode, but prefer vibrant
+                let color_mode = if random.roll::<u8>(100) < 30 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
+                };
+
+                random_gradient_definition(random, None, color_mode, 100)
             };
 
-            triangle1 = triangle1.set("fill", format!("url(#{gradient_name1})"));
-            triangle2 = triangle2.set("fill", format!("url(#{gradient_name1})"));
+            triangle1 = triangle1.set("fill", format!("url(#{gradient_name})"));
+            triangle2 = triangle2.set("fill", format!("url(#{gradient_name})"));
 
-            vec![random_gradient.into(), triangle1.into(), triangle2.into()]
-        }
+            vec![gradient.into(), triangle1.into(), triangle2.into()]
+        }        
     }
 }

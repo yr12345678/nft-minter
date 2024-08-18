@@ -6,17 +6,31 @@ use svg::node::element::{Definitions, Element, Line, Pattern, Rectangle};
 pub struct ThreeStripesBackground;
 
 impl Layer for ThreeStripesBackground {
-    fn generate(&self, random: &mut Random) -> Vec<Element> {
-        // Generate random colors for the three stripes
-        let (random_color1, random_color2, random_color3) = match random.roll::<u8>(3) {
-            0 => (
-                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
-                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
-                HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
-            ),
-            1 => HSL::new_random(random, ColorMode::Vibrant, 100).analogous_colors_as_strings(),
-            2 => HSL::new_random(random, ColorMode::Vibrant, 100).monochromatic_colors_as_strings(),
-            _ => panic!("Invalid color variant"),
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
+        // Generate the colors for the stripes
+        let (color1, color2, color3) = if base_color.is_some() {
+            // We use the base color for everything
+            match random.roll::<u8>(3) {
+                0 => (
+                    base_color.unwrap().derive_similar_color(random).as_string(),
+                    base_color.unwrap().derive_similar_color(random).as_string(),
+                    base_color.unwrap().derive_similar_color(random).as_string()
+                ),
+                1 => base_color.unwrap().analogous_colors_as_strings(),
+                2 => base_color.unwrap().monochromatic_colors_as_strings(),
+                _ => panic!("Invalid color variant"),
+            }            
+        } else {
+            match random.roll::<u8>(3) {
+                0 => (
+                    HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
+                    HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
+                    HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
+                ),
+                1 => HSL::new_random(random, ColorMode::Vibrant, 100).analogous_colors_as_strings(),
+                2 => HSL::new_random(random, ColorMode::Vibrant, 100).monochromatic_colors_as_strings(),
+                _ => panic!("Invalid color variant"),
+            }
         };
 
         // Randomly set rotation and stroke widths
@@ -37,7 +51,7 @@ impl Layer for ThreeStripesBackground {
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{random_color1}; stroke-width:{stroke_width}"),
+                format!("stroke:{color1}; stroke-width:{stroke_width}"),
             );
 
         let line2 = Line::new()
@@ -46,7 +60,7 @@ impl Layer for ThreeStripesBackground {
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{random_color2}; stroke-width:{stroke_width}"),
+                format!("stroke:{color2}; stroke-width:{stroke_width}"),
             );
 
         let line3 = Line::new()
@@ -55,7 +69,7 @@ impl Layer for ThreeStripesBackground {
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{random_color3}; stroke-width:{stroke_width}"),
+                format!("stroke:{color3}; stroke-width:{stroke_width}"),
             );
 
         // Add the stripes to a pattern an add that to the definitions
