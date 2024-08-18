@@ -313,7 +313,7 @@ pub fn random_gradient_definition(
     // Apply rotation if necessary
     if rotation.is_some() {
         let rotation = rotation.unwrap();
-        random_gradient = random_gradient.set("gradientTransform", format!("rotate({rotation})"));
+        random_gradient = random_gradient.set("gradientTransform", format!("rotate({rotation}, 0.5, 0.5)"));
     }
 
     // Put the gradient in a definition and return that with its name, which can be used to refer to it in a fill
