@@ -39,37 +39,32 @@ impl Layer for ThreeStripesBackground {
             .get(random.roll::<usize>(4))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
-        let valid_stroke_widths = [40, 50, 100]; // must be divisible by 2, but also 1000 must be divisible by it
-        let stroke_width = valid_stroke_widths
-            .get(random.roll::<usize>(3))
-            .expect("Did not find a valid stroke width. This should never happen.");
-
         // Generate the stripes
         let line1 = Line::new()
-            .set("x1", stroke_width / 2)
-            .set("x2", stroke_width / 2)
+            .set("x1", 50)
+            .set("x2", 50)
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{color1}; stroke-width:{stroke_width}"),
+                format!("stroke:{color1}; stroke-width:100"),
             );
 
         let line2 = Line::new()
-            .set("x1", (stroke_width / 2) + stroke_width)
-            .set("x2", (stroke_width / 2) + stroke_width)
+            .set("x1", 150)
+            .set("x2", 15)
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{color2}; stroke-width:{stroke_width}"),
+                format!("stroke:{color2}; stroke-width:100"),
             );
 
         let line3 = Line::new()
-            .set("x1", (stroke_width / 2) + stroke_width * 2)
-            .set("x2", (stroke_width / 2) + stroke_width * 2)
+            .set("x1", 250)
+            .set("x2", 250)
             .set("y2", 1)
             .set(
                 "style",
-                format!("stroke:{color3}; stroke-width:{stroke_width}"),
+                format!("stroke:{color3}; stroke-width:100"),
             );
 
         // Add the stripes to a pattern an add that to the definitions
@@ -78,7 +73,7 @@ impl Layer for ThreeStripesBackground {
             .set("id", pattern_name.clone())
             .set("patternTransform", format!("rotate({rotate_amount})"))
             .set("patternUnits", "userSpaceOnUse")
-            .set("width", stroke_width * 3)
+            .set("width", 300)
             .set("height", 1)
             .add(line1)
             .add(line2)
