@@ -213,4 +213,11 @@ impl HSL {
             self.hue, self.saturation, self.lightness, opacity_string
         )
     }
+
+    /// Derives a color close to this color
+    /// 
+    /// Returns the derived color
+    pub fn derive_similar_color(&self) -> HSL {
+        
+    }
 }
