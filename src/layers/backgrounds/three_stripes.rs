@@ -51,7 +51,7 @@ impl Layer for ThreeStripesBackground {
 
         let line2 = Line::new()
             .set("x1", 150)
-            .set("x2", 15)
+            .set("x2", 150)
             .set("y2", 1)
             .set(
                 "style",
