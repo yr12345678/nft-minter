@@ -4,7 +4,7 @@ use svg::node::element::{Definitions, LinearGradient, Stop};
 pub enum ColorMode {
     Normal,
     Vibrant,
-    Light
+    Light,
 }
 
 // TODO: move to separate file
@@ -12,7 +12,7 @@ pub enum ColorMode {
 pub struct HSL {
     pub hue: i16,
     pub saturation: i8,
-    pub lightness: i8
+    pub lightness: i8,
 }
 
 impl HSL {
@@ -20,7 +20,7 @@ impl HSL {
         HSL {
             hue,
             saturation,
-            lightness
+            lightness,
         }
     }
 
@@ -28,40 +28,40 @@ impl HSL {
     pub fn new_random(random: &mut Random) -> Self {
         let hue = random.in_range::<u16>(0, 360);
         let saturation = random.in_range::<u8>(0, 100);
-        let lightness = random.in_range::<u8>(0, 100); 
+        let lightness = random.in_range::<u8>(0, 100);
 
         HSL {
             hue: hue.try_into().unwrap(),
             saturation: saturation.try_into().unwrap(),
-            lightness: lightness.try_into().unwrap()
-        }                
-    }     
+            lightness: lightness.try_into().unwrap(),
+        }
+    }
 
     // Generates a vibrant random HSL struct
     pub fn new_vibrant_random(random: &mut Random) -> Self {
         let hue = random.in_range::<u16>(0, 360);
-        let saturation = random.in_range::<u8>(80, 100); 
+        let saturation = random.in_range::<u8>(80, 100);
         let lightness = random.in_range::<u8>(40, 60);
 
         HSL {
             hue: hue.try_into().unwrap(),
             saturation: saturation.try_into().unwrap(),
-            lightness: lightness.try_into().unwrap()
-        }                
-    }  
+            lightness: lightness.try_into().unwrap(),
+        }
+    }
 
     // Generates a vibrant random HSL struct
     pub fn new_light_random(random: &mut Random) -> Self {
         let hue = random.in_range::<u16>(0, 360);
-        let saturation = 100; 
+        let saturation = 100;
         let lightness = random.in_range::<u8>(60, 85);
 
         HSL {
             hue: hue.try_into().unwrap(),
             saturation: saturation.try_into().unwrap(),
-            lightness: lightness.try_into().unwrap()
-        }                
-    }     
+            lightness: lightness.try_into().unwrap(),
+        }
+    }
 
     // Method to normalize the hue to stay within 0 to 360
     fn normalize_hue(hue: i16) -> i16 {
@@ -79,7 +79,7 @@ impl HSL {
         } else {
             lightness
         }
-    }    
+    }
 
     // Method to return the triadic colors
     pub fn triadic_colors(&self) -> (HSL, HSL, HSL) {
@@ -112,24 +112,24 @@ impl HSL {
         } else {
             // Base color is in the middle, adjust both directions
             (self.hue - 30, self.hue, self.hue + 30)
-        };        
+        };
 
         (
             HSL {
                 hue: hue1,
                 saturation: self.saturation,
-                lightness: self.lightness
+                lightness: self.lightness,
             },
             HSL {
                 hue: hue2,
                 saturation: self.saturation,
-                lightness: self.lightness
+                lightness: self.lightness,
             },
             HSL {
                 hue: hue3,
                 saturation: self.saturation,
-                lightness: self.lightness
-            },                       
+                lightness: self.lightness,
+            },
         )
     }
 
@@ -142,8 +142,8 @@ impl HSL {
             HSL {
                 hue: hue1,
                 saturation: self.saturation,
-                lightness: self.lightness
-            }
+                lightness: self.lightness,
+            },
         )
     }
 
@@ -164,18 +164,18 @@ impl HSL {
             HSL {
                 hue: self.hue,
                 saturation: self.saturation,
-                lightness: lightness1
+                lightness: lightness1,
             },
             HSL {
                 hue: self.hue,
                 saturation: self.saturation,
-                lightness: lightness2
+                lightness: lightness2,
             },
             HSL {
                 hue: self.hue,
                 saturation: self.saturation,
-                lightness: lightness3
-            }            
+                lightness: lightness3,
+            },
         )
     }
 
@@ -189,36 +189,28 @@ impl HSL {
             HSL {
                 hue: hue1,
                 saturation: self.saturation,
-                lightness: self.lightness
+                lightness: self.lightness,
             },
             HSL {
                 hue: hue2,
                 saturation: self.saturation,
-                lightness: self.lightness
-            }            
+                lightness: self.lightness,
+            },
         )
-    }  
+    }
 
     // Returns triadic colors as strings
     pub fn triadic_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::triadic_colors(self);
 
-        (
-            color1.as_string(),
-            color2.as_string(),
-            color3.as_string()
-        )
+        (color1.as_string(), color2.as_string(), color3.as_string())
     }
 
     // Returns analogous colors as strings
     pub fn analogous_colors_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::analogous_colors(self);
 
-        (
-            color1.as_string(),
-            color2.as_string(),
-            color3.as_string()
-        )
+        (color1.as_string(), color2.as_string(), color3.as_string())
     }
 
     // Returns complementary colors as strings
@@ -226,33 +218,22 @@ impl HSL {
     pub fn complementary_colors_as_string(&self) -> (String, String) {
         let (color1, color2) = Self::complementary_colors(self);
 
-        (
-            color1.as_string(),
-            color2.as_string()
-        )
+        (color1.as_string(), color2.as_string())
     }
 
     // Returns monochromatic colors as strings
     pub fn monochromatic_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::monochromatic_colors(self);
 
-        (
-            color1.as_string(),
-            color2.as_string(),
-            color3.as_string()
-        )
+        (color1.as_string(), color2.as_string(), color3.as_string())
     }
 
     // Returns monochromatic colors as strings
     pub fn split_complementary_colors_as_strings(&self) -> (String, String, String) {
         let (color1, color2, color3) = Self::split_complementary_colors(self);
 
-        (
-            color1.as_string(),
-            color2.as_string(),
-            color3.as_string()
-        )
-    }       
+        (color1.as_string(), color2.as_string(), color3.as_string())
+    }
 
     // Returns the HSL formatted as a string fit for use in SVG code
     pub fn as_string(&self) -> String {
@@ -279,40 +260,39 @@ pub fn random_color_hsl(random: &mut Random) -> HSL {
 pub fn random_gradient_definition(
     random: &mut Random,
     rotation: Option<u16>,
-    color_mode: &ColorMode
+    color_mode: &ColorMode,
 ) -> (Definitions, String) {
     // Get a random base color
     let random_color = match color_mode {
         ColorMode::Normal => HSL::new_random(random),
         ColorMode::Vibrant => HSL::new_vibrant_random(random),
-        ColorMode::Light => HSL::new_light_random(random)
+        ColorMode::Light => HSL::new_light_random(random),
     };
 
     // Generate our color set
-    let (random_color1, random_color2) =
-    match random.roll::<u8>(4) {
+    let (random_color1, random_color2) = match random.roll::<u8>(4) {
         0 => {
             let (color1, color2, _) = random_color.analogous_colors_colors_as_strings();
             (color1, color2)
-        },
+        }
         1 => {
             let (color1, color2, _) = random_color.monochromatic_colors_as_strings();
             (color1, color2)
-        },
+        }
         2 => {
             let (color1, color2, _) = random_color.split_complementary_colors_as_strings();
             (color1, color2)
-        },
+        }
         3 => {
             let color2 = match color_mode {
                 ColorMode::Normal => HSL::new_random(random),
                 ColorMode::Vibrant => HSL::new_vibrant_random(random),
-                ColorMode::Light => HSL::new_light_random(random)
+                ColorMode::Light => HSL::new_light_random(random),
             };
 
             (random_color.as_string(), color2.as_string())
-        },
-        _ => panic!("Invalid color variant")
+        }
+        _ => panic!("Invalid color variant"),
     };
 
     // Set up the gradient

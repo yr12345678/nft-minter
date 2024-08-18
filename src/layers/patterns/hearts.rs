@@ -1,6 +1,6 @@
 use crate::layers::Layer;
 use random::Random;
-use svg::node::element::{path::Data, Element, Path, Pattern, Rectangle, Definitions};
+use svg::node::element::{path::Data, Definitions, Element, Path, Pattern, Rectangle};
 
 pub struct HeartsPattern;
 
@@ -49,9 +49,8 @@ impl Layer for HeartsPattern {
     }
 }
 
-
 // <pattern id="heartsPattern" x="0" y="0" width="25" height="25" patternUnits="userSpaceOnUse">
-// <path d="M5 15 
+// <path d="M5 15
 //   A 10 10 0 0 1 25 15
 //   A 10 10 0 0 1 45 15
 //   Q 45 30 25 45

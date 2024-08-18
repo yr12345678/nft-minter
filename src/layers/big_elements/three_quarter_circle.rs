@@ -1,5 +1,8 @@
+use crate::{
+    layers::Layer,
+    utils::{random_gradient_definition, ColorMode, HSL},
+};
 use random::Random;
-use crate::{layers::Layer, utils::{random_gradient_definition, ColorMode, HSL}};
 use svg::node::element::{path::Data, Element, Path};
 
 pub struct ThreeQuarterCircle;
@@ -9,35 +12,39 @@ impl Layer for ThreeQuarterCircle {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Randomly pick a direction
         let data = match random.roll::<u8>(4) {
-            0 => { // Bottom-left quarter cut
+            0 => {
+                // Bottom-left quarter cut
                 Data::new()
                     .move_to((0, 500))
                     .elliptical_arc_to((500, 500, 0, 1, 1, 500, 1000))
                     .line_to((500, 500))
                     .close()
-            },
-            1 => { // Top-left quarter cut
+            }
+            1 => {
+                // Top-left quarter cut
                 Data::new()
                     .move_to((500, 0))
                     .elliptical_arc_to((500, 500, 0, 1, 1, 0, 500))
                     .line_to((500, 500))
                     .close()
-            },
-            2 => { // Top-right quarter cut
+            }
+            2 => {
+                // Top-right quarter cut
                 Data::new()
                     .move_to((1000, 500))
                     .elliptical_arc_to((500, 500, 0, 1, 1, 500, 0))
                     .line_to((500, 500))
                     .close()
-            },
-            3 => { // Bottom-right quarter cut
+            }
+            3 => {
+                // Bottom-right quarter cut
                 Data::new()
                     .move_to((500, 1000))
                     .elliptical_arc_to((500, 500, 0, 1, 1, 1000, 500))
                     .line_to((500, 500))
                     .close()
-            },
-            _ => panic!("Invalid circle variant")                
+            }
+            _ => panic!("Invalid circle variant"),
         };
 
         let mut path = Path::new().set("d", data);
@@ -62,7 +69,8 @@ impl Layer for ThreeQuarterCircle {
             };
 
             // Get a gradient definition and name and add it as a fill to the path
-            let (random_gradient, gradient_name) = random_gradient_definition(random, None, &color_mode);
+            let (random_gradient, gradient_name) =
+                random_gradient_definition(random, None, &color_mode);
             path = path.set("fill", format!("url(#{gradient_name})",));
 
             vec![random_gradient.into(), path.into()]

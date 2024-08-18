@@ -1,15 +1,15 @@
 use crate::layers::Layer;
-use random::Random;
-use half_circle::HalfCircle;
-use three_quarter_circle::ThreeQuarterCircle;
-use full_circle::FullCircle;
 use concentric_circles::ConcentricCircles;
+use full_circle::FullCircle;
+use half_circle::HalfCircle;
+use random::Random;
+use three_quarter_circle::ThreeQuarterCircle;
 use triangle::BigTriangle;
 
+pub mod concentric_circles;
+pub mod full_circle;
 pub mod half_circle;
 pub mod three_quarter_circle;
-pub mod full_circle;
-pub mod concentric_circles;
 pub mod triangle;
 
 pub fn random_big_element(random: &mut Random) -> Box<dyn Layer> {

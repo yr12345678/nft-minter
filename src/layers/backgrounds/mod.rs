@@ -1,14 +1,14 @@
-use random::Random;
 use crate::layers::Layer;
+use diagonal_split::DiagonalSplitBackground;
 use gradient::GradientBackground;
+use random::Random;
 use solid::SolidBackground;
 use three_stripes::ThreeStripesBackground;
-use diagonal_split::DiagonalSplitBackground;
 
+pub mod diagonal_split;
 pub mod gradient;
 pub mod solid;
 pub mod three_stripes;
-pub mod diagonal_split;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     let variant = random.roll::<u8>(4);

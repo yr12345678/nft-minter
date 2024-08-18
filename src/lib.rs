@@ -93,7 +93,8 @@ mod nft_minter {
 
             // Add the seed and NonFungibleLocalId to the used_seeds KeyValueStore
             self.used_seeds.insert(seed, nft_id.clone());
-            self.existing_hashes.insert(svg_data_uri_hash, nft_id.clone());
+            self.existing_hashes
+                .insert(svg_data_uri_hash, nft_id.clone());
 
             // Increment our NFT id counter for the next mint
             self.next_nft_id += 1;

@@ -1,6 +1,6 @@
 use crate::layers::Layer;
-use random::Random;
 pub use hearts::HeartsPattern;
+use random::Random;
 
 pub mod hearts;
 

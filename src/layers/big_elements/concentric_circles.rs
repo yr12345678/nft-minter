@@ -1,6 +1,6 @@
-use random::Random;
 use crate::{layers::Layer, utils::HSL};
-use svg::node::element::{Element, Circle};
+use random::Random;
+use svg::node::element::{Circle, Element};
 
 pub struct ConcentricCircles;
 
@@ -12,7 +12,7 @@ impl Layer for ConcentricCircles {
         let opacity = valid_opacities
             .get(random.roll::<usize>(5))
             .expect("Did not find a valid opacity. This should never happen.");
-    
+
         // Pick a random color for all circles
         let random_color = if random.roll::<u8>(100) < 50 {
             HSL::new_light_random(random).as_string()
@@ -23,11 +23,10 @@ impl Layer for ConcentricCircles {
         // Generate our 10 circles
         let mut circles: Vec<Element> = Vec::new();
         for i in 1..7 {
-
             let circle = Circle::new()
                 .set("cx", 500)
                 .set("cy", 500)
-                .set("r", i*80)
+                .set("r", i * 80)
                 .set("stroke-width", 40)
                 .set("fill", "none")
                 .set("opacity", *opacity)

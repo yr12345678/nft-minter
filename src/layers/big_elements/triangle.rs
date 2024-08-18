@@ -1,5 +1,5 @@
-use crate::{layers::Layer, utils::random_gradient_definition};
 use crate::utils::{ColorMode, HSL};
+use crate::{layers::Layer, utils::random_gradient_definition};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
@@ -18,7 +18,7 @@ impl Layer for BigTriangle {
             5 => Polygon::new().set("points", "0,500 500,0 1000,500"), // Point to top
             6 => Polygon::new().set("points", "500,0 1000,500 500,1000"), // Point to right
             7 => Polygon::new().set("points", "0,500 500,1000 1000,500"), // Point to bottom
-            _ => panic!("No matching triangle variant")
+            _ => panic!("No matching triangle variant"),
         };
 
         // Set the colors and return the result
@@ -28,7 +28,7 @@ impl Layer for BigTriangle {
                 HSL::new_light_random(random).as_string()
             } else {
                 HSL::new_vibrant_random(random).as_string()
-            };            
+            };
 
             // Add the fill to the triangle
             triangle = triangle.set("fill", random_color1);
@@ -43,10 +43,11 @@ impl Layer for BigTriangle {
             };
 
             // Generate two gradient definitions
-            let (random_gradient, gradient_name1) = random_gradient_definition(random, None, &color_mode);
+            let (random_gradient, gradient_name1) =
+                random_gradient_definition(random, None, &color_mode);
 
             // Add the fill to the triangle
-            triangle = triangle.set("fill", format!("url(#{gradient_name1})")); 
+            triangle = triangle.set("fill", format!("url(#{gradient_name1})"));
 
             vec![random_gradient.into(), triangle.into()]
         }

@@ -1,5 +1,8 @@
+use crate::{
+    layers::Layer,
+    utils::{random_gradient_definition, ColorMode, HSL},
+};
 use random::Random;
-use crate::{layers::Layer, utils::{random_gradient_definition, ColorMode, HSL}};
 use svg::node::element::{path::Data, Element, Path};
 
 pub struct HalfCircle;
@@ -9,55 +12,55 @@ impl Layer for HalfCircle {
     fn generate(&self, random: &mut Random) -> Vec<Element> {
         // Pick a direction
         let data = match random.roll::<u8>(8) {
-            0 => { 
+            0 => {
                 // Inside to top
                 Data::new()
                     .move_to((0, 0))
                     .elliptical_arc_to((45, 45, 0, 0, 0, 1000, 0))
-            },
+            }
             1 => {
                 // Inside to right
                 Data::new()
                     .move_to((1000, 0))
-                    .elliptical_arc_to((45, 45, 0, 0, 0, 1000, 1000))                
-            },
+                    .elliptical_arc_to((45, 45, 0, 0, 0, 1000, 1000))
+            }
             2 => {
                 // Inside to bottom
                 Data::new()
                     .move_to((0, 1000))
-                    .elliptical_arc_to((45, 45, 0, 0, 1, 1000, 1000))                
-            },
+                    .elliptical_arc_to((45, 45, 0, 0, 1, 1000, 1000))
+            }
             3 => {
                 // Inside to left
                 Data::new()
                     .move_to((0, 0))
-                    .elliptical_arc_to((45, 45, 0, 0, 1, 0, 1000))                   
-            },
-            4 => { 
+                    .elliptical_arc_to((45, 45, 0, 0, 1, 0, 1000))
+            }
+            4 => {
                 // Outside to top
                 Data::new()
                     .move_to((0, 500))
                     .elliptical_arc_to((45, 45, 0, 0, 1, 1000, 500))
-            },
-            5 => { 
+            }
+            5 => {
                 // Outside to right
                 Data::new()
                     .move_to((500, 0))
                     .elliptical_arc_to((45, 45, 0, 0, 1, 500, 1000))
-            },            
-            6 => { 
+            }
+            6 => {
                 // Outside to bottom
                 Data::new()
                     .move_to((0, 500))
                     .elliptical_arc_to((45, 45, 0, 0, 0, 1000, 500))
-            },
-            7 => { 
+            }
+            7 => {
                 // Outside to left
                 Data::new()
                     .move_to((500, 0))
                     .elliptical_arc_to((45, 45, 0, 0, 0, 500, 1000))
-            },                                  
-            _ => panic!("Unknown direction")
+            }
+            _ => panic!("Unknown direction"),
         };
 
         let mut path = Path::new().set("d", data);
@@ -82,7 +85,8 @@ impl Layer for HalfCircle {
             };
 
             // Get a gradient definition and name and add it as a fill to the path
-            let (random_gradient, gradient_name) = random_gradient_definition(random, None, &color_mode);
+            let (random_gradient, gradient_name) =
+                random_gradient_definition(random, None, &color_mode);
             path = path.set("fill", format!("url(#{gradient_name})",));
 
             vec![random_gradient.into(), path.into()]
