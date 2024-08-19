@@ -2,22 +2,31 @@ use crate::layers::Layer;
 use diagonal_split::DiagonalSplitBackground;
 use gradient::GradientBackground;
 use random::Random;
+use scrypto::prelude::ToPrimitive;
 use solid::SolidBackground;
 use three_stripes::ThreeStripesBackground;
+use vertical_split::VerticalSplitBackground;
 
 pub mod diagonal_split;
 pub mod gradient;
 pub mod solid;
 pub mod three_stripes;
+pub mod vertical_split;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
-    let variant = random.roll::<u8>(4);
+    let available_layers: Vec<Box<dyn Layer>> = vec![
+        Box::new(SolidBackground),
+        Box::new(GradientBackground),
+        Box::new(ThreeStripesBackground),
+        Box::new(DiagonalSplitBackground),
+        Box::new(VerticalSplitBackground),
+    ];
 
-    match variant {
-        0 => Box::new(SolidBackground),
-        1 => Box::new(GradientBackground),
-        2 => Box::new(ThreeStripesBackground),
-        3 => Box::new(DiagonalSplitBackground),
-        _ => panic!("Unknown background variant"),
-    }
+    // Pick a random layer
+    let variant = random
+        .roll::<u8>(available_layers.len().to_u8().unwrap())
+        .to_usize()
+        .unwrap();
+
+    available_layers.into_iter().nth(variant).unwrap()
 }
