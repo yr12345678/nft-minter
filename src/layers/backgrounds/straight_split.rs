@@ -80,8 +80,8 @@ impl Layer for StraightSplitBackground {
                 };
 
                 (
-                    random_gradient_definition(random, Some(45), color_mode, 100),
-                    random_gradient_definition(random, Some(45), color_mode, 100),
+                    random_gradient_definition(random, None, color_mode, 100),
+                    random_gradient_definition(random, None, color_mode, 100),
                 )
             };
 
