@@ -14,12 +14,12 @@ impl Layer for ThreeStripesBackground {
                 0 => (
                     base_color.unwrap().derive_similar_color(random).as_string(),
                     base_color.unwrap().derive_similar_color(random).as_string(),
-                    base_color.unwrap().derive_similar_color(random).as_string()
+                    base_color.unwrap().derive_similar_color(random).as_string(),
                 ),
                 1 => base_color.unwrap().analogous_colors_as_strings(),
                 2 => base_color.unwrap().monochromatic_colors_as_strings(),
                 _ => panic!("Invalid color variant"),
-            }            
+            }
         } else {
             match random.roll::<u8>(3) {
                 0 => (
@@ -28,7 +28,8 @@ impl Layer for ThreeStripesBackground {
                     HSL::new_random(random, ColorMode::Vibrant, 100).as_string(),
                 ),
                 1 => HSL::new_random(random, ColorMode::Vibrant, 100).analogous_colors_as_strings(),
-                2 => HSL::new_random(random, ColorMode::Vibrant, 100).monochromatic_colors_as_strings(),
+                2 => HSL::new_random(random, ColorMode::Vibrant, 100)
+                    .monochromatic_colors_as_strings(),
                 _ => panic!("Invalid color variant"),
             }
         };
@@ -44,35 +45,29 @@ impl Layer for ThreeStripesBackground {
             .set("x1", 50)
             .set("x2", 50)
             .set("y2", 1)
-            .set(
-                "style",
-                format!("stroke:{color1}; stroke-width:100"),
-            );
+            .set("style", format!("stroke:{color1}; stroke-width:100"));
 
         let line2 = Line::new()
             .set("x1", 150)
             .set("x2", 150)
             .set("y2", 1)
-            .set(
-                "style",
-                format!("stroke:{color2}; stroke-width:100"),
-            );
+            .set("style", format!("stroke:{color2}; stroke-width:100"));
 
         let line3 = Line::new()
             .set("x1", 250)
             .set("x2", 250)
             .set("y2", 1)
-            .set(
-                "style",
-                format!("stroke:{color3}; stroke-width:100"),
-            );
+            .set("style", format!("stroke:{color3}; stroke-width:100"));
 
         // Add the stripes to a pattern an add that to the definitions
-        let translate_amount = if *rotate_amount == 45 {7} else {0}; // This is a dirty fix for aligning the lines neatly with the corners
+        let translate_amount = if *rotate_amount == 45 { 7 } else { 0 }; // This is a dirty fix for aligning the lines neatly with the corners
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
             .set("id", pattern_name.clone())
-            .set("patternTransform", format!("rotate({rotate_amount}) translate({translate_amount})"))
+            .set(
+                "patternTransform",
+                format!("rotate({rotate_amount}) translate({translate_amount})"),
+            )
             .set("patternUnits", "userSpaceOnUse")
             .set("width", 300)
             .set("height", 1)

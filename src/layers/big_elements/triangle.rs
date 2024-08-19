@@ -64,6 +64,6 @@ impl Layer for BigTriangle {
             triangle = triangle.set("fill", format!("url(#{gradient_name})"));
 
             vec![gradient.into(), triangle.into()]
-        }        
+        }
     }
 }

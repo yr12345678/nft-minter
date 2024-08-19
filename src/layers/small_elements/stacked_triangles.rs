@@ -113,6 +113,6 @@ impl Layer for StackedTriangles {
             triangle2 = triangle2.set("fill", format!("url(#{gradient_name})"));
 
             vec![gradient.into(), triangle1.into(), triangle2.into()]
-        }        
+        }
     }
 }

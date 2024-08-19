@@ -24,7 +24,7 @@ impl Layer for DiagonalSplitBackground {
                 // Use the base color
                 (
                     base_color.unwrap().derive_similar_color(random).as_string(),
-                    base_color.unwrap().derive_similar_color(random).as_string()
+                    base_color.unwrap().derive_similar_color(random).as_string(),
                 )
             } else {
                 // Random colors
@@ -33,10 +33,10 @@ impl Layer for DiagonalSplitBackground {
                     1 => ColorMode::Vibrant,
                     _ => panic!("Invalid color mode"),
                 };
-    
+
                 (
                     HSL::new_random(random, color_mode, 100).as_string(),
-                    HSL::new_random(random, color_mode, 100).as_string()
+                    HSL::new_random(random, color_mode, 100).as_string(),
                 )
             };
 
@@ -47,7 +47,8 @@ impl Layer for DiagonalSplitBackground {
             vec![triangle1.into(), triangle2.into()]
         } else {
             // Gradients
-            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some() {
+            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
+            {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
@@ -56,7 +57,7 @@ impl Layer for DiagonalSplitBackground {
 
                 (
                     gradient_definition(random, None, color1, color2),
-                    gradient_definition(random, None, color3, color4)
+                    gradient_definition(random, None, color3, color4),
                 )
             } else {
                 // Generate random gradients
@@ -65,10 +66,10 @@ impl Layer for DiagonalSplitBackground {
                     1 => ColorMode::Vibrant,
                     _ => panic!("Invalid color mode"),
                 };
-    
+
                 (
                     random_gradient_definition(random, Some(45), color_mode, 100),
-                    random_gradient_definition(random, Some(45), color_mode, 100)
+                    random_gradient_definition(random, Some(45), color_mode, 100),
                 )
             };
 

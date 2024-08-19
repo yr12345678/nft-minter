@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::{Any, TypeId};
+
+use crate::{hsl::*, layers::small_elements};
 use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Element, Rectangle};

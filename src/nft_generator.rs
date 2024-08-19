@@ -1,6 +1,7 @@
 use crate::hsl::*;
 use crate::layers::*;
 use random::Random;
+use scrypto::info;
 use svg::Document;
 
 pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
@@ -36,13 +37,22 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
         // Potentially add a big element
         if random.next_bool() {
             let big_element = random_big_element(&mut random, &exclusions);
-            exclusions.append(&mut big_element.exclusions());
-            layers.push(big_element);
+            if big_element.is_some() {
+                let unwrapped = big_element.unwrap();
+                exclusions.append(&mut unwrapped.exclusions());
+                layers.push(unwrapped);
+            }
+
         }
 
         // Potentially add a small element
         if random.next_bool() {
-            layers.push(random_small_element(&mut random));
+            let small_element = random_small_element(&mut random, &exclusions);
+            if small_element.is_some() {
+                let unwrapped = small_element.unwrap();
+                exclusions.append(&mut unwrapped.exclusions());
+                layers.push(unwrapped);
+            }
         }
     }
 

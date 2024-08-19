@@ -1,7 +1,7 @@
 use std::any::{Any, TypeId};
 
-use crate::{hsl::*, layers::small_elements};
 use crate::layers::Layer;
+use crate::{hsl::*, layers::small_elements};
 use random::Random;
 use svg::node::element::{Circle, Element};
 
@@ -43,8 +43,6 @@ impl Layer for ConcentricCircles {
     }
 
     fn exclusions(&self) -> Vec<TypeId> {
-        vec![
-            small_elements::stacked_triangles::StackedTriangles.type_id()
-        ]
+        vec![small_elements::stacked_triangles::StackedTriangles.type_id()]
     }
 }
