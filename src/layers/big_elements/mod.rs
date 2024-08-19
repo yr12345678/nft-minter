@@ -24,12 +24,14 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         Box::new(BigTriangle),
     ];
 
+    // Filter out the excluded layers
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers
         .into_iter()
         .filter(|layer| !exclusions.contains(&layer.layer_type()))
         .collect();
 
     if !allowed_layers.is_empty() {
+        // Pick a random layer
         let variant = random
             .roll::<u8>(allowed_layers.len().to_u8().unwrap())
             .to_usize()
