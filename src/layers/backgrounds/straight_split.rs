@@ -1,20 +1,29 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use svg::node::element::{Element, Polygon};
+use svg::node::element::{Element, Rectangle};
 
-pub struct VerticalSplitBackground;
+pub struct StraightSplitBackground;
 
-impl Layer for VerticalSplitBackground {
+impl Layer for StraightSplitBackground {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the two triangles that will make up the diagonal split background
-        let mut triangle1 = Polygon::new().set("points", "0, 0, 1000, 1000, 0, 1000");
-        let mut triangle2 = Polygon::new().set("points", "1000, 1000, 1000, 0, 0, 0");
+        let mut rectangle1 = Rectangle::new()
+            .set("x", 0)
+            .set("y", 0)
+            .set("width", "50%")
+            .set("height", "100%");
 
-        // Possibly mirror the triangles
+        let mut rectangle2 = Rectangle::new()
+            .set("x", 500)
+            .set("y", 0)
+            .set("width", "50%")
+            .set("height", "100%");
+
+        // Possibly apply a rotation
         if random.next_bool() {
-            triangle1 = triangle1.set("transform", "scale(-1,1) translate(-1000)");
-            triangle2 = triangle2.set("transform", "scale(-1,1) translate(-1000)");
+            rectangle1 = rectangle1.set("transform", "rotate(90, 500, 500)");
+            rectangle2 = rectangle2.set("transform", "rotate(90, 500, 500)");
         }
 
         // Pick either solid or gradient colors
@@ -41,10 +50,10 @@ impl Layer for VerticalSplitBackground {
             };
 
             // Add the fill to the triangles
-            triangle1 = triangle1.set("fill", color1);
-            triangle2 = triangle2.set("fill", color2);
+            rectangle1 = rectangle1.set("fill", color1);
+            rectangle2 = rectangle2.set("fill", color2);
 
-            vec![triangle1.into(), triangle2.into()]
+            vec![rectangle1.into(), rectangle2.into()]
         } else {
             // Gradients
             let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
@@ -74,14 +83,14 @@ impl Layer for VerticalSplitBackground {
             };
 
             // Add the fill to the triangles
-            triangle1 = triangle1.set("fill", format!("url(#{gradient1_name})"));
-            triangle2 = triangle2.set("fill", format!("url(#{gradient2_name})"));
+            rectangle1 = rectangle1.set("fill", format!("url(#{gradient1_name})"));
+            rectangle2 = rectangle2.set("fill", format!("url(#{gradient2_name})"));
 
             vec![
                 gradient1.into(),
                 gradient2.into(),
-                triangle1.into(),
-                triangle2.into(),
+                rectangle1.into(),
+                rectangle2.into(),
             ]
         }
     }

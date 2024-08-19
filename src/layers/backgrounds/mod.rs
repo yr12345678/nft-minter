@@ -5,13 +5,13 @@ use random::Random;
 use scrypto::prelude::ToPrimitive;
 use solid::SolidBackground;
 use three_stripes::ThreeStripesBackground;
-use vertical_split::VerticalSplitBackground;
+use straight_split::StraightSplitBackground;
 
 pub mod diagonal_split;
 pub mod gradient;
 pub mod solid;
 pub mod three_stripes;
-pub mod vertical_split;
+pub mod straight_split;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     let available_layers: Vec<Box<dyn Layer>> = vec![
@@ -19,7 +19,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
         Box::new(GradientBackground),
         Box::new(ThreeStripesBackground),
         Box::new(DiagonalSplitBackground),
-        Box::new(VerticalSplitBackground),
+        Box::new(StraightSplitBackground),
     ];
 
     // Pick a random layer
