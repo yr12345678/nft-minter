@@ -21,9 +21,12 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
     while layers.len() < 2 {
         // Start clean
         layers.clear();
+        let mut exclusions = vec![];
 
         // Always add a background
-        layers.push(random_background(&mut random));
+        let background = random_background(&mut random);
+        exclusions.append(&mut background.exclusions());
+        layers.push(background);
 
         // Potentially add a pattern
         // if random.roll::<u8>(100) < 10 {
@@ -32,7 +35,9 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
 
         // Potentially add a big element
         if random.next_bool() {
-            layers.push(random_big_element(&mut random));
+            let big_element = random_big_element(&mut random, &exclusions);
+            exclusions.append(&mut big_element.exclusions());
+            layers.push(big_element);
         }
 
         // Potentially add a small element
