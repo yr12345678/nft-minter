@@ -1,36 +1,27 @@
-use std::any::Any;
-
 use crate::hsl::*;
-use crate::layers::big_elements;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct StraightSplitBackground;
+pub struct TwoSquaresElement;
 
-impl Layer for StraightSplitBackground {
+impl Layer for TwoSquaresElement {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the two triangles that will make up the straight split background
-        let mut rectangle1 = Rectangle::new()
+        // Generate the squares that will make up the four squares background
+        let mut rectangle1 = Rectangle::new() // Top-left
             .set("x", 0)
             .set("y", 0)
             .set("width", "50%")
-            .set("height", "100%");
+            .set("height", "50%");
 
-        let mut rectangle2 = Rectangle::new()
-            .set("x", 500)
-            .set("y", 0)
+        let mut rectangle2 = Rectangle::new() // Bottom-left
+            .set("x", 0)
+            .set("y", 500)
             .set("width", "50%")
-            .set("height", "100%");
+            .set("height", "50%");             
 
-        // Possibly apply a rotation
-        if random.next_bool() {
-            rectangle1 = rectangle1.set("transform", "rotate(90, 500, 500)");
-            rectangle2 = rectangle2.set("transform", "rotate(90, 500, 500)");
-        }
-
-        // Pick either solid or gradient colors
-        if random.roll::<u8>(100) < 80 {
+        // Pick random solid colors
+        if random.roll::<u8>(100) < 85 {
             // Solid colors
             let (color1, color2) = if base_color.is_some() {
                 // Use the base color
@@ -58,7 +49,6 @@ impl Layer for StraightSplitBackground {
 
             vec![rectangle1.into(), rectangle2.into()]
         } else {
-            // Gradients
             let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
             {
                 // We have a base color, so we derive something similar
@@ -85,22 +75,10 @@ impl Layer for StraightSplitBackground {
                 )
             };
 
-            // Add the fill to the triangles
             rectangle1 = rectangle1.set("fill", format!("url(#{gradient1_name})"));
             rectangle2 = rectangle2.set("fill", format!("url(#{gradient2_name})"));
 
-            vec![
-                gradient1.into(),
-                gradient2.into(),
-                rectangle1.into(),
-                rectangle2.into(),
-            ]
+            vec![gradient1.into(), gradient2.into(), rectangle1.into(), rectangle2.into()]
         }
-    }
-
-    fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            big_elements::two_squares::TwoSquaresElement.type_id() // The two squares big element doesn't differentiate enough from this background
-        ]
     }
 }

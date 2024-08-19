@@ -8,12 +8,14 @@ use random::Random;
 use scrypto::prelude::ToPrimitive;
 use three_quarter_circle::ThreeQuarterCircle;
 use triangle::BigTriangle;
+use two_squares::TwoSquaresElement;
 
 pub mod concentric_circles;
 pub mod full_circle;
 pub mod half_circle;
 pub mod three_quarter_circle;
 pub mod triangle;
+pub mod two_squares;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     let available_layers: Vec<Box<dyn Layer>> = vec![
@@ -22,6 +24,7 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         Box::new(FullCircle),
         Box::new(ConcentricCircles),
         Box::new(BigTriangle),
+        Box::new(TwoSquaresElement),
     ];
 
     // Filter out the excluded layers

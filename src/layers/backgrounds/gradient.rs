@@ -1,4 +1,6 @@
-use crate::layers::Layer;
+use std::any::Any;
+
+use crate::layers::{big_elements, Layer};
 use crate::utils::random_gradient_definition;
 use crate::{hsl::*, utils::gradient_definition};
 use random::Random;
@@ -31,4 +33,10 @@ impl Layer for GradientBackground {
 
         vec![gradient.into(), background.into()]
     }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            big_elements::two_squares::TwoSquaresElement.type_id() // The two squares big element doesn't differentiate enough from this background
+        ]
+    }    
 }
