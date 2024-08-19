@@ -10,7 +10,7 @@ pub fn random_gradient_definition(
     opacity: i8,
 ) -> (Definitions, String) {
     // Get a random base color
-    let random_color = HSL::new_random(random, color_mode.clone(), opacity);
+    let random_color = HSL::new_random(random, color_mode, opacity);
 
     // Generate our color set
     let (random_color1, random_color2) = match random.roll::<u8>(4) {

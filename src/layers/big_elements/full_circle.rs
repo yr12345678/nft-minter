@@ -1,7 +1,4 @@
-use std::any::{Any, TypeId};
-
 use crate::hsl::*;
-use crate::layers::small_elements;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Circle, Element};

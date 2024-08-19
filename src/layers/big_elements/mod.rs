@@ -1,4 +1,4 @@
-use std::any::{Any, TypeId};
+use std::any::TypeId;
 
 use crate::layers::Layer;
 use concentric_circles::ConcentricCircles;
@@ -26,16 +26,14 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
 
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers
         .into_iter()
-        .filter(|layer| {
-            !exclusions.contains(&layer.layer_type())
-        })
+        .filter(|layer| !exclusions.contains(&layer.layer_type()))
         .collect();
 
     if !allowed_layers.is_empty() {
         let variant = random
-        .roll::<u8>(allowed_layers.len().to_u8().unwrap())
-        .to_usize()
-        .unwrap();
+            .roll::<u8>(allowed_layers.len().to_u8().unwrap())
+            .to_usize()
+            .unwrap();
 
         Some(allowed_layers.into_iter().nth(variant).unwrap())
     } else {
