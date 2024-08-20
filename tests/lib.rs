@@ -129,7 +129,5 @@ fn build_mint_manifest() -> Result<(), RuntimeError> {
         &NetworkDefinition::stokenet(),
     );
 
-    println!("{:?}", result);
-
     Ok(())
 }
