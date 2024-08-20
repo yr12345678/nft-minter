@@ -9,6 +9,7 @@ pub mod types;
 pub mod utils;
 
 #[blueprint]
+#[types(NFTImage, Vec<u8>, Hash, NonFungibleLocalId)]
 mod nft_minter {
     struct NftMinter {
         image_nft_manager: ResourceManager,
@@ -23,7 +24,7 @@ mod nft_minter {
                 Runtime::allocate_component_address(NftMinter::blueprint_id());
 
             // Create the NFT manager
-            let image_nft_manager = ResourceBuilder::new_integer_non_fungible::<NFTImage>(OwnerRole::None)
+            let image_nft_manager = ResourceBuilder::new_integer_non_fungible_with_registered_type::<NFTImage>(OwnerRole::None)
                 .mint_roles(mint_roles!(
                     minter => rule!(require(global_caller(component_address)));
                     minter_updater => rule!(deny_all);
@@ -46,8 +47,8 @@ mod nft_minter {
             Self {
                 image_nft_manager,
                 next_nft_id: 1,
-                used_seeds: KeyValueStore::<Vec<u8>, NonFungibleLocalId>::new(),
-                existing_hashes: KeyValueStore::<Hash, NonFungibleLocalId>::new(),
+                used_seeds: KeyValueStore::<Vec<u8>, NonFungibleLocalId>::new_with_registered_type(),
+                existing_hashes: KeyValueStore::<Hash, NonFungibleLocalId>::new_with_registered_type(),
             }
             .instantiate()
             .prepare_to_globalize(OwnerRole::None)
