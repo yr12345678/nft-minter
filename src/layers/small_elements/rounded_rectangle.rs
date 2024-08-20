@@ -26,7 +26,8 @@ impl Layer for SmallElementRoundedRectangle {
         if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let color = if base_color.is_some() {
-                base_color.unwrap().as_string() // Since it's a solid background, we just use the base color as the background
+                // Use the base color and derive something similar
+                base_color.unwrap().derive_similar_color(random).as_string()
             } else {
                 // Pick a random color, but prefer vibrant
                 if random.roll::<u8>(100) < 30 {
