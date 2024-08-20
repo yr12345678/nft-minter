@@ -5,7 +5,7 @@ use scrypto::prelude::*;
 pub struct NFTImage {
     pub key_image_url: Url,
     pub name: String,
-    pub seed: String,
+    pub seed_lossy: String,
     pub svg_data: String,
 }
 

@@ -94,7 +94,7 @@ mod nft_minter {
                     key_image_url: Url::of(svg_data_uri.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
                     // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort and for fun if someone wants to use their own vanity seed
-                    seed: String::from_utf8_lossy(&seed).into_owned(),
+                    seed_lossy: String::from_utf8_lossy(&seed).into_owned(),
                     svg_data: hex::encode(nft_image_data),
                 },
             );
