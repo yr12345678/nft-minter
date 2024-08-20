@@ -1,7 +1,6 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use scrypto::info;
 use svg::node::element::{Element, Polygon};
 
 pub struct BigTriangle;
@@ -9,54 +8,15 @@ pub struct BigTriangle;
 impl Layer for BigTriangle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate a triangle with a random positioning and appropriate gradient rotation
-        let (mut triangle, rotate) = match random.roll::<u8>(8) {
-            0 => {
-                // Base to left side
-                (Polygon::new().set("points", "0,0 500,500 0,1000"), None)
-            }
-            1 => {
-                // Base to top
-                (Polygon::new().set("points", "0,0 500,500 1000,0"), Some(90))
-            }
-            2 => {
-                // Base to right side
-                (
-                    Polygon::new().set("points", "1000,0 500,500 1000,1000"),
-                    None,
-                )
-            }
-            3 => {
-                // Base to bottom
-                (
-                    Polygon::new().set("points", "0,1000 500,500 1000,1000"),
-                    Some(90),
-                )
-            }
-            4 => {
-                // Point to left side
-                (Polygon::new().set("points", "500,0 0,500 500,1000"), None)
-            }
-            5 => {
-                // Point to top
-                (
-                    Polygon::new().set("points", "0,500 500,0 1000,500"),
-                    Some(90),
-                )
-            }
-            6 => {
-                // Point to right
-                (
-                    Polygon::new().set("points", "500,0 1000,500 500,1000"),
-                    None,
-                )
-            }
-            7 => {
-                // Point to bottom
-                (
-                    Polygon::new().set("points", "0,500 500,1000 1000,500"),
-                    Some(90),
-                )
-            }
+        let mut triangle = match random.roll::<u8>(8) {
+            0 => Polygon::new().set("points", "0,0 500,500 0,1000"), // Base to left side
+            1 => Polygon::new().set("points", "0,0 500,500 1000,0"), // Base to top
+            2 => Polygon::new().set("points", "1000,0 500,500 1000,1000"), // Base to right side
+            3 => Polygon::new().set("points", "0,1000 500,500 1000,1000"), // Base to bottom
+            4 => Polygon::new().set("points", "500,0 0,500 500,1000"), // Point to left side
+            5 => Polygon::new().set("points", "0,500 500,0 1000,500"), // Point to top
+            6 => Polygon::new().set("points", "500,0 1000,500 500,1000"), // Point to right
+            7 => Polygon::new().set("points", "0,500 500,1000 1000,500"), // Point to bottom
             _ => panic!("No matching triangle variant"),
         };
 
