@@ -114,6 +114,7 @@ impl Layer for BackgroundThreeWaySplit {
             big_elements::half_circle::BigElementHalfCircle.type_id(),
             big_elements::triangle::BigElementTriangle.type_id(),
             big_elements::two_squares::BigElementTwoSquares.type_id(),
+            big_elements::quarter_circle::BigElementQuarterCircle.type_id(),
             small_elements::stacked_triangles::SmallElementStackedTriangles.type_id(),
         ]
     }
