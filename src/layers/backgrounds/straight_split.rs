@@ -68,8 +68,8 @@ impl Layer for StraightSplitBackground {
                 let color4 = base_color.unwrap().derive_similar_color(random);
 
                 (
-                    gradient_definition(random, None, color1, color2),
-                    gradient_definition(random, None, color3, color4),
+                    gradient_definition(random, Some(45), color1, color2),
+                    gradient_definition(random, Some(45), color3, color4),
                 )
             } else {
                 // Generate random gradients
@@ -80,8 +80,8 @@ impl Layer for StraightSplitBackground {
                 };
 
                 (
-                    random_gradient_definition(random, None, color_mode, 100),
-                    random_gradient_definition(random, None, color_mode, 100),
+                    random_gradient_definition(random, Some(45), color_mode, 100),
+                    random_gradient_definition(random, Some(45), color_mode, 100),
                 )
             };
 
