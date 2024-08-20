@@ -62,10 +62,16 @@ mod nft_minter {
         }
 
         pub fn mint_nft(&mut self, seed: Vec<u8>) -> Bucket {
+            // Make sure seed length is multiple of 4
+            assert!(
+                seed.len() % 4 == 0,
+                "Seed length must be a multiple of 4!"
+            );
+
             // Make sure we can't reuse seeds
             assert!(
                 self.used_seeds.get(&seed).is_none(),
-                "Seed was already used!"
+                "Seed was already used! Try another one :)"
             );
 
             // Generate our SVG data
