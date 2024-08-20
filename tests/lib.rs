@@ -121,7 +121,7 @@ fn build_mint_manifest() -> Result<(), RuntimeError> {
         .unwrap(),
     );
 
-    let result = dump_manifest_to_file_system(
+    let _ = dump_manifest_to_file_system(
         manifest.object_names(),
         &manifest.build(),
         "./manifests",
