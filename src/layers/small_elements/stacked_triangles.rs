@@ -97,7 +97,7 @@ impl Layer for StackedTriangles {
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
 
-                gradient_definition(random, None, color1, color2)
+                gradient_definition(random, Some(45), color1, color2)
             } else {
                 // Randomize the color mode, but prefer vibrant
                 let color_mode = if random.roll::<u8>(100) < 30 {
@@ -106,7 +106,7 @@ impl Layer for StackedTriangles {
                     ColorMode::Vibrant
                 };
 
-                random_gradient_definition(random, None, color_mode, 100)
+                random_gradient_definition(random, Some(45), color_mode, 100)
             };
 
             triangle1 = triangle1.set("fill", format!("url(#{gradient_name})"));

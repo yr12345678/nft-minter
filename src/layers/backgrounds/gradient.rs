@@ -15,13 +15,13 @@ impl Layer for GradientBackground {
             let color1 = base_color.unwrap().derive_similar_color(random);
             let color2 = base_color.unwrap().derive_similar_color(random);
 
-            gradient_definition(random, None, color1, color2)
+            gradient_definition(random, Some(45), color1, color2)
         } else {
             // Randomize the color mode, but prefer vibrant
             if random.roll::<u8>(100) < 50 {
-                random_gradient_definition(random, None, ColorMode::Light, 100)
+                random_gradient_definition(random, Some(45), ColorMode::Light, 100)
             } else {
-                random_gradient_definition(random, None, ColorMode::Vibrant, 100)
+                random_gradient_definition(random, Some(45), ColorMode::Vibrant, 100)
             }
         };
 
