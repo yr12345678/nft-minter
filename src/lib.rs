@@ -76,7 +76,6 @@ mod nft_minter {
 
             // Generate our SVG data
             let nft_image_data = nft_generator::generate_nft_image_data(&seed);
-            println!("{:?}", nft_image_data);
             let url_encoded_nft_image_data = urlencoding::encode(&nft_image_data).into_owned();
             let svg_data_uri = format!("data:image/svg+xml,{url_encoded_nft_image_data}");
             let svg_data_uri_hash = hash(svg_data_uri.clone());
@@ -108,6 +107,16 @@ mod nft_minter {
             self.next_nft_id += 1;
 
             nft_bucket
+        }
+
+        /// Checks if a seed was used. 
+        /// 
+        /// Returns a tuple with a bool and optionally a NonFungibleLocalId for the NFT that was minted with this seed.
+        pub fn seed_used(&self, seed: Vec<u8>) -> (bool, Option<NonFungibleLocalId>) {
+            match self.used_seeds.get(&seed) {
+                Some(nflid) =>  (true, Some(nflid.to_owned())),
+                None => (false, None)
+            }
         }
     }
 }
