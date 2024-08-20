@@ -22,6 +22,11 @@ impl Layer for SmallElementRoundedRectangle {
             .set("x", position)
             .set("y", position);
 
+        // Possibly add a 45 degree rotation
+        if random.next_bool() {
+            rectangle = rectangle.set("transform", "rotate(45, 500, 500)");
+        }
+
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
             // Pick a solid color
