@@ -1,13 +1,12 @@
 use nft_minter::{nft_minter_test::*, types::NFTImage};
 use radix_common::network::NetworkDefinition;
 use rand::prelude::*;
-use scrypto::info;
 use scrypto_test::prelude::*;
 use scrypto_test::utils::dump_manifest_to_file_system;
 use std::fs;
 
 #[test]
-fn mint_nft() -> Result<(), RuntimeError> {
+fn mint_nft_batch() -> Result<(), RuntimeError> {
     let mut env = TestEnvironment::new();
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
@@ -35,14 +34,59 @@ fn mint_nft() -> Result<(), RuntimeError> {
             &mut env,
         )?;
 
-        println!("{:?}", nft_data);
-
         fs::write(
             format!("test_images/{i}.svg"),
             hex::decode(nft_data.svg_data).unwrap(),
         )
         .expect("Failed to write SVG file.");
     }
+
+    Ok(())
+}
+
+#[test]
+fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
+    // Arrange
+    let mut env = TestEnvironment::new();
+    let package_address =
+        PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
+
+    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+
+    env.disable_auth_module();
+
+    let mut data = [0u8; 128];
+    rand::thread_rng().fill_bytes(&mut data);
+
+    // Act
+    let _first_mint = nft_minter.mint_nft(data.to_vec(), &mut env)?;
+    let second_mint = nft_minter.mint_nft(data.to_vec(), &mut env);
+
+    // Assert
+    assert!(second_mint.is_err());
+
+    Ok(())
+}
+
+#[test]
+fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
+    // Arrange
+    let mut env = TestEnvironment::new();
+    let package_address =
+        PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
+
+    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+
+    env.disable_auth_module();
+
+    let mut data = [0u8; 3];
+    rand::thread_rng().fill_bytes(&mut data);
+
+    // Act
+    let result = nft_minter.mint_nft(data.to_vec(), &mut env);
+
+    // Assert
+    assert!(result.is_err());
 
     Ok(())
 }
