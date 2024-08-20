@@ -4,6 +4,7 @@ use crate::layers::Layer;
 // use concentric_circles::ConcentricCircles;
 use full_circle::BigElementFullCircle;
 use half_circle::BigElementHalfCircle;
+use quarter_circle::BigElementQuarterCircle;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
 use three_quarter_circle::BigElementThreeQuarterCircle;
@@ -16,6 +17,7 @@ pub mod half_circle;
 pub mod three_quarter_circle;
 pub mod triangle;
 pub mod two_squares;
+pub mod quarter_circle;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     let available_layers: Vec<Box<dyn Layer>> = vec![
@@ -25,6 +27,7 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         // Box::new(ConcentricCircles),
         Box::new(BigElementTriangle),
         Box::new(BigElementTwoSquares),
+        Box::new(BigElementQuarterCircle),
     ];
 
     // Filter out the excluded layers
