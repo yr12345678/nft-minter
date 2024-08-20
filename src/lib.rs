@@ -47,8 +47,10 @@ mod nft_minter {
             Self {
                 image_nft_manager,
                 next_nft_id: 1,
-                used_seeds: KeyValueStore::<Vec<u8>, NonFungibleLocalId>::new_with_registered_type(),
-                existing_hashes: KeyValueStore::<Hash, NonFungibleLocalId>::new_with_registered_type(),
+                used_seeds: KeyValueStore::<Vec<u8>, NonFungibleLocalId>::new_with_registered_type(
+                ),
+                existing_hashes:
+                    KeyValueStore::<Hash, NonFungibleLocalId>::new_with_registered_type(),
             }
             .instantiate()
             .prepare_to_globalize(OwnerRole::None)
@@ -64,10 +66,7 @@ mod nft_minter {
 
         pub fn mint_nft(&mut self, seed: Vec<u8>) -> Bucket {
             // Make sure seed length is multiple of 4
-            assert!(
-                seed.len() % 4 == 0,
-                "Seed length must be a multiple of 4!"
-            );
+            assert!(seed.len() % 4 == 0, "Seed length must be a multiple of 4!");
 
             // Make sure we can't reuse seeds
             assert!(
@@ -94,7 +93,8 @@ mod nft_minter {
                 NFTImage {
                     key_image_url: Url::of(svg_data_uri.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
-                    seed: String::from_utf8_lossy(&seed).into_owned(), // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort
+                    // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort and for fun if someone wants to use their own vanity seed
+                    seed: String::from_utf8_lossy(&seed).into_owned(),
                     svg_data: hex::encode(nft_image_data),
                 },
             );
@@ -110,13 +110,13 @@ mod nft_minter {
             nft_bucket
         }
 
-        /// Checks if a seed was used. 
-        /// 
+        /// Checks if a seed was used.
+        ///
         /// Returns a tuple with a bool and optionally a NonFungibleLocalId for the NFT that was minted with this seed.
         pub fn seed_used(&self, seed: Vec<u8>) -> (bool, Option<NonFungibleLocalId>) {
             match self.used_seeds.get(&seed) {
-                Some(nflid) =>  (true, Some(nflid.to_owned())),
-                None => (false, None)
+                Some(nflid) => (true, Some(nflid.to_owned())),
+                None => (false, None),
             }
         }
     }

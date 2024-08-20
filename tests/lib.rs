@@ -6,45 +6,6 @@ use scrypto_test::utils::dump_manifest_to_file_system;
 use std::fs;
 
 #[test]
-fn mint_nft_batch() -> Result<(), RuntimeError> {
-    let mut env = TestEnvironment::new();
-    let package_address =
-        PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
-
-    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
-
-    env.disable_auth_module();
-    env.disable_limits_module();
-
-    // Create images directory if necessary
-    let _ = fs::create_dir_all("test_images");
-
-    for i in 1..1001 {
-        let mut data = [0u8; 128];
-        rand::thread_rng().fill_bytes(&mut data);
-        let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;
-
-        let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
-        let nft_data = resource_manager.get_non_fungible_data::<_, _, NFTImage>(
-            nft_bucket
-                .non_fungible_local_ids(&mut env)?
-                .first()
-                .unwrap()
-                .clone(),
-            &mut env,
-        )?;
-
-        fs::write(
-            format!("test_images/{i}.svg"),
-            hex::decode(nft_data.svg_data).unwrap(),
-        )
-        .expect("Failed to write SVG file.");
-    }
-
-    Ok(())
-}
-
-#[test]
 fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
     // Arrange
     let mut env = TestEnvironment::new();
@@ -91,6 +52,47 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
     Ok(())
 }
 
+// Mint a load of NFTs for test/review purposes
+#[test]
+fn mint_nft_batch() -> Result<(), RuntimeError> {
+    let mut env = TestEnvironment::new();
+    let package_address =
+        PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
+
+    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+
+    env.disable_auth_module();
+    env.disable_limits_module();
+
+    // Create images directory if necessary
+    let _ = fs::create_dir_all("test_images");
+
+    for i in 1..1001 {
+        let mut data = [0u8; 128];
+        rand::thread_rng().fill_bytes(&mut data);
+        let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;
+
+        let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
+        let nft_data = resource_manager.get_non_fungible_data::<_, _, NFTImage>(
+            nft_bucket
+                .non_fungible_local_ids(&mut env)?
+                .first()
+                .unwrap()
+                .clone(),
+            &mut env,
+        )?;
+
+        fs::write(
+            format!("test_images/{i}.svg"),
+            hex::decode(nft_data.svg_data).unwrap(),
+        )
+        .expect("Failed to write SVG file.");
+    }
+
+    Ok(())
+}
+
+// Build a manifest that mints 10 NFTs for testing on Stonknet
 #[test]
 fn build_mint_manifest() -> Result<(), RuntimeError> {
     let mut manifest = ManifestBuilder::new();
