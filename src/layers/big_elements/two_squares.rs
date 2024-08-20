@@ -18,7 +18,7 @@ impl Layer for TwoSquaresElement {
             .set("x", 0)
             .set("y", 500)
             .set("width", "50%")
-            .set("height", "50%");             
+            .set("height", "50%");
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
@@ -78,7 +78,12 @@ impl Layer for TwoSquaresElement {
             rectangle1 = rectangle1.set("fill", format!("url(#{gradient1_name})"));
             rectangle2 = rectangle2.set("fill", format!("url(#{gradient2_name})"));
 
-            vec![gradient1.into(), gradient2.into(), rectangle1.into(), rectangle2.into()]
+            vec![
+                gradient1.into(),
+                gradient2.into(),
+                rectangle1.into(),
+                rectangle2.into(),
+            ]
         }
     }
 }

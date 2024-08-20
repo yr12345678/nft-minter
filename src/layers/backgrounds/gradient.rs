@@ -36,7 +36,7 @@ impl Layer for GradientBackground {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::two_squares::TwoSquaresElement.type_id() // The two squares big element doesn't differentiate enough from this background
+            big_elements::two_squares::TwoSquaresElement.type_id(), // The two squares big element doesn't differentiate enough from this background
         ]
-    }    
+    }
 }

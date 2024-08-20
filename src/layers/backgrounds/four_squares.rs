@@ -27,13 +27,13 @@ impl Layer for FourSquaresBackground {
             .set("x", 0)
             .set("y", 500)
             .set("width", "50%")
-            .set("height", "50%");     
+            .set("height", "50%");
 
         let mut rectangle4 = Rectangle::new() // Bottom-right
             .set("x", 500)
             .set("y", 500)
             .set("width", "50%")
-            .set("height", "50%");              
+            .set("height", "50%");
 
         // Pick random solid colors. No gradients here, too messy.
         let (color1, color2, color3, color4) = if base_color.is_some() {
@@ -66,12 +66,17 @@ impl Layer for FourSquaresBackground {
         rectangle3 = rectangle3.set("fill", color3);
         rectangle4 = rectangle4.set("fill", color4);
 
-        vec![rectangle1.into(), rectangle2.into(), rectangle3.into(), rectangle4.into()]
+        vec![
+            rectangle1.into(),
+            rectangle2.into(),
+            rectangle3.into(),
+            rectangle4.into(),
+        ]
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::two_squares::TwoSquaresElement.type_id() // The two squares big element doesn't differentiate from this background
+            big_elements::two_squares::TwoSquaresElement.type_id(), // The two squares big element doesn't differentiate from this background
         ]
     }
 }

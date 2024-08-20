@@ -1,19 +1,19 @@
 use crate::layers::Layer;
 use diagonal_split::DiagonalSplitBackground;
+use four_squares::FourSquaresBackground;
 use gradient::GradientBackground;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
 use solid::SolidBackground;
-use three_stripes::ThreeStripesBackground;
 use straight_split::StraightSplitBackground;
-use four_squares::FourSquaresBackground;
+use three_stripes::ThreeStripesBackground;
 
 pub mod diagonal_split;
+pub mod four_squares;
 pub mod gradient;
 pub mod solid;
-pub mod three_stripes;
 pub mod straight_split;
-pub mod four_squares;
+pub mod three_stripes;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     let available_layers: Vec<Box<dyn Layer>> = vec![
@@ -22,7 +22,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
         Box::new(ThreeStripesBackground),
         Box::new(DiagonalSplitBackground),
         Box::new(StraightSplitBackground),
-        Box::new(FourSquaresBackground)
+        Box::new(FourSquaresBackground),
     ];
 
     // Pick a random layer
