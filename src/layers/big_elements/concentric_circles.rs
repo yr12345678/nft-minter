@@ -43,6 +43,6 @@ impl Layer for ConcentricCircles {
     }
 
     fn exclusions(&self) -> Vec<TypeId> {
-        vec![small_elements::stacked_triangles::StackedTriangles.type_id()]
+        vec![small_elements::stacked_triangles::SmallElementStackedTriangles.type_id()]
     }
 }

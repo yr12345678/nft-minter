@@ -6,9 +6,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct StraightSplitBackground;
+pub struct BackgroundStraightSplit;
 
-impl Layer for StraightSplitBackground {
+impl Layer for BackgroundStraightSplit {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the two triangles that will make up the straight split background
         let mut rectangle1 = Rectangle::new()
@@ -100,7 +100,7 @@ impl Layer for StraightSplitBackground {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::two_squares::TwoSquaresElement.type_id(), // The two squares big element doesn't differentiate enough from this background
+            big_elements::two_squares::BigElementTwoSquares.type_id(), // The two squares big element doesn't differentiate enough from this background
         ]
     }
 }

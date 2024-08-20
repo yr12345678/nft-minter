@@ -3,9 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Circle, Element};
 
-pub struct FullCircle;
+pub struct BigElementFullCircle;
 
-impl Layer for FullCircle {
+impl Layer for BigElementFullCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Pick a random radius to introduce some variety
         let random_radius = random.in_range::<u16>(150, 250) * 2; // Always an even number

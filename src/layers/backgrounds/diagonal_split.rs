@@ -3,9 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
-pub struct DiagonalSplitBackground;
+pub struct BackgroundDiagonalSplit;
 
-impl Layer for DiagonalSplitBackground {
+impl Layer for BackgroundDiagonalSplit {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the two triangles that will make up the diagonal split background
         let mut triangle1 = Polygon::new().set("points", "0, 0, 1000, 1000, 0, 1000");

@@ -3,10 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Circle, Element};
 
-pub struct SmallCircle;
+pub struct SmallElementCircle;
 
-// TODO: split up gradient and solid into separate variants?
-impl Layer for SmallCircle {
+impl Layer for SmallElementCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         let random_radius = random.in_range::<u16>(50, 125) * 2; // Always an even number
 

@@ -3,10 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
-pub struct StackedTriangles;
+pub struct SmallElementStackedTriangles;
 
-// TODO: add rotation angle?
-impl Layer for StackedTriangles {
+impl Layer for SmallElementStackedTriangles {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate stacked triangles with a random positioning
         let (mut triangle1, mut triangle2) = match random.roll::<u8>(8) {

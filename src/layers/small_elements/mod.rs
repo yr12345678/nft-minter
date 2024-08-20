@@ -3,15 +3,17 @@ use std::any::TypeId;
 use crate::layers::Layer;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
-use small_circle::SmallCircle;
-use stacked_triangles::StackedTriangles;
+use small_circle::SmallElementCircle;
+use stacked_triangles::SmallElementStackedTriangles;
 
 pub mod small_circle;
 pub mod stacked_triangles;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
-    let available_layers: Vec<Box<dyn Layer>> =
-        vec![Box::new(SmallCircle), Box::new(StackedTriangles)];
+    let available_layers: Vec<Box<dyn Layer>> = vec![
+        Box::new(SmallElementCircle),
+        Box::new(SmallElementStackedTriangles),
+    ];
 
     // Filter out the excluded layers
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers

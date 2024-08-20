@@ -3,9 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{path::Data, Element, Path};
 
-pub struct ThreeQuarterCircle;
+pub struct BigElementThreeQuarterCircle;
 
-impl Layer for ThreeQuarterCircle {
+impl Layer for BigElementThreeQuarterCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Randomly pick a direction
         let data = match random.roll::<u8>(4) {

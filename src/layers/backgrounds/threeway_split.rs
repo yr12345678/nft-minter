@@ -6,9 +6,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
-pub struct ThreeWaySplitBackground;
+pub struct BackgroundThreeWaySplit;
 
-impl Layer for ThreeWaySplitBackground {
+impl Layer for BackgroundThreeWaySplit {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the areas
         let mut area1 = Polygon::new().set("points", "0,0 500,0 500,500, 0,800");
@@ -111,10 +111,10 @@ impl Layer for ThreeWaySplitBackground {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::half_circle::HalfCircle.type_id(),
-            big_elements::triangle::BigTriangle.type_id(),
-            big_elements::two_squares::TwoSquaresElement.type_id(),
-            small_elements::stacked_triangles::StackedTriangles.type_id(),
+            big_elements::half_circle::BigElementHalfCircle.type_id(),
+            big_elements::triangle::BigElementTriangle.type_id(),
+            big_elements::two_squares::BigElementTwoSquares.type_id(),
+            small_elements::stacked_triangles::SmallElementStackedTriangles.type_id(),
         ]
     }
 }

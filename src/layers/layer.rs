@@ -1,6 +1,6 @@
 use crate::hsl::*;
 use random::Random;
-use std::any::{Any, TypeId, type_name};
+use std::any::{type_name, Any, TypeId};
 use svg::node::element::Element;
 
 pub trait Layer: Any {

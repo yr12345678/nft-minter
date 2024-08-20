@@ -3,9 +3,9 @@ use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
 
-pub struct BigTriangle;
+pub struct BigElementTriangle;
 
-impl Layer for BigTriangle {
+impl Layer for BigElementTriangle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate a triangle with a random positioning and appropriate gradient rotation
         let mut triangle = match random.roll::<u8>(8) {

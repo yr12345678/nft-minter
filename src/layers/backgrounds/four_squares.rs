@@ -6,9 +6,9 @@ use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct FourSquaresBackground;
+pub struct BackgroundFourSquares;
 
-impl Layer for FourSquaresBackground {
+impl Layer for BackgroundFourSquares {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the squares that will make up the four squares background
         let mut rectangle1 = Rectangle::new() // Top-left
@@ -76,7 +76,7 @@ impl Layer for FourSquaresBackground {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::two_squares::TwoSquaresElement.type_id(), // The two squares big element doesn't differentiate from this background
+            big_elements::two_squares::BigElementTwoSquares.type_id(), // The two squares big element doesn't differentiate from this background
         ]
     }
 }

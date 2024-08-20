@@ -3,9 +3,9 @@ use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Definitions, Element, Line, Pattern, Rectangle};
 
-pub struct ThreeStripesBackground;
+pub struct BackgroundThreeStripes;
 
-impl Layer for ThreeStripesBackground {
+impl Layer for BackgroundThreeStripes {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the colors for the stripes
         let (color1, color2, color3) = if base_color.is_some() {
