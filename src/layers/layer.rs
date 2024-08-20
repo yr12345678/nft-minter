@@ -1,6 +1,6 @@
 use crate::hsl::*;
 use random::Random;
-use std::any::{Any, TypeId};
+use std::any::{Any, TypeId, type_name};
 use svg::node::element::Element;
 
 pub trait Layer: Any {
@@ -12,5 +12,9 @@ pub trait Layer: Any {
 
     fn layer_type(&self) -> TypeId {
         TypeId::of::<Self>()
+    }
+
+    fn layer_name(&self) -> String {
+        type_name::<Self>().split("::").last().unwrap().to_string()
     }
 }

@@ -3,7 +3,7 @@ use crate::layers::*;
 use random::Random;
 use svg::Document;
 
-pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
+pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
     // Instantiate the randomness
     let mut random = Random::new(seed);
 
@@ -55,18 +55,21 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> String {
     }
 
     // Generate the SVG
-    let document = generate_svg(layers, &mut random, &base_color);
+    let (document, layer_names) = generate_svg(layers, &mut random, &base_color);
 
-    document.to_string()
+    (document.to_string(), layer_names)
 }
 
 fn generate_svg(
     layers: Vec<Box<dyn Layer>>,
     random: &mut Random,
     base_color: &Option<HSL>,
-) -> Document {
+) -> (Document, Vec<String>) {
     // Set up the base Document
     let mut document = Document::new().set("viewBox", (0, 0, 1000, 1000));
+
+    // Vector of layer names
+    let mut layer_names: Vec<String> = vec![];
 
     // Iterate through all layers, generate them and add the elements to the Document
     for layer in layers {
@@ -74,7 +77,9 @@ fn generate_svg(
         for element in elements {
             document = document.add(element);
         }
+
+        layer_names.push(layer.layer_name());
     }
 
-    document
+    (document, layer_names)
 }

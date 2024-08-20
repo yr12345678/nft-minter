@@ -75,7 +75,7 @@ mod nft_minter {
             );
 
             // Generate our SVG data
-            let nft_image_data = nft_generator::generate_nft_image_data(&seed);
+            let (nft_image_data, layer_names) = nft_generator::generate_nft_image_data(&seed);
             let url_encoded_nft_image_data = urlencoding::encode(&nft_image_data).into_owned();
             let svg_data_uri = format!("data:image/svg+xml,{url_encoded_nft_image_data}");
             let svg_data_uri_hash = hash(svg_data_uri.clone());
@@ -95,6 +95,7 @@ mod nft_minter {
                     name: format!("NFT #{}", self.next_nft_id),
                     // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort and for fun if someone wants to use their own vanity seed
                     seed_lossy: String::from_utf8_lossy(&seed).into_owned(),
+                    layer_names,
                     svg_data: hex::encode(nft_image_data),
                 },
             );

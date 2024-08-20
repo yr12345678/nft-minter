@@ -6,6 +6,7 @@ pub struct NFTImage {
     pub key_image_url: Url,
     pub name: String,
     pub seed_lossy: String,
+    pub layer_names: Vec<String>,
     pub svg_data: String,
 }
 
