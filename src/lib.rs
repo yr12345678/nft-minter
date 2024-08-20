@@ -88,6 +88,7 @@ mod nft_minter {
                 NFTImage {
                     key_image_url: Url::of(svg_data_uri.clone()),
                     name: format!("NFT #{}", self.next_nft_id),
+                    seed: String::from_utf8_lossy(&seed).into_owned(), // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort
                     svg_data: hex::encode(nft_image_data),
                 },
             );

@@ -1,6 +1,7 @@
 use nft_minter::{nft_minter_test::*, types::NFTImage};
 use radix_common::network::NetworkDefinition;
 use rand::prelude::*;
+use scrypto::info;
 use scrypto_test::prelude::*;
 use scrypto_test::utils::dump_manifest_to_file_system;
 use std::fs;
@@ -33,6 +34,8 @@ fn mint_nft() -> Result<(), RuntimeError> {
                 .clone(),
             &mut env,
         )?;
+
+        println!("{:?}", nft_data);
 
         fs::write(
             format!("test_images/{i}.svg"),
