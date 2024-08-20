@@ -1,7 +1,7 @@
 use std::any::Any;
 
 use crate::hsl::*;
-use crate::layers::big_elements;
+use crate::layers::{big_elements, small_elements};
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
@@ -114,6 +114,7 @@ impl Layer for ThreeWaySplitBackground {
             big_elements::half_circle::HalfCircle.type_id(),
             big_elements::triangle::BigTriangle.type_id(),
             big_elements::two_squares::TwoSquaresElement.type_id(),
+            small_elements::stacked_triangles::StackedTriangles.type_id()
         ]
     }
 }
