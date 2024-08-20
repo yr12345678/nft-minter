@@ -82,6 +82,8 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
             &mut env,
         )?;
 
+        println!("{:?}", nft_data);
+
         fs::write(
             format!("test_images/{i}.svg"),
             hex::decode(nft_data.svg_data).unwrap(),
