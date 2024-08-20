@@ -22,7 +22,7 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         Box::new(HalfCircle),
         Box::new(ThreeQuarterCircle),
         Box::new(FullCircle),
-        Box::new(ConcentricCircles),
+        // Box::new(ConcentricCircles),
         Box::new(BigTriangle),
         Box::new(TwoSquaresElement),
     ];

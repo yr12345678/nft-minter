@@ -22,7 +22,6 @@ fn mint_nft() -> Result<(), RuntimeError> {
     for i in 1..1001 {
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
-        // let seed = random_string.into_bytes();
         let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;
 
         let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
