@@ -63,7 +63,12 @@ impl Layer for BackgroundThreeStripes {
             .set("fill", color3);
 
         // Add the stripes to a pattern an add that to the definitions
-        let translate_amount = if *rotate_amount == 45 || *rotate_amount == -45 { 7 } else { 0 }; // This is a dirty fix for aligning the lines neatly with the corners
+        let translate_amount = match *rotate_amount {
+             // This is a dirty fix for aligning the lines neatly with the corners
+            45 => "7",
+            -45 => "0, 7",
+            _ => "0"
+        };
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
             .set("id", pattern_name.clone())
