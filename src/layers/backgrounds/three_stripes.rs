@@ -1,7 +1,7 @@
 use crate::hsl::*;
 use crate::layers::Layer;
 use random::Random;
-use svg::node::element::{Definitions, Element, Line, Pattern, Rectangle};
+use svg::node::element::{Definitions, Element, Pattern, Rectangle};
 
 pub struct BackgroundThreeStripes;
 
@@ -41,23 +41,26 @@ impl Layer for BackgroundThreeStripes {
             .expect("Did not find a valid rotation amount. This should never happen.");
 
         // Generate the stripes
-        let line1 = Line::new()
-            .set("x1", 50)
-            .set("x2", 50)
-            .set("y2", 1)
-            .set("style", format!("stroke:{color1}; stroke-width:100"));
+        let rectangle1 = Rectangle::new()
+            .set("x", 0)
+            .set("y", 0)
+            .set("height", 50)
+            .set("width", "100%")
+            .set("fill", color1);
 
-        let line2 = Line::new()
-            .set("x1", 150)
-            .set("x2", 150)
-            .set("y2", 1)
-            .set("style", format!("stroke:{color2}; stroke-width:100"));
+        let rectangle2 = Rectangle::new()
+            .set("x", 0)
+            .set("y", 50)
+            .set("height", 50)
+            .set("width", "100%")
+            .set("fill", color2);
 
-        let line3 = Line::new()
-            .set("x1", 250)
-            .set("x2", 250)
-            .set("y2", 1)
-            .set("style", format!("stroke:{color3}; stroke-width:100"));
+        let rectangle3 = Rectangle::new()
+            .set("x", 0)
+            .set("y", 100)
+            .set("height", 50)
+            .set("width", "100%")
+            .set("fill", color3);
 
         // Add the stripes to a pattern an add that to the definitions
         let translate_amount = if *rotate_amount == 45 { 7 } else { 0 }; // This is a dirty fix for aligning the lines neatly with the corners
@@ -69,11 +72,11 @@ impl Layer for BackgroundThreeStripes {
                 format!("rotate({rotate_amount}) translate({translate_amount})"),
             )
             .set("patternUnits", "userSpaceOnUse")
-            .set("width", 300)
-            .set("height", 1)
-            .add(line1)
-            .add(line2)
-            .add(line3);
+            .set("width", "100%")
+            .set("height", 150)
+            .add(rectangle1)
+            .add(rectangle2)
+            .add(rectangle3);
 
         let defs = Definitions::new().add(pattern);
 
