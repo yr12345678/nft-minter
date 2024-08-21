@@ -44,21 +44,21 @@ impl Layer for BackgroundThreeStripes {
         let rectangle1 = Rectangle::new()
             .set("x", 0)
             .set("y", 0)
-            .set("height", 50)
+            .set("height", 100)
             .set("width", "100%")
             .set("fill", color1);
 
         let rectangle2 = Rectangle::new()
             .set("x", 0)
-            .set("y", 50)
-            .set("height", 50)
+            .set("y", 100)
+            .set("height", 100)
             .set("width", "100%")
             .set("fill", color2);
 
         let rectangle3 = Rectangle::new()
             .set("x", 0)
-            .set("y", 100)
-            .set("height", 50)
+            .set("y", 200)
+            .set("height", 100)
             .set("width", "100%")
             .set("fill", color3);
 
@@ -78,7 +78,7 @@ impl Layer for BackgroundThreeStripes {
             )
             .set("patternUnits", "userSpaceOnUse")
             .set("width", "100%")
-            .set("height", 150)
+            .set("height", 300)
             .add(rectangle1)
             .add(rectangle2)
             .add(rectangle3);
