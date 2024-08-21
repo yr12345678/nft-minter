@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::Any;
+
+use crate::{hsl::*, layers::big_elements};
 use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Rectangle};
@@ -34,7 +36,7 @@ impl Layer for BackgroundThreeStripes {
             }
         };
 
-        // Randomly set rotation and stroke widths
+        // Randomly set rotation
         let valid_rotate_amounts = [-45, 0, 45, 90];
         let rotate_amount = valid_rotate_amounts
             .get(random.roll::<usize>(4))
@@ -64,10 +66,10 @@ impl Layer for BackgroundThreeStripes {
 
         // Add the stripes to a pattern an add that to the definitions
         let translate_amount = match *rotate_amount {
-             // This is a dirty fix for aligning the lines neatly with the corners
+            // This is a dirty fix for aligning the lines neatly with the corners
             45 => "7",
             -45 => "0, 7",
-            _ => "0"
+            _ => "0",
         };
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
@@ -92,5 +94,11 @@ impl Layer for BackgroundThreeStripes {
             .set("fill", format!("url(#{pattern_name})"));
 
         vec![defs.into(), background.into()]
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            big_elements::zig_zag::BigElementZigZag.type_id()
+        ]
     }
 }

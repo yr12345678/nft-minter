@@ -1,4 +1,7 @@
+use std::any::Any;
+
 use crate::hsl::*;
+use crate::layers::big_elements;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
@@ -84,5 +87,11 @@ impl Layer for BackgroundDiagonalSplit {
                 triangle2.into(),
             ]
         }
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            big_elements::zig_zag::BigElementZigZag.type_id()
+        ]
     }
 }

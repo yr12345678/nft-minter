@@ -14,7 +14,7 @@ impl Layer for BigElementQuarterCircle {
                 Data::new()
                     .move_to((0, 771))
                     .elliptical_arc_to((1000, 1000, 0, 0, 0, 771, 0))
-                    .line_to((0,0))
+                    .line_to((0, 0))
                     .close()
             }
             1 => {
@@ -22,7 +22,7 @@ impl Layer for BigElementQuarterCircle {
                 Data::new()
                     .move_to((229, 0))
                     .elliptical_arc_to((1000, 1000, 0, 0, 0, 1000, 771))
-                    .line_to((1000,0))
+                    .line_to((1000, 0))
                     .close()
             }
             2 => {
@@ -30,7 +30,7 @@ impl Layer for BigElementQuarterCircle {
                 Data::new()
                     .move_to((1000, 229))
                     .elliptical_arc_to((1000, 1000, 0, 0, 0, 229, 1000))
-                    .line_to((1000,1000))
+                    .line_to((1000, 1000))
                     .close()
             }
             3 => {
@@ -38,7 +38,7 @@ impl Layer for BigElementQuarterCircle {
                 Data::new()
                     .move_to((771, 1000))
                     .elliptical_arc_to((1000, 1000, 0, 0, 0, 0, 229))
-                    .line_to((0,1000))
+                    .line_to((0, 1000))
                     .close()
             }
             _ => panic!("Unknown direction"),
