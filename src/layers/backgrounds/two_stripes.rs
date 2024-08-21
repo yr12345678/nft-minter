@@ -5,12 +5,13 @@ use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Rectangle};
 
-pub struct BackgroundThreeStripes;
+pub struct BackgroundTwoStripes;
 
-impl Layer for BackgroundThreeStripes {
+impl Layer for BackgroundTwoStripes {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the colors for the stripes
-        let (color1, color2, color3) = if base_color.is_some() {
+        // Generate the colors for the stripes, we ignore one color as that's a bit easier
+        // with the color generation methods.
+        let (color1, color2, _) = if base_color.is_some() {
             // We use the base color for everything
             match random.roll::<u8>(3) {
                 0 => (
@@ -46,23 +47,16 @@ impl Layer for BackgroundThreeStripes {
         let rectangle1 = Rectangle::new()
             .set("x", 0)
             .set("y", 0)
-            .set("height", 100)
+            .set("height", 200)
             .set("width", "100%")
             .set("fill", color1);
 
         let rectangle2 = Rectangle::new()
             .set("x", 0)
-            .set("y", 100)
-            .set("height", 100)
+            .set("y", 200)
+            .set("height", 200)
             .set("width", "100%")
             .set("fill", color2);
-
-        let rectangle3 = Rectangle::new()
-            .set("x", 0)
-            .set("y", 200)
-            .set("height", 100)
-            .set("width", "100%")
-            .set("fill", color3);
 
         // Add the stripes to a pattern an add that to the definitions
         let translate_amount = match *rotate_amount {
@@ -80,10 +74,9 @@ impl Layer for BackgroundThreeStripes {
             )
             .set("patternUnits", "userSpaceOnUse")
             .set("width", "100%")
-            .set("height", 300)
+            .set("height", 400)
             .add(rectangle1)
-            .add(rectangle2)
-            .add(rectangle3);
+            .add(rectangle2);
 
         let defs = Definitions::new().add(pattern);
 
