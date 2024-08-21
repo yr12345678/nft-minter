@@ -11,7 +11,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
     let mut layers: Vec<Box<dyn Layer>> = Vec::new();
 
     // Optionally pick a base color
-    let base_color = if random.roll::<u8>(100) < 20 {
+    let base_color = if random.roll::<u8>(100) < 30 {
         Some(HSL::new_random(&mut random, ColorMode::Vibrant, 100))
     } else {
         None
@@ -27,6 +27,16 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
         let background = random_background(&mut random);
         exclusions.append(&mut background.exclusions());
         layers.push(background);
+
+        // // Potentially add an outline and add any exclusions to the exclusions list
+        // if random.roll::<u8>(100) < 20 && base_color.is_some() {
+        //     let outline = random_outline(&mut random, &exclusions);
+        //     if outline.is_some() {
+        //         let unwrapped = outline.unwrap();
+        //         exclusions.append(&mut unwrapped.exclusions());
+        //         layers.push(unwrapped);
+        //     }
+        // }         
 
         // Potentially add a pattern
         // if random.roll::<u8>(100) < 10 {
@@ -51,7 +61,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
                 exclusions.append(&mut unwrapped.exclusions());
                 layers.push(unwrapped);
             }
-        }
+        }       
     }
 
     // Generate the SVG

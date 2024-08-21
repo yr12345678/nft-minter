@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::Any;
+
+use crate::{hsl::*, layers::outlines};
 use crate::layers::Layer;
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Polygon, Rectangle};
@@ -54,5 +56,11 @@ impl Layer for BigElementZigZag {
             .set("fill", format!("url(#{pattern_name})"));
 
         vec![defs.into(), rectangle.into()]
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            outlines::outline_straight::OutlineStraight.type_id()
+        ]
     }
 }

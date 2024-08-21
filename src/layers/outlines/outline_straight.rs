@@ -4,39 +4,30 @@ use crate::utils::*;
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct SmallElementSquare;
+pub struct OutlineStraight;
 
-impl Layer for SmallElementSquare {
+impl Layer for OutlineStraight {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the required values for building the rectangle. It will vary in size
-        // and we have to adjust its position and corner radius with it.
-        let random_dimension = random.in_range::<u16>(75, 125) * 2;
-        let rx = random_dimension / 5; // This will just get rounded, which is fine
-        let position = 500 - (random_dimension / 2);
+        // Randomly set stroke width
+        let valid_stroke_widths = [100]; // Should be divisable by 2
+        let stroke_width = valid_stroke_widths
+            .get(random.roll::<usize>(1))
+            .expect("Did not find a valid stroke width. This should never happen.");
 
-        // Build the rectangle
+        // Generate the rectangle that will be our background
         let mut rectangle = Rectangle::new()
-            .set("width", random_dimension)
-            .set("height", random_dimension)
-            .set("x", position)
-            .set("y", position);
-
-        // Possibly add a 45 degree rotation
-        if random.next_bool() {
-            rectangle = rectangle.set("transform", "rotate(45, 500, 500)");
-        }
-
-        // Possibly add rounded corners
-        if random.next_bool() {
-            rectangle = rectangle.set("rx", rx);
-        }
+            .set("stroke-width", *stroke_width)
+            .set("fill", "none")
+            .set("x", *stroke_width / 2)
+            .set("y", *stroke_width / 2)
+            .set("width", 1000 - *stroke_width)
+            .set("height", 1000 - *stroke_width);
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
             // Pick a solid color
             let color = if base_color.is_some() {
-                // Use the base color and derive something similar
-                base_color.unwrap().derive_similar_color(random).as_string()
+                base_color.unwrap().as_string() // Since it's a solid background, we just use the base color as the background
             } else {
                 // Pick a random color, but prefer vibrant
                 if random.roll::<u8>(100) < 30 {
@@ -46,7 +37,7 @@ impl Layer for SmallElementSquare {
                 }
             };
 
-            rectangle = rectangle.set("fill", color);
+            rectangle = rectangle.set("stroke", color);
 
             vec![rectangle.into()]
         } else {
@@ -66,7 +57,7 @@ impl Layer for SmallElementSquare {
                 }
             };
 
-            rectangle = rectangle.set("fill", format!("url(#{gradient_name})",));
+            rectangle = rectangle.set("stroke", format!("url(#{gradient_name})",));
 
             vec![gradient.into(), rectangle.into()]
         }

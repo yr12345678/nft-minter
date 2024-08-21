@@ -11,6 +11,7 @@ impl Layer for BigElementSquare {
         // Generate the required values for building the rectangle. It will vary in size
         // and we have to adjust its position with it.
         let random_dimension = random.in_range::<u16>(200, 300) * 2;
+        let rx = random_dimension / 5; // This will just get rounded, which is fine
         let position = 500 - (random_dimension / 2);
 
         // Build the rectangle
@@ -25,6 +26,11 @@ impl Layer for BigElementSquare {
         if random.next_bool() {
             rectangle = rectangle.set("transform", "rotate(45, 500, 500)");
         }
+
+        // Possibly add rounded corners
+        if random.next_bool() {
+            rectangle = rectangle.set("rx", rx);
+        }        
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
