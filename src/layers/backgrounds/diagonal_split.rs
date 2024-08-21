@@ -90,8 +90,6 @@ impl Layer for BackgroundDiagonalSplit {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            big_elements::zig_zag::BigElementZigZag.type_id()
-        ]
+        vec![big_elements::zig_zag::BigElementZigZag.type_id()]
     }
 }

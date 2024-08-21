@@ -4,9 +4,9 @@ use crate::utils::*;
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct BigElementRectangle;
+pub struct BigElementSquare;
 
-impl Layer for BigElementRectangle {
+impl Layer for BigElementSquare {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the required values for building the rectangle. It will vary in size
         // and we have to adjust its position with it.

@@ -1,7 +1,7 @@
 use std::any::TypeId;
 
 use crate::layers::Layer;
-// use concentric_circles::ConcentricCircles;
+use big_element_square::BigElementSquare;
 use full_circle::BigElementFullCircle;
 use half_circle::BigElementHalfCircle;
 use quarter_circle::BigElementQuarterCircle;
@@ -11,8 +11,8 @@ use three_quarter_circle::BigElementThreeQuarterCircle;
 use triangle::BigElementTriangle;
 use two_squares::BigElementTwoSquares;
 use zig_zag::BigElementZigZag;
-use rectangle::BigElementRectangle;
 
+pub mod big_element_square;
 pub mod concentric_circles;
 pub mod full_circle;
 pub mod half_circle;
@@ -21,19 +21,17 @@ pub mod three_quarter_circle;
 pub mod triangle;
 pub mod two_squares;
 pub mod zig_zag;
-pub mod rectangle;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     let available_layers: Vec<Box<dyn Layer>> = vec![
         Box::new(BigElementHalfCircle),
         Box::new(BigElementThreeQuarterCircle),
         Box::new(BigElementFullCircle),
-        // Box::new(ConcentricCircles),
         Box::new(BigElementTriangle),
         Box::new(BigElementTwoSquares),
         Box::new(BigElementQuarterCircle),
         Box::new(BigElementZigZag),
-        Box::new(BigElementRectangle),
+        Box::new(BigElementSquare),
     ];
 
     // Filter out the excluded layers

@@ -1,7 +1,7 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::big_elements};
 use crate::layers::Layer;
+use crate::{hsl::*, layers::big_elements};
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Rectangle};
 
@@ -90,8 +90,6 @@ impl Layer for BackgroundTwoStripes {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            big_elements::zig_zag::BigElementZigZag.type_id()
-        ]
+        vec![big_elements::zig_zag::BigElementZigZag.type_id()]
     }
 }
