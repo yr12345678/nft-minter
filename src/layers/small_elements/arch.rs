@@ -4,9 +4,9 @@ use random::Random;
 use svg::node::element::path::Data;
 use svg::node::element::{Element, Path};
 
-pub struct SmallElementGate;
+pub struct SmallElementArch;
 
-impl Layer for SmallElementGate {
+impl Layer for SmallElementArch {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         let random_width = random.in_range::<u16>(50, 125);
         let radius = random_width / 2; // Will get rounded, but no big issue
