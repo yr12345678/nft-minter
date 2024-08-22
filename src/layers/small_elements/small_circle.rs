@@ -7,7 +7,7 @@ pub struct SmallElementCircle;
 
 impl Layer for SmallElementCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        let random_radius = random.in_range::<u16>(50, 125) * 2; // Always an even number
+        let random_radius = random.in_range::<u16>(50, 100) * 2; // Always an even number
 
         let mut circle = Circle::new()
             .set("cx", 500)
