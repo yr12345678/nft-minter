@@ -28,15 +28,15 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
         exclusions.append(&mut background.exclusions());
         layers.push(background);
 
-        // // Potentially add an outline and add any exclusions to the exclusions list
-        // if random.roll::<u8>(100) < 20 && base_color.is_some() {
-        //     let outline = random_outline(&mut random, &exclusions);
-        //     if outline.is_some() {
-        //         let unwrapped = outline.unwrap();
-        //         exclusions.append(&mut unwrapped.exclusions());
-        //         layers.push(unwrapped);
-        //     }
-        // }         
+        // Potentially add an outline and add any exclusions to the exclusions list
+        if random.roll::<u8>(100) < 20 && base_color.is_some() {
+            let outline = random_outline(&mut random, &exclusions);
+            if outline.is_some() {
+                let unwrapped = outline.unwrap();
+                exclusions.append(&mut unwrapped.exclusions());
+                layers.push(unwrapped);
+            }
+        }         
 
         // Potentially add a pattern
         // if random.roll::<u8>(100) < 10 {

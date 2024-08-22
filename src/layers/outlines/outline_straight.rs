@@ -25,9 +25,15 @@ impl Layer for OutlineStraight {
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
-            // Pick a solid color
+            // Pick a darker solid color
             let color = if base_color.is_some() {
-                base_color.unwrap().as_string() // Since it's a solid background, we just use the base color as the background
+                let unwrapped = base_color.unwrap();
+
+                HSL {
+                    
+                    lightness: unwrapped.lightness - 30,
+                    ..unwrapped
+                }.as_string()
             } else {
                 // Pick a random color, but prefer vibrant
                 if random.roll::<u8>(100) < 30 {
