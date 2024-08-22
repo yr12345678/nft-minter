@@ -19,8 +19,7 @@ impl Layer for BigElementSquare {
             .set("width", random_dimension)
             .set("height", random_dimension)
             .set("x", position)
-            .set("y", position)
-            .set("transform", "rotate(45, 500, 500)");
+            .set("y", position);
 
         // Possibly add a 45 degree rotation
         if random.next_bool() {
