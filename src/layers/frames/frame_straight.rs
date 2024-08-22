@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::Any;
+
+use crate::{hsl::*, layers::big_elements};
 use crate::layers::Layer;
 use crate::utils::*;
 use random::Random;
@@ -67,5 +69,20 @@ impl Layer for FrameStraight {
 
             vec![gradient.into(), rectangle.into()]
         }
+    }
+    
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        // Prevent the frame from having any big elements on top
+        vec![
+            big_elements::big_element_square::BigElementSquare.type_id(),
+            big_elements::concentric_circles::ConcentricCircles.type_id(),
+            big_elements::full_circle::BigElementFullCircle.type_id(),
+            big_elements::half_circle::BigElementHalfCircle.type_id(),
+            big_elements::quarter_circle::BigElementQuarterCircle.type_id(),
+            big_elements::three_quarter_circle::BigElementThreeQuarterCircle.type_id(),
+            big_elements::triangle::BigElementTriangle.type_id(),
+            big_elements::two_squares::BigElementTwoSquares.type_id(),
+            big_elements::zig_zag::BigElementZigZag.type_id(),
+        ]
     }
 }

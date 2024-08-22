@@ -29,7 +29,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
         layers.push(background);
 
         // Potentially add a frame and add any exclusions to the exclusions list
-        if random.roll::<u8>(100) < 20 && base_color.is_some() {
+        if random.roll::<u8>(100) < 5 && base_color.is_some() {
             let frame = random_frame(&mut random, &exclusions);
             if frame.is_some() {
                 let unwrapped = frame.unwrap();
