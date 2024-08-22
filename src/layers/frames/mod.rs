@@ -3,13 +3,13 @@ use std::any::TypeId;
 use crate::layers::Layer;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
-use outline_straight::OutlineStraight;
+use frame_straight::FrameStraight;
 
-pub mod outline_straight;
+pub mod frame_straight;
 
-pub fn random_outline(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
+pub fn random_frame(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     let available_layers: Vec<Box<dyn Layer>> =
-        vec![Box::new(OutlineStraight)];
+        vec![Box::new(FrameStraight)];
 
     // Filter out the excluded layers
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers

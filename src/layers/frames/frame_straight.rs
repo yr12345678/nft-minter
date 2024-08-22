@@ -4,9 +4,9 @@ use crate::utils::*;
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
-pub struct OutlineStraight;
+pub struct FrameStraight;
 
-impl Layer for OutlineStraight {
+impl Layer for FrameStraight {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Randomly set stroke width
         let valid_stroke_widths = [100]; // Should be divisable by 2
