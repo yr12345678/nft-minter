@@ -1,15 +1,14 @@
 use std::any::TypeId;
 
 use crate::layers::Layer;
+use frame_straight::FrameStraight;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
-use frame_straight::FrameStraight;
 
 pub mod frame_straight;
 
 pub fn random_frame(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
-    let available_layers: Vec<Box<dyn Layer>> =
-        vec![Box::new(FrameStraight)];
+    let available_layers: Vec<Box<dyn Layer>> = vec![Box::new(FrameStraight)];
 
     // Filter out the excluded layers
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers

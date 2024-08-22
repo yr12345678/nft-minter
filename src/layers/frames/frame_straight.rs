@@ -30,10 +30,10 @@ impl Layer for FrameStraight {
                 let unwrapped = base_color.unwrap();
 
                 HSL {
-                    
                     lightness: unwrapped.lightness - 30,
                     ..unwrapped
-                }.as_string()
+                }
+                .as_string()
             } else {
                 // Pick a random color, but prefer vibrant
                 if random.roll::<u8>(100) < 30 {

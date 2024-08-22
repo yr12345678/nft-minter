@@ -1,7 +1,7 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::frames};
 use crate::layers::Layer;
+use crate::{hsl::*, layers::frames};
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Polygon, Rectangle};
 
@@ -59,8 +59,6 @@ impl Layer for BigElementZigZag {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            frames::frame_straight::FrameStraight.type_id()
-        ]
+        vec![frames::frame_straight::FrameStraight.type_id()]
     }
 }

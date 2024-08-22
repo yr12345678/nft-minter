@@ -36,7 +36,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
                 exclusions.append(&mut unwrapped.exclusions());
                 layers.push(unwrapped);
             }
-        }         
+        }
 
         // Potentially add a pattern
         // if random.roll::<u8>(100) < 10 {
@@ -61,7 +61,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
                 exclusions.append(&mut unwrapped.exclusions());
                 layers.push(unwrapped);
             }
-        }       
+        }
     }
 
     // Generate the SVG

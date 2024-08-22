@@ -1,17 +1,22 @@
 use std::any::TypeId;
 
 use crate::layers::Layer;
+use gate::SmallElementGate;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
 use small_circle::SmallElementCircle;
 use small_element_square::SmallElementSquare;
 
+pub mod gate;
 pub mod small_circle;
 pub mod small_element_square;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
-    let available_layers: Vec<Box<dyn Layer>> =
-        vec![Box::new(SmallElementCircle), Box::new(SmallElementSquare)];
+    let available_layers: Vec<Box<dyn Layer>> = vec![
+        Box::new(SmallElementCircle),
+        Box::new(SmallElementSquare),
+        Box::new(SmallElementGate),
+    ];
 
     // Filter out the excluded layers
     let allowed_layers: Vec<Box<dyn Layer>> = available_layers

@@ -30,7 +30,7 @@ impl Layer for BigElementSquare {
         // Possibly add rounded corners
         if random.next_bool() {
             rectangle = rectangle.set("rx", rx);
-        }        
+        }
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
