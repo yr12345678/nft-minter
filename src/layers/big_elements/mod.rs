@@ -13,7 +13,6 @@ use two_squares::BigElementTwoSquares;
 use zig_zag::BigElementZigZag;
 
 pub mod big_element_square;
-pub mod concentric_circles;
 pub mod full_circle;
 pub mod half_circle;
 pub mod quarter_circle;

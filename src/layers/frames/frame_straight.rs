@@ -75,7 +75,6 @@ impl Layer for FrameStraight {
         // Prevent the frame from having any big elements on top
         vec![
             big_elements::big_element_square::BigElementSquare.type_id(),
-            big_elements::concentric_circles::ConcentricCircles.type_id(),
             big_elements::full_circle::BigElementFullCircle.type_id(),
             big_elements::half_circle::BigElementHalfCircle.type_id(),
             big_elements::quarter_circle::BigElementQuarterCircle.type_id(),
