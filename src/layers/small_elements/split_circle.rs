@@ -18,15 +18,15 @@ impl Layer for SmallElementSplitCircle {
 
         let data2 = Data::new()
             .move_to((500 - random_radius, 500))
-            .elliptical_arc_to((50, 50, 0, 0, 0, 500 + random_radius, 500));   
+            .elliptical_arc_to((50, 50, 0, 0, 0, 500 + random_radius, 500));
 
         // Possible add a rotation
         let valid_rotate_amounts = [0, 45, 90, 135, 180, 225, 270, 315];
         let rotate_amount = valid_rotate_amounts
             .get(random.roll::<usize>(8))
-            .expect("Did not find a valid rotation amount. This should never happen.");  
+            .expect("Did not find a valid rotation amount. This should never happen.");
 
-        // Generate the paths        
+        // Generate the paths
         let mut path1 = Path::new()
             .set("d", data1)
             .set("transform", format!("rotate({rotate_amount}, 500, 500)"));

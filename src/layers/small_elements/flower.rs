@@ -1,0 +1,86 @@
+use crate::hsl::*;
+use crate::{layers::Layer, utils::*};
+use random::Random;
+use svg::node::element::path::Data;
+use svg::node::element::{Element, Path};
+
+pub struct SmallElementFlower;
+
+impl Layer for SmallElementFlower {
+    fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
+        // Get a random size
+        let random_size = random.in_range::<u16>(25, 50) * 2; // Always an even number
+
+        // Generate the half circles
+        let data = Data::new()
+            .move_to((500 - random_size, 500 - random_size))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500 + random_size, 500 - random_size))
+            .move_to((500 + random_size, 500 - random_size))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500 + random_size, 500 + random_size))
+            .move_to((500 + random_size, 500 + random_size))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500 - random_size, 500 + random_size))
+            .move_to((500 - random_size, 500 + random_size))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500 - random_size, 500 - random_size))
+            .move_to((500 - random_size, 500 - random_size))
+            .horizontal_line_to(500 + random_size)
+            .vertical_line_to(500 + random_size)
+            .horizontal_line_to(500 - random_size)
+            .close();
+
+        // Possibly add a rotation
+        let valid_rotate_amounts = [0, 45];
+        let rotate_amount = valid_rotate_amounts
+            .get(random.roll::<usize>(2))
+            .expect("Did not find a valid rotation amount. This should never happen.");
+
+        // Generate the paths
+        let mut path1 = Path::new()
+            .set("d", data)
+            .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
+
+        // Pick random solid colors
+        if random.roll::<u8>(100) < 85 {
+            // Solid colors
+            let color = if base_color.is_some() {
+                // Use the base color
+                base_color.unwrap().derive_similar_color(random).as_string()
+            } else {
+                // Random colors
+                let color_mode = match random.roll::<u8>(2) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    _ => panic!("Invalid color mode"),
+                };
+
+                HSL::new_random(random, color_mode, 100).as_string()
+            };
+
+            // Add the fill to the paths
+            path1 = path1.set("fill", color);
+
+            vec![path1.into()]
+        } else {
+            let (gradient1, gradient1_name) = if base_color.is_some()
+            {
+                // We have a base color, so we derive something similar
+                let color1 = base_color.unwrap().derive_similar_color(random);
+                let color2 = base_color.unwrap().derive_similar_color(random);
+
+                gradient_definition(random, Some(45), color1, color2)
+            } else {
+                // Generate random gradients
+                let color_mode = match random.roll::<u8>(2) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    _ => panic!("Invalid color mode"),
+                };
+
+                random_gradient_definition(random, Some(45), color_mode, 100)
+            };
+
+            path1 = path1.set("fill", format!("url(#{gradient1_name})"));
+
+            vec![gradient1.into(), path1.into()]
+        }
+    }
+}

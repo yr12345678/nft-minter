@@ -1,8 +1,8 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::big_elements};
 use crate::layers::Layer;
 use crate::utils::*;
+use crate::{hsl::*, layers::big_elements};
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
@@ -70,7 +70,7 @@ impl Layer for FrameStraight {
             vec![gradient.into(), rectangle.into()]
         }
     }
-    
+
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         // Prevent the frame from having any big elements on top
         vec![

@@ -2,6 +2,8 @@ use std::any::TypeId;
 
 use crate::layers::Layer;
 use arch::SmallElementArch;
+use flower::SmallElementFlower;
+use four_circles::SmallElementFourCircles;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
 use small_circle::SmallElementCircle;
@@ -10,6 +12,8 @@ use split_circle::SmallElementSplitCircle;
 use split_circle_opposite::SmallElementSplitCircleOpposite;
 
 pub mod arch;
+pub mod flower;
+pub mod four_circles;
 pub mod small_circle;
 pub mod small_element_square;
 pub mod split_circle;
@@ -22,6 +26,8 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         Box::new(SmallElementArch),
         Box::new(SmallElementSplitCircle),
         Box::new(SmallElementSplitCircleOpposite),
+        Box::new(SmallElementFourCircles),
+        Box::new(SmallElementFlower),
     ];
 
     // Filter out the excluded layers
