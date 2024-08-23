@@ -60,7 +60,7 @@ impl Layer for BackgroundFourSquares {
             )
         };
 
-        // Add the fill to the triangles
+        // Add the fill to the rectangles
         rectangle1 = rectangle1.set("fill", color1);
         rectangle2 = rectangle2.set("fill", color2);
         rectangle3 = rectangle3.set("fill", color3);

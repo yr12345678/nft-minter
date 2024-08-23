@@ -1,24 +1,39 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use svg::node::element::{Element, Rectangle};
+use svg::node::element::path::Data;
+use svg::node::element::{Element, Path};
 
-pub struct BigElementTwoSquares;
+pub struct SmallElementSplitCircle;
 
-impl Layer for BigElementTwoSquares {
+impl Layer for SmallElementSplitCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the squares that will make up the four squares background
-        let mut rectangle1 = Rectangle::new() // Top-left
-            .set("x", 0)
-            .set("y", 0)
-            .set("width", "50%")
-            .set("height", "50%");
+        // Get a random radius
+        let random_radius = random.in_range::<u16>(50, 100) * 2; // Always an even number
 
-        let mut rectangle2 = Rectangle::new() // Bottom-left
-            .set("x", 0)
-            .set("y", 500)
-            .set("width", "50%")
-            .set("height", "50%");
+        // Generate the half circles
+        let data1 = Data::new()
+            .move_to((500 - random_radius, 500))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500 + random_radius, 500));
+
+        let data2 = Data::new()
+            .move_to((500 - random_radius, 500))
+            .elliptical_arc_to((50, 50, 0, 0, 0, 500 + random_radius, 500));   
+
+        // Possible add a rotation
+        let valid_rotate_amounts = [0, 45, 90, 135, 180, 225, 270, 315];
+        let rotate_amount = valid_rotate_amounts
+            .get(random.roll::<usize>(8))
+            .expect("Did not find a valid rotation amount. This should never happen.");  
+
+        // Generate the paths        
+        let mut path1 = Path::new()
+            .set("d", data1)
+            .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
+
+        let mut path2 = Path::new()
+            .set("d", data2)
+            .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
@@ -43,11 +58,11 @@ impl Layer for BigElementTwoSquares {
                 )
             };
 
-            // Add the fill to the rectangles
-            rectangle1 = rectangle1.set("fill", color1);
-            rectangle2 = rectangle2.set("fill", color2);
+            // Add the fill to the paths
+            path1 = path1.set("fill", color1);
+            path2 = path2.set("fill", color2);
 
-            vec![rectangle1.into(), rectangle2.into()]
+            vec![path1.into(), path2.into()]
         } else {
             let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
             {
@@ -75,14 +90,14 @@ impl Layer for BigElementTwoSquares {
                 )
             };
 
-            rectangle1 = rectangle1.set("fill", format!("url(#{gradient1_name})"));
-            rectangle2 = rectangle2.set("fill", format!("url(#{gradient2_name})"));
+            path1 = path1.set("fill", format!("url(#{gradient1_name})"));
+            path2 = path2.set("fill", format!("url(#{gradient2_name})"));
 
             vec![
                 gradient1.into(),
                 gradient2.into(),
-                rectangle1.into(),
-                rectangle2.into(),
+                path1.into(),
+                path2.into(),
             ]
         }
     }
