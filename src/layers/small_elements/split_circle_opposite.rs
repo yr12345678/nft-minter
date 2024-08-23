@@ -21,9 +21,9 @@ impl Layer for SmallElementSplitCircleOpposite {
             .elliptical_arc_to((50, 50, 0, 0, 1, 500 + random_radius, 500 + random_radius));
 
         // Possibly add a rotation
-        let valid_rotate_amounts = [0, 45, 90, 135, 180, 225, 270, 315];
+        let valid_rotate_amounts = [0, 45, 90, 135];
         let rotate_amount = valid_rotate_amounts
-            .get(random.roll::<usize>(8))
+            .get(random.roll::<usize>(4))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
         // Generate the paths
