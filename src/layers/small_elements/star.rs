@@ -25,8 +25,7 @@ impl Layer for SmallElementStar {
             .line_to((500, 500 + radius))
             .line_to((500 - radius / 3, 500 + radius / 3));
 
-        let mut path = Path::new()
-            .set("d", data);
+        let mut path = Path::new().set("d", data);
 
         // Possibly rotate
         if random.next_bool() {

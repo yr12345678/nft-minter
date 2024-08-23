@@ -60,8 +60,7 @@ impl Layer for SmallElementFlower {
 
             vec![path1.into()]
         } else {
-            let (gradient1, gradient1_name) = if base_color.is_some()
-            {
+            let (gradient1, gradient1_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
