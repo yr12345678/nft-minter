@@ -5,7 +5,6 @@ use arch::SmallElementArch;
 use random::Random;
 use scrypto::prelude::ToPrimitive;
 use small_circle::SmallElementCircle;
-// use small_circle_half_stroke::SmallElementCircleHalfStroke;
 use small_element_square::SmallElementSquare;
 
 pub mod arch;
@@ -18,7 +17,6 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         Box::new(SmallElementCircle),
         Box::new(SmallElementSquare),
         Box::new(SmallElementArch),
-        // Box::new(SmallElementCircleHalfStroke),
     ];
 
     // Filter out the excluded layers
