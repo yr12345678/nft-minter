@@ -14,6 +14,7 @@ impl Layer for SmallElementStar {
             .get(random.roll::<usize>(3))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
+        // Generate the star
         let data = Data::new()
             .move_to((500 - radius, 500))
             .line_to((500 - radius / 3, 500 - radius / 3))
