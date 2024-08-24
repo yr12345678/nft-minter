@@ -2,38 +2,34 @@ use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::path::Data;
-use svg::node::element::{Element, Path};
+use svg::node::element::{Element, Path, Circle};
 
-pub struct SmallElementSplitCircle;
+pub struct SmallElementYinYang;
 
-impl Layer for SmallElementSplitCircle {
+impl Layer for SmallElementYinYang {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Get a random radius
         let random_radius = random.in_range::<u16>(50, 100) * 2; // Always an even number
 
-        // Generate the half circles
-        let data1 = Data::new()
-            .move_to((500 - random_radius, 500))
-            .elliptical_arc_to((50, 50, 0, 0, 1, 500 + random_radius, 500));
+        // Generate the circle
+        let mut circle = Circle::new()
+            .set("cx", 500)
+            .set("cy", 500)
+            .set("r", random_radius);
 
-        let data2 = Data::new()
-            .move_to((500 - random_radius, 500))
-            .elliptical_arc_to((50, 50, 0, 0, 0, 500 + random_radius, 500));
+        // Generate the swirly thingy
+        let data = Data::new()
+            .move_to((500, 500 - random_radius))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500, 500))
+            .elliptical_arc_to((50, 50, 0, 0, 0, 500, 500 +random_radius))
+            .elliptical_arc_to((50, 50, 0, 0, 1, 500, 500 - random_radius));
+
+        let mut path = Path::new().set("d", data);
 
         // Possible add a rotation
-        let valid_rotate_amounts = [0, 45, 90, 135];
-        let rotate_amount = valid_rotate_amounts
-            .get(random.roll::<usize>(4))
-            .expect("Did not find a valid rotation amount. This should never happen.");
-
-        // Generate the paths
-        let mut path1 = Path::new()
-            .set("d", data1)
-            .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
-
-        let mut path2 = Path::new()
-            .set("d", data2)
-            .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
+        if random.next_bool() {
+            path = path.set("transform", "rotate(90, 500, 500)");
+        }
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
@@ -59,11 +55,11 @@ impl Layer for SmallElementSplitCircle {
                 )
             };
 
-            // Add the fill to the paths
-            path1 = path1.set("fill", color1);
-            path2 = path2.set("fill", color2);
+            // Add the fill
+            circle = circle.set("fill", color1);
+            path = path.set("fill", color2);
 
-            vec![path1.into(), path2.into()]
+            vec![circle.into(), path.into()]
         } else {
             let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
             {
@@ -92,14 +88,14 @@ impl Layer for SmallElementSplitCircle {
                 )
             };
 
-            path1 = path1.set("fill", format!("url(#{gradient1_name})"));
-            path2 = path2.set("fill", format!("url(#{gradient2_name})"));
+            circle = circle.set("fill", format!("url(#{gradient1_name})"));
+            path = path.set("fill", format!("url(#{gradient2_name})"));
 
             vec![
                 gradient1.into(),
                 gradient2.into(),
-                path1.into(),
-                path2.into(),
+                circle.into(),
+                path.into(),
             ]
         }
     }
