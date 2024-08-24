@@ -1,11 +1,13 @@
 use std::any::TypeId;
 
-use crate::layers::Layer;
+use crate::{
+    layers::Layer,
+    utils::{exclude_layers, pick_random_layer},
+};
 use arch::SmallElementArch;
 use flower::SmallElementFlower;
 use four_circles::SmallElementFourCircles;
 use random::Random;
-use scrypto::prelude::ToPrimitive;
 use small_circle::SmallElementCircle;
 use small_element_square::SmallElementSquare;
 use split_circle::SmallElementSplitCircle;
@@ -22,32 +24,21 @@ pub mod split_circle_opposite;
 pub mod star;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
-    let available_layers: Vec<Box<dyn Layer>> = vec![
-        Box::new(SmallElementCircle),
-        Box::new(SmallElementSquare),
-        Box::new(SmallElementArch),
-        Box::new(SmallElementSplitCircle),
-        Box::new(SmallElementSplitCircleOpposite),
-        Box::new(SmallElementFourCircles),
-        Box::new(SmallElementFlower),
-        Box::new(SmallElementStar),
+    // Layers and their weights
+    let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
+        (Box::new(SmallElementCircle), 100),
+        (Box::new(SmallElementSquare), 100),
+        (Box::new(SmallElementArch), 100),
+        (Box::new(SmallElementSplitCircle), 100),
+        (Box::new(SmallElementSplitCircleOpposite), 100),
+        (Box::new(SmallElementFourCircles), 20),
+        (Box::new(SmallElementFlower), 100),
+        (Box::new(SmallElementStar), 100),
     ];
 
     // Filter out the excluded layers
-    let allowed_layers: Vec<Box<dyn Layer>> = available_layers
-        .into_iter()
-        .filter(|layer| !exclusions.contains(&layer.layer_type()))
-        .collect();
+    let allowed_layers = exclude_layers(available_layers, exclusions);
 
-    if !allowed_layers.is_empty() {
-        // Pick a random layer
-        let variant = random
-            .roll::<u8>(allowed_layers.len().to_u8().unwrap())
-            .to_usize()
-            .unwrap();
-
-        Some(allowed_layers.into_iter().nth(variant).unwrap())
-    } else {
-        None
-    }
+    // Pick a random layer based on the weights of the allowed layers
+    pick_random_layer(random, allowed_layers)
 }

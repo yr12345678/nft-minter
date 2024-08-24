@@ -1,12 +1,14 @@
 use std::any::TypeId;
 
-use crate::layers::Layer;
+use crate::{
+    layers::Layer,
+    utils::{exclude_layers, pick_random_layer},
+};
 use big_element_square::BigElementSquare;
 use full_circle::BigElementFullCircle;
 use half_circle::BigElementHalfCircle;
 use quarter_circle::BigElementQuarterCircle;
 use random::Random;
-use scrypto::prelude::ToPrimitive;
 use three_quarter_circle::BigElementThreeQuarterCircle;
 use triangle::BigElementTriangle;
 use two_squares::BigElementTwoSquares;
@@ -22,32 +24,21 @@ pub mod two_squares;
 pub mod zig_zag;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
-    let available_layers: Vec<Box<dyn Layer>> = vec![
-        Box::new(BigElementHalfCircle),
-        Box::new(BigElementThreeQuarterCircle),
-        Box::new(BigElementFullCircle),
-        Box::new(BigElementTriangle),
-        Box::new(BigElementTwoSquares),
-        Box::new(BigElementQuarterCircle),
-        Box::new(BigElementZigZag),
-        Box::new(BigElementSquare),
+    // Layers and their weights
+    let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
+        (Box::new(BigElementHalfCircle), 100),
+        (Box::new(BigElementThreeQuarterCircle), 100),
+        (Box::new(BigElementFullCircle), 100),
+        (Box::new(BigElementTriangle), 100),
+        (Box::new(BigElementTwoSquares), 100),
+        (Box::new(BigElementQuarterCircle), 100),
+        (Box::new(BigElementZigZag), 100),
+        (Box::new(BigElementSquare), 100),
     ];
 
     // Filter out the excluded layers
-    let allowed_layers: Vec<Box<dyn Layer>> = available_layers
-        .into_iter()
-        .filter(|layer| !exclusions.contains(&layer.layer_type()))
-        .collect();
+    let allowed_layers = exclude_layers(available_layers, exclusions);
 
-    if !allowed_layers.is_empty() {
-        // Pick a random layer
-        let variant = random
-            .roll::<u8>(allowed_layers.len().to_u8().unwrap())
-            .to_usize()
-            .unwrap();
-
-        Some(allowed_layers.into_iter().nth(variant).unwrap())
-    } else {
-        None
-    }
+    // Pick a random layer based on the weights of the allowed layers
+    pick_random_layer(random, allowed_layers)
 }

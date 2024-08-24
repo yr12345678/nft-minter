@@ -1,10 +1,9 @@
-use crate::layers::Layer;
+use crate::{layers::Layer, utils::pick_random_layer};
 use diagonal_split::BackgroundDiagonalSplit;
 use double_diagonal_split::BackgroundDoubleDiagonalSplit;
 use four_squares::BackgroundFourSquares;
 use random::Random;
 use rectangle_background::BackgroundRectangle;
-use scrypto::prelude::ToPrimitive;
 use straight_split::BackgroundStraightSplit;
 use threeway_split::BackgroundThreeWaySplit;
 use two_stripes::BackgroundTwoStripes;
@@ -18,21 +17,17 @@ pub mod threeway_split;
 pub mod two_stripes;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
-    let available_layers: Vec<Box<dyn Layer>> = vec![
-        Box::new(BackgroundRectangle),
-        Box::new(BackgroundTwoStripes),
-        Box::new(BackgroundDiagonalSplit),
-        Box::new(BackgroundStraightSplit),
-        Box::new(BackgroundFourSquares),
-        Box::new(BackgroundThreeWaySplit),
-        Box::new(BackgroundDoubleDiagonalSplit),
+    // Layers and their weights
+    let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
+        (Box::new(BackgroundRectangle), 100),
+        (Box::new(BackgroundTwoStripes), 100),
+        (Box::new(BackgroundDiagonalSplit), 100),
+        (Box::new(BackgroundStraightSplit), 100),
+        (Box::new(BackgroundFourSquares), 100),
+        (Box::new(BackgroundThreeWaySplit), 100),
+        (Box::new(BackgroundDoubleDiagonalSplit), 25),
     ];
 
     // Pick a random layer
-    let variant = random
-        .roll::<u8>(available_layers.len().to_u8().unwrap())
-        .to_usize()
-        .unwrap();
-
-    available_layers.into_iter().nth(variant).unwrap()
+    pick_random_layer(random, available_layers).expect("Could not pick a background. This should never happen.")
 }

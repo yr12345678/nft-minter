@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::TypeId;
+
+use crate::{hsl::*, layers::Layer};
 use random::Random;
 use svg::node::element::{Definitions, LinearGradient, Stop};
 
@@ -69,4 +71,39 @@ pub fn gradient_definition(
     let defs = Definitions::new().add(gradient);
 
     (defs, gradient_name)
+}
+
+/// Picks a random layer based on the weights of the layers
+///
+/// Returns None if no layer could be picked (because allowed_layers was empty for example)
+pub fn pick_random_layer(
+    random: &mut Random,
+    allowed_layers: Vec<(Box<dyn Layer>, u32)>,
+) -> Option<Box<dyn Layer>> {
+    if !allowed_layers.is_empty() {
+        let total_weight: u32 = allowed_layers.iter().map(|(_, weight)| weight).sum();
+
+        let mut roll = random.roll::<u32>(total_weight);
+
+        for (layer, weight) in allowed_layers {
+            if roll < weight {
+                return Some(layer);
+            } else {
+                roll -= weight
+            }
+        }
+    }
+
+    None
+}
+
+/// Generates a vector of allowed layers based on the provided exclusions
+pub fn exclude_layers(
+    available_layers: Vec<(Box<dyn Layer>, u32)>,
+    exclusions: &[TypeId],
+) -> Vec<(Box<dyn Layer>, u32)> {
+    available_layers
+        .into_iter()
+        .filter(|(layer, _)| !exclusions.contains(&layer.layer_type()))
+        .collect()
 }
