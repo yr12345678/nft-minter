@@ -1,4 +1,5 @@
 use crate::{layers::Layer, utils::pick_random_layer};
+use checkerboard::BackgroundCheckerboard;
 use diagonal_split::BackgroundDiagonalSplit;
 use double_diagonal_split::BackgroundDoubleDiagonalSplit;
 use four_squares::BackgroundFourSquares;
@@ -8,6 +9,7 @@ use straight_split::BackgroundStraightSplit;
 use threeway_split::BackgroundThreeWaySplit;
 use two_stripes::BackgroundTwoStripes;
 
+pub mod checkerboard;
 pub mod diagonal_split;
 pub mod double_diagonal_split;
 pub mod four_squares;
@@ -26,6 +28,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
         (Box::new(BackgroundFourSquares), 100),
         (Box::new(BackgroundThreeWaySplit), 100),
         (Box::new(BackgroundDoubleDiagonalSplit), 25),
+        (Box::new(BackgroundCheckerboard), 25),
     ];
 
     // Pick a random layer
