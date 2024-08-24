@@ -57,5 +57,9 @@ The component instantiated from this blueprint has two methods:
 * `seed_used(seed: Vec<u8>)`: returns `(bool, Option<NonFungibleLocalId>)` indicating whether a seed was already used, and if so, which NFT was generated with it.
 * `mint_nft(seed: Vec<u8>)`: returns a `Bucket` with the generated NFT, as long as the seed was not already used and the generated SVG code does not already exist. 
 
+Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. Seed length must be a multiple of 4 (this is a requirement of .Random).
+
 # The NFTs
 This project generates NFTs with shapes that have different sizes and colors. Most of these have an equal chance of occurring, but for esthetical reasons, some things are less likely to occur, such as gardients vs. solid colors. Sometimes a base color is generated, from which all subsequent colors are derived (see `derive_similar_color` under HSL). Also, some layers exclude other layers, because they simply don't work well together.
+
+While the collection is random, has a ton of possible variants, excludes used seeds and stores hashes of already used SVG code, it is probably possible to still generate an NFT that looks the same as another, because the SVG code might be different, but the visual result the same. Chances for this should be small, but probably not zero.
