@@ -16,7 +16,7 @@ Each layer implements the Layer trait, which defines the following behavior:
 4. `layer_name`: returns the layer struct's name to be used in the NFT's metadata
 
 ## Layer categories
-The projects structures layers in categories (background, frame, big element, small element) that each have their own folder. The `mod.r in this folder exports all the individual layers and contains a method to return a random layer, which is called by the NFT generator. This `random_...` method lists all available layers in the category and their respective weights. It also takes any exclusions that it has to take into account and thus filters out any layers that are not allowed.
+The projects structures layers in categories (background, frame, big element, small element) that each have their own folder. The `mod.rs` in this folder exports all the individual layers and contains a method to return a random layer, which is called by the NFT generator. This `random_...` method lists all available layers in the category and their respective weights. It also takes any exclusions that it has to take into account and thus filters out any layers that are not allowed.
 
 ## Layers
 Individual layers have their own files in the layer category folders. They contain the code required to generate the SVG code for that specific layer. It returns a vector of `Element`s which are later compiled into an SVG document.
