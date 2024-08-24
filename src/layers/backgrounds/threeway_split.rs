@@ -52,7 +52,7 @@ impl Layer for BackgroundThreeWaySplit {
                 )
             };
 
-            // Add the fill to the triangles
+            // Add the fill to the areas
             area1 = area1.set("fill", color1);
             area2 = area2.set("fill", color2);
             area3 = area3.set("fill", color3);
@@ -93,7 +93,7 @@ impl Layer for BackgroundThreeWaySplit {
                 )
             };
 
-            // Add the fill to the triangles
+            // Add the fill to the areas
             area1 = area1.set("fill", format!("url(#{gradient1_name})"));
             area2 = area2.set("fill", format!("url(#{gradient2_name})"));
             area3 = area3.set("fill", format!("url(#{gradient3_name})"));

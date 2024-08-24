@@ -10,7 +10,7 @@ pub struct BackgroundStraightSplit;
 
 impl Layer for BackgroundStraightSplit {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the two triangles that will make up the straight split background
+        // Generate the two rectangles that will make up the straight split background
         let mut rectangle1 = Rectangle::new()
             .set("x", 0)
             .set("y", 0)
@@ -52,7 +52,7 @@ impl Layer for BackgroundStraightSplit {
                 )
             };
 
-            // Add the fill to the triangles
+            // Add the fill to the rectangles
             rectangle1 = rectangle1.set("fill", color1);
             rectangle2 = rectangle2.set("fill", color2);
 
@@ -85,7 +85,7 @@ impl Layer for BackgroundStraightSplit {
                 )
             };
 
-            // Add the fill to the triangles
+            // Add the fill to the rectangles
             rectangle1 = rectangle1.set("fill", format!("url(#{gradient1_name})"));
             rectangle2 = rectangle2.set("fill", format!("url(#{gradient2_name})"));
 
