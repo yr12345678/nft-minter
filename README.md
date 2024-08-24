@@ -7,6 +7,7 @@ To make this work, this repository uses:
 This NFT project utilises the fact that the Radix Dashboard and Wallet support SVG data URIs in the `key_image_url` field to display the NFTs. This means that we don't have to store images externally and can generate the NFTs on-ledger completely.
 
 # Setup
+The project has a simple NFT generation system that allows you to define layers and exclusions. It then picks layers taking into account these exclusions, but also any weights you've assigned to the layers.
 
 ## Layer trait
 Each layer implements the Layer trait, which defines the following behavior:
@@ -16,7 +17,7 @@ Each layer implements the Layer trait, which defines the following behavior:
 4. `layer_name`: returns the layer struct's name to be used in the NFT's metadata
 
 ## Layer categories
-The projects structures layers in categories (background, frame, big element, small element) that each have their own folder. The `mod.rs` in this folder exports all the individual layers and contains a method to return a random layer, which is called by the NFT generator. This `random_...` method lists all available layers in the category and their respective weights. It also takes any exclusions that it has to take into account and thus filters out any layers that are not allowed.
+The project structures layers in categories (background, frame, big element, small element) that each have their own folder. The `mod.rs` in this folder exports all the individual layers and contains a method to return a random layer, which is called by the NFT generator. This `random_...` method lists all available layers in the category and their respective weights. It also takes any exclusions that it has to take into account and thus filters out any layers that are not allowed.
 
 ## Layers
 Individual layers have their own files in the layer category folders. They contain the code required to generate the SVG code for that specific layer. It returns a vector of `Element`s which are later compiled into an SVG document.
@@ -60,6 +61,6 @@ The component instantiated from this blueprint has two methods:
 Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. Seed length must be a multiple of 4 (this is a requirement of .Random).
 
 # The NFTs
-This project generates NFTs with shapes that have different sizes and colors. Most of these have an equal chance of occurring, but for esthetical reasons, some things are less likely to occur, such as gardients vs. solid colors. Sometimes a base color is generated, from which all subsequent colors are derived (see `derive_similar_color` under HSL). Also, some layers exclude other layers, because they simply don't work well together.
+This project generates NFTs with shapes that have different sizes and colors. Most of these have an equal chance of occurring, but for esthetical reasons, some things are less likely to occur, such as gradients vs. solid colors. Sometimes a base color is generated, from which all subsequent colors are derived (see `derive_similar_color` under HSL). Also, some layers exclude other layers, because they simply don't work well together.
 
 While the collection is random, has a ton of possible variants, excludes used seeds and stores hashes of already used SVG code, it is probably possible to still generate an NFT that looks the same as another, because the SVG code might be different, but the visual result the same. Chances for this should be small, but probably not zero.
