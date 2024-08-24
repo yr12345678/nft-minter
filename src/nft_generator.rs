@@ -30,36 +30,25 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
 
         // Potentially add a frame and add any exclusions to the exclusions list
         if random.roll::<u8>(100) < 5 && base_color.is_some() {
-            let frame = random_frame(&mut random, &exclusions);
-            if frame.is_some() {
-                let unwrapped = frame.unwrap();
-                exclusions.append(&mut unwrapped.exclusions());
-                layers.push(unwrapped);
+            if let Some(frame) = random_frame(&mut random, &exclusions) {
+                exclusions.append(&mut frame.exclusions());
+                layers.push(frame);
             }
         }
 
-        // Potentially add a pattern
-        // if random.roll::<u8>(100) < 10 {
-        //     layers.push(random_pattern(&mut random, &base_color));
-        // };
-
         // Potentially add a big element and add any exclusions to the exclusions list
         if random.next_bool() {
-            let big_element = random_big_element(&mut random, &exclusions);
-            if big_element.is_some() {
-                let unwrapped = big_element.unwrap();
-                exclusions.append(&mut unwrapped.exclusions());
-                layers.push(unwrapped);
+            if let Some(big_element) = random_big_element(&mut random, &exclusions) {
+                exclusions.append(&mut big_element.exclusions());
+                layers.push(big_element);
             }
         }
 
         // Potentially add a small element and add any exclusions to the exclusions list
         if random.next_bool() {
-            let small_element = random_small_element(&mut random, &exclusions);
-            if small_element.is_some() {
-                let unwrapped = small_element.unwrap();
-                exclusions.append(&mut unwrapped.exclusions());
-                layers.push(unwrapped);
+            if let Some(small_element) = random_small_element(&mut random, &exclusions) {
+                exclusions.append(&mut small_element.exclusions());
+                layers.push(small_element);
             }
         }
     }
