@@ -55,8 +55,16 @@ impl Layer for FrameStraight {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
-                let color1 = base_color.unwrap().derive_similar_color(random);
-                let color2 = base_color.unwrap().derive_similar_color(random);
+                let unwrapped = base_color.unwrap();
+                
+                let color1 = HSL {
+                    lightness: unwrapped.lightness - 15,
+                    ..unwrapped
+                };
+                let color2 = HSL {
+                    lightness: unwrapped.lightness - 30,
+                    ..unwrapped
+                };
 
                 gradient_definition(random, Some(45), color1, color2)
             } else {
