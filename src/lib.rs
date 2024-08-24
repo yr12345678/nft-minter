@@ -78,11 +78,11 @@ mod nft_minter {
             let (nft_image_data, layers) = nft_generator::generate_nft_image_data(&seed);
             let url_encoded_nft_image_data = urlencoding::encode(&nft_image_data).into_owned();
             let svg_data_uri = format!("data:image/svg+xml,{url_encoded_nft_image_data}");
-            let svg_data_uri_hash = hash(svg_data_uri.clone());
+            let svg_data_hash = hash(nft_image_data.clone());
 
             // Make sure hash does not yet exist
             assert!(
-                self.existing_hashes.get(&svg_data_uri_hash).is_none(),
+                self.existing_hashes.get(&svg_data_hash).is_none(),
                 "This image already exsists!"
             );
 
@@ -103,7 +103,7 @@ mod nft_minter {
             // Add the hash, seed and NonFungibleLocalId to the used_seeds KeyValueStore
             self.used_seeds.insert(seed, nft_id.clone());
             self.existing_hashes
-                .insert(svg_data_uri_hash, nft_id.clone());
+                .insert(svg_data_hash, nft_id.clone());
 
             // Increment our NFT id counter for the next mint
             self.next_nft_id += 1;
