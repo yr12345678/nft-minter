@@ -13,9 +13,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
     // Optionally pick a base color
     let base_color = if random.roll::<u8>(100) < 30 {
         let roll = random.roll::<u8>(100);
-        let color_mode = if roll < 10 {
-            ColorMode::Tone
-        } else if roll < 40 {
+        let color_mode = if roll < 30 {
             ColorMode::Light
         } else {
             ColorMode::Vibrant

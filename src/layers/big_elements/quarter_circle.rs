@@ -55,9 +55,7 @@ impl Layer for BigElementQuarterCircle {
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
-                let color_mode = if roll < 10 {
-                    ColorMode::Tone
-                } else if roll < 40 {
+                let color_mode = if roll < 30 {
                     ColorMode::Light
                 } else {
                     ColorMode::Vibrant
@@ -80,9 +78,7 @@ impl Layer for BigElementQuarterCircle {
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
-                let color_mode = if roll < 10 {
-                    ColorMode::Tone
-                } else if roll < 40 {
+                let color_mode = if roll < 30 {
                     ColorMode::Light
                 } else {
                     ColorMode::Vibrant
