@@ -31,11 +31,13 @@ impl Layer for BackgroundDiagonalSplit {
                 )
             } else {
                 // Pick a random color
-                let color_mode = match random.roll::<u8>(3) {
-                    0 => ColorMode::Light,
-                    1 => ColorMode::Vibrant,
-                    2 => ColorMode::Tone,
-                    _ => panic!("Invalid color mode"),
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
                 };
 
                 (
@@ -65,11 +67,13 @@ impl Layer for BackgroundDiagonalSplit {
                 )
             } else {
                 // Pick a random color
-                let color_mode = match random.roll::<u8>(3) {
-                    0 => ColorMode::Light,
-                    1 => ColorMode::Vibrant,
-                    2 => ColorMode::Tone,
-                    _ => panic!("Invalid color mode"),
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
                 };
 
                 (

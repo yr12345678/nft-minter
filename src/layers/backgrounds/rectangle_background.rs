@@ -18,11 +18,13 @@ impl Layer for BackgroundRectangle {
                 base_color.unwrap().as_string() // Since it's a solid background, we just use the base color as the background
             } else {
                 // Pick a random color
-                let color_mode = match random.roll::<u8>(3) {
-                    0 => ColorMode::Light,
-                    1 => ColorMode::Vibrant,
-                    2 => ColorMode::Tone,
-                    _ => panic!("Invalid color mode"),
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
                 };
 
                 HSL::new_random(random, color_mode, 100).as_string()
@@ -41,11 +43,13 @@ impl Layer for BackgroundRectangle {
                 gradient_definition(random, Some(45), color1, color2)
             } else {
                 // Pick a random color
-                let color_mode = match random.roll::<u8>(3) {
-                    0 => ColorMode::Light,
-                    1 => ColorMode::Vibrant,
-                    2 => ColorMode::Tone,
-                    _ => panic!("Invalid color mode"),
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
                 };
 
                 random_gradient_definition(random, Some(45), color_mode, 100)

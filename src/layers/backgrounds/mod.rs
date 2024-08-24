@@ -29,5 +29,6 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     ];
 
     // Pick a random layer
-    pick_random_layer(random, available_layers).expect("Could not pick a background. This should never happen.")
+    pick_random_layer(random, available_layers)
+        .expect("Could not pick a background. This should never happen.")
 }

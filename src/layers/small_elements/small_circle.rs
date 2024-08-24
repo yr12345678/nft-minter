@@ -21,11 +21,13 @@ impl Layer for SmallElementCircle {
                 base_color.unwrap().derive_similar_color(random).as_string()
             } else {
                 // Pick a random color
-                let color_mode = match random.roll::<u8>(3) {
-                    0 => ColorMode::Light,
-                    1 => ColorMode::Vibrant,
-                    2 => ColorMode::Tone,
-                    _ => panic!("Invalid color mode"),
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
+                    ColorMode::Light
+                } else {
+                    ColorMode::Vibrant
                 };
 
                 HSL::new_random(random, color_mode, 100).as_string()
@@ -44,7 +46,10 @@ impl Layer for SmallElementCircle {
                 gradient_definition(random, Some(45), color1, color2)
             } else {
                 // Randomize the color mode, but prefer vibrant
-                let color_mode = if random.roll::<u8>(100) < 30 {
+                let roll = random.roll::<u8>(100);
+                let color_mode = if roll < 10 {
+                    ColorMode::Tone
+                } else if roll < 40 {
                     ColorMode::Light
                 } else {
                     ColorMode::Vibrant

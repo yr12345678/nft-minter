@@ -25,11 +25,13 @@ impl Layer for BackgroundTwoStripes {
             }
         } else {
             // Pick a random color mode
-            let color_mode = match random.roll::<u8>(3) {
-                0 => ColorMode::Light,
-                1 => ColorMode::Vibrant,
-                2 => ColorMode::Tone,
-                _ => panic!("Invalid color mode"),
+            let roll = random.roll::<u8>(100);
+            let color_mode = if roll < 10 {
+                ColorMode::Tone
+            } else if roll < 40 {
+                ColorMode::Light
+            } else {
+                ColorMode::Vibrant
             };
 
             match random.roll::<u8>(3) {
@@ -39,8 +41,7 @@ impl Layer for BackgroundTwoStripes {
                     HSL::new_random(random, color_mode, 100).as_string(),
                 ),
                 1 => HSL::new_random(random, color_mode, 100).analogous_colors_as_strings(),
-                2 => HSL::new_random(random, color_mode, 100)
-                    .monochromatic_colors_as_strings(),
+                2 => HSL::new_random(random, color_mode, 100).monochromatic_colors_as_strings(),
                 _ => panic!("Invalid color variant"),
             }
         };
