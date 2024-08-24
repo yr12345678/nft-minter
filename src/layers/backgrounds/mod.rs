@@ -22,7 +22,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     // Layers and their weights
     let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
         (Box::new(BackgroundRectangle), 100),
-        (Box::new(BackgroundTwoStripes), 100),
+        (Box::new(BackgroundTwoStripes), 50),
         (Box::new(BackgroundDiagonalSplit), 100),
         (Box::new(BackgroundStraightSplit), 100),
         (Box::new(BackgroundFourSquares), 100),
