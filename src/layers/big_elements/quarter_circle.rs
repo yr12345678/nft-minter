@@ -53,12 +53,15 @@ impl Layer for BigElementQuarterCircle {
                 // We have a base color, so we derive something similar
                 base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                // Pick a random color, but prefer vibrant
-                if random.roll::<u8>(100) < 30 {
-                    HSL::new_random(random, ColorMode::Light, 100).as_string()
-                } else {
-                    HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
-                }
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
+                    _ => panic!("Invalid color mode"),
+                };
+
+                HSL::new_random(random, color_mode, 100).as_string()
             };
 
             path = path.set("fill", color);
@@ -73,12 +76,15 @@ impl Layer for BigElementQuarterCircle {
 
                 gradient_definition(random, Some(45), color1, color2)
             } else {
-                // Randomize the color mode, but prefer vibrant
-                if random.roll::<u8>(100) < 30 {
-                    random_gradient_definition(random, Some(45), ColorMode::Light, 100)
-                } else {
-                    random_gradient_definition(random, Some(45), ColorMode::Vibrant, 100)
-                }
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
+                    _ => panic!("Invalid color mode"),
+                };
+
+                random_gradient_definition(random, Some(45), color_mode, 100)
             };
 
             path = path.set("fill", format!("url(#{gradient_name})",));

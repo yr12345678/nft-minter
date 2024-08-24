@@ -45,10 +45,11 @@ impl Layer for SmallElementFlower {
                 // Use the base color
                 base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                // Random colors
-                let color_mode = match random.roll::<u8>(2) {
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 
@@ -67,10 +68,11 @@ impl Layer for SmallElementFlower {
 
                 gradient_definition(random, Some(45), color1, color2)
             } else {
-                // Generate random gradients
-                let color_mode = match random.roll::<u8>(2) {
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 

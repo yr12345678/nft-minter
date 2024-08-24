@@ -61,10 +61,11 @@ impl Layer for BackgroundDoubleDiagonalSplit {
                     base_color.unwrap().derive_similar_color(random).as_string(),
                 )
             } else {
-                // Random colors
-                let color_mode = match random.roll::<u8>(2) {
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 
@@ -109,9 +110,11 @@ impl Layer for BackgroundDoubleDiagonalSplit {
                 )
             } else {
                 // Generate random gradients
-                let color_mode = match random.roll::<u8>(2) {
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 

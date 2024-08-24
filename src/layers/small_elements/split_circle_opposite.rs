@@ -46,9 +46,10 @@ impl Layer for SmallElementSplitCircleOpposite {
                 )
             } else {
                 // Random colors
-                let color_mode = match random.roll::<u8>(2) {
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 
@@ -78,9 +79,10 @@ impl Layer for SmallElementSplitCircleOpposite {
                 )
             } else {
                 // Generate random gradients
-                let color_mode = match random.roll::<u8>(2) {
+                let color_mode = match random.roll::<u8>(3) {
                     0 => ColorMode::Light,
                     1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
                     _ => panic!("Invalid color mode"),
                 };
 

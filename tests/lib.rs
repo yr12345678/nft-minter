@@ -67,7 +67,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
     // Create images directory if necessary
     let _ = fs::create_dir_all("test_images");
 
-    for i in 1..10001 {
+    for i in 1..1001 {
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
         let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;

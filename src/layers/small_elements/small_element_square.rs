@@ -38,12 +38,15 @@ impl Layer for SmallElementSquare {
                 // Use the base color and derive something similar
                 base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                // Pick a random color, but prefer vibrant
-                if random.roll::<u8>(100) < 30 {
-                    HSL::new_random(random, ColorMode::Light, 100).as_string()
-                } else {
-                    HSL::new_random(random, ColorMode::Vibrant, 100).as_string()
-                }
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
+                    _ => panic!("Invalid color mode"),
+                };
+
+                HSL::new_random(random, color_mode, 100).as_string()
             };
 
             rectangle = rectangle.set("fill", color);

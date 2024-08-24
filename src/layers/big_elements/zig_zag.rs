@@ -15,10 +15,11 @@ impl Layer for BigElementZigZag {
             base_color.unwrap().derive_similar_color(random).as_string()
         } else {
             // Pick a random color
-            let color_mode = if random.roll::<u8>(100) < 50 {
-                ColorMode::Light
-            } else {
-                ColorMode::Vibrant
+            let color_mode = match random.roll::<u8>(3) {
+                0 => ColorMode::Light,
+                1 => ColorMode::Vibrant,
+                2 => ColorMode::Tone,
+                _ => panic!("Invalid color mode"),
             };
 
             HSL::new_random(random, color_mode, 100).as_string()

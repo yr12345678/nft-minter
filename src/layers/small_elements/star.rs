@@ -60,11 +60,12 @@ impl Layer for SmallElementStar {
 
                 gradient_definition(random, Some(45), color1, color2)
             } else {
-                // Randomize the color mode, but prefer vibrant
-                let color_mode = if random.roll::<u8>(100) < 30 {
-                    ColorMode::Light
-                } else {
-                    ColorMode::Vibrant
+                // Pick a random color
+                let color_mode = match random.roll::<u8>(3) {
+                    0 => ColorMode::Light,
+                    1 => ColorMode::Vibrant,
+                    2 => ColorMode::Tone,
+                    _ => panic!("Invalid color mode"),
                 };
 
                 random_gradient_definition(random, Some(45), color_mode, 100)

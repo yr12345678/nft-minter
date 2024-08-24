@@ -16,6 +16,7 @@ pub enum ColorMode {
     Normal,
     Vibrant,
     Light,
+    Tone
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -54,10 +55,16 @@ impl HSL {
             ),
             ColorMode::Light => Self::new(
                 random.in_range::<u16>(0, 360) as i16,
-                100,
+                random.in_range::<u8>(80, 100) as i8,
                 random.in_range::<u8>(70, 85) as i8,
                 opacity,
             ),
+            ColorMode::Tone => Self::new(
+                random.in_range::<u16>(0, 360) as i16,
+                random.in_range::<u8>(60, 70) as i8,
+                random.in_range::<u8>(55, 65) as i8,
+                opacity,
+            ),            
         }
     }
 
