@@ -1,8 +1,8 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::small_elements};
 use crate::layers::Layer;
 use crate::utils::*;
+use crate::{hsl::*, layers::small_elements};
 use random::Random;
 use svg::node::element::{Element, Rectangle};
 
@@ -75,8 +75,6 @@ impl Layer for BigElementPill {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            small_elements::cube::SmallElementCube.type_id()
-        ]
+        vec![small_elements::cube::SmallElementCube.type_id()]
     }
 }

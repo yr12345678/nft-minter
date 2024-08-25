@@ -1,8 +1,8 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::small_elements};
 use crate::layers::Layer;
 use crate::utils::*;
+use crate::{hsl::*, layers::small_elements};
 use random::Random;
 use svg::node::element::{path::Data, Element, Path, Rectangle};
 
@@ -25,36 +25,39 @@ impl Layer for BigElementPillSplitCircle {
             .get(random.roll::<usize>(4))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
-            pill = pill.set("transform", format!("rotate({rotate_amount}, 500, 500)"));
+        pill = pill.set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
         // Generate the data for the split circle
         let data = match rotate_amount {
-            0 => { // Pill is on the left, circle is on the bottom-left
+            0 => {
+                // Pill is on the left, circle is on the bottom-left
                 Data::new()
                     .move_to((0, 750))
                     .elliptical_arc_to((50, 50, 0, 0, 1, 500, 750))
-            },
-            90 => { // Pill is on the top, circle is on the top-left
+            }
+            90 => {
+                // Pill is on the top, circle is on the top-left
                 Data::new()
                     .move_to((250, 0))
                     .elliptical_arc_to((50, 50, 0, 0, 1, 250, 500))
-            },
-            180 => { // Pill is on the right, circle is on the top-right
+            }
+            180 => {
+                // Pill is on the right, circle is on the top-right
                 Data::new()
                     .move_to((500, 250))
                     .elliptical_arc_to((50, 50, 0, 0, 0, 1000, 250))
-            },
-            270 => { // Pill is on the bottom, circle is on the bottom-right
+            }
+            270 => {
+                // Pill is on the bottom, circle is on the bottom-right
                 Data::new()
                     .move_to((750, 500))
                     .elliptical_arc_to((50, 50, 0, 0, 0, 750, 1000))
-            },
-            _ => panic!("Not a valid rotation")
+            }
+            _ => panic!("Not a valid rotation"),
         };
 
         // Generate the paths for the circle
-        let mut circle = Path::new()
-            .set("d", data);
+        let mut circle = Path::new().set("d", data);
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
@@ -67,9 +70,9 @@ impl Layer for BigElementPillSplitCircle {
                     HSL {
                         lightness: color_pill.lightness - 10,
                         ..color_pill
-                    }.as_string()
+                    }
+                    .as_string(),
                 )
-                
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
@@ -86,7 +89,8 @@ impl Layer for BigElementPillSplitCircle {
                     HSL {
                         lightness: color_pill.lightness - 10,
                         ..color_pill
-                    }.as_string()
+                    }
+                    .as_string(),
                 )
             };
 
@@ -96,7 +100,8 @@ impl Layer for BigElementPillSplitCircle {
             vec![pill.into(), circle.into()]
         } else {
             // Get a gradient definition
-            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some() {
+            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
+            {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
@@ -105,7 +110,7 @@ impl Layer for BigElementPillSplitCircle {
 
                 (
                     gradient_definition(random, Some(45), color1, color2),
-                    gradient_definition(random, Some(45), color3, color4)
+                    gradient_definition(random, Some(45), color3, color4),
                 )
             } else {
                 // Pick a random color
@@ -125,12 +130,18 @@ impl Layer for BigElementPillSplitCircle {
             pill = pill.set("fill", format!("url(#{gradient1_name})"));
             circle = circle.set("fill", format!("url(#{gradient2_name})"));
 
-            vec![gradient1.into(), gradient2.into(), pill.into(), circle.into()]
+            vec![
+                gradient1.into(),
+                gradient2.into(),
+                pill.into(),
+                circle.into(),
+            ]
         }
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![ // Small elements don't combine well with this element
+        vec![
+            // Small elements don't combine well with this element
             small_elements::arch::SmallElementArch.type_id(),
             small_elements::cross::SmallElementCross.type_id(),
             small_elements::cube::SmallElementCube.type_id(),
