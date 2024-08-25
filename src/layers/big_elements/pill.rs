@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::Any;
+
+use crate::{hsl::*, layers::small_elements};
 use crate::layers::Layer;
 use crate::utils::*;
 use random::Random;
@@ -70,5 +72,11 @@ impl Layer for BigElementPill {
 
             vec![gradient.into(), rectangle.into()]
         }
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            small_elements::cube::SmallElementCube.type_id()
+        ]
     }
 }

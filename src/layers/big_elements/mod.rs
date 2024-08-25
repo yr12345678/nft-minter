@@ -38,8 +38,8 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         (Box::new(BigElementQuarterCircle), 100),
         (Box::new(BigElementZigZag), 100),
         (Box::new(BigElementSquare), 100),
-        (Box::new(BigElementPill), 100),
-        (Box::new(BigElementPillSplitCircle), 100),
+        (Box::new(BigElementPill), 50),
+        (Box::new(BigElementPillSplitCircle), 50),
     ];
 
     // Filter out the excluded layers

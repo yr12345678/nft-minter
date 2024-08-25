@@ -140,6 +140,7 @@ impl Layer for BigElementPillSplitCircle {
             small_elements::small_element_square::SmallElementSquare.type_id(),
             small_elements::split_circle_opposite::SmallElementSplitCircleOpposite.type_id(),
             small_elements::split_circle::SmallElementSplitCircle.type_id(),
+            small_elements::star::SmallElementStar.type_id(),
         ]
     }
 }
