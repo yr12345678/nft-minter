@@ -14,6 +14,7 @@ use triangle::BigElementTriangle;
 use two_squares::BigElementTwoSquares;
 use zig_zag::BigElementZigZag;
 use pill::BigElementPill;
+use pill_split_circle::BigElementPillSplitCircle;
 
 pub mod big_element_square;
 pub mod full_circle;
@@ -24,6 +25,7 @@ pub mod triangle;
 pub mod two_squares;
 pub mod zig_zag;
 pub mod pill;
+pub mod pill_split_circle;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
@@ -36,7 +38,8 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         (Box::new(BigElementQuarterCircle), 100),
         (Box::new(BigElementZigZag), 100),
         (Box::new(BigElementSquare), 100),
-        (Box::new(BigElementPill), 1000000),
+        (Box::new(BigElementPill), 100),
+        (Box::new(BigElementPillSplitCircle), 100),
     ];
 
     // Filter out the excluded layers
