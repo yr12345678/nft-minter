@@ -1,40 +1,38 @@
 use crate::hsl::*;
-use crate::{layers::Layer, utils::*};
+use crate::layers::Layer;
+use crate::utils::*;
 use random::Random;
-use svg::node::element::path::Data;
-use svg::node::element::{Element, Path};
+use svg::node::element::{Element, Rectangle};
 
-pub struct SmallElementCross;
+pub struct BigElementPill;
 
-impl Layer for SmallElementCross {
+impl Layer for BigElementPill {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Get a random width
-        let random_size = random.in_range::<u16>(25, 50) * 6; // Must be divisible by 3 and 2
+        // Build the rectangle
+        let mut rectangle = Rectangle::new()
+            .set("width", 500)
+            .set("height", 1000)
+            .set("x", 0)
+            .set("y", 0)
+            .set("rx", 250)
+            .set("ry", 250);
 
-        // Generate the cross
-        let data = Data::new()
-            .move_to((500 - random_size / 2, 500))
-            .line_to((500 + random_size / 2, 500))
-            .move_to((500, 500 - random_size / 2))
-            .line_to((500, 500 + random_size / 2));
+        // Add a rotation
+        let valid_rotate_amounts = [0, 90, 180, 270];
+        let rotate_amount = valid_rotate_amounts
+            .get(random.roll::<usize>(4))
+            .expect("Did not find a valid rotation amount. This should never happen.");
 
-        let mut path = Path::new()
-            .set("d", data)
-            .set("stroke-width", random_size / 3);
+        rectangle = rectangle.set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
-        // Possibly add a rotation
-        if random.next_bool() {
-            path = path.set("transform", "rotate(45, 500, 500)");
-        };
-
-        // Pick random solid colors
-        if random.roll::<u8>(100) < 85 {
-            // Solid colors
+        // Set the fill, which can be either solid or gradient
+        if random.roll::<u8>(100) < 80 {
+            // Pick a solid color
             let color = if base_color.is_some() {
-                // Use the base color
+                // Use the base color and derive something similar
                 base_color.unwrap().derive_similar_color(random).as_string()
             } else {
-                // Pick random colors
+                // Pick a random color
                 let roll = random.roll::<u8>(100);
                 let color_mode = if roll < 30 {
                     ColorMode::Light
@@ -45,11 +43,11 @@ impl Layer for SmallElementCross {
                 HSL::new_random(random, color_mode, 100).as_string()
             };
 
-            // Add the fill to the paths
-            path = path.set("stroke", color.clone());
+            rectangle = rectangle.set("fill", color);
 
-            vec![path.into()]
+            vec![rectangle.into()]
         } else {
+            // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
@@ -57,7 +55,7 @@ impl Layer for SmallElementCross {
 
                 gradient_definition(random, Some(45), color1, color2)
             } else {
-                // Generate random gradients
+                // Pick a random color
                 let roll = random.roll::<u8>(100);
                 let color_mode = if roll < 30 {
                     ColorMode::Light
@@ -68,9 +66,9 @@ impl Layer for SmallElementCross {
                 random_gradient_definition(random, Some(45), color_mode, 100)
             };
 
-            path = path.set("stroke", format!("url(#{gradient_name})"));
+            rectangle = rectangle.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), path.into()]
+            vec![gradient.into(), rectangle.into()]
         }
     }
 }

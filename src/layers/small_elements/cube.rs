@@ -1,5 +1,5 @@
 use crate::hsl::*;
-use crate::{layers::Layer, utils::*};
+use crate::layers::Layer;
 use random::Random;
 use svg::node::element::path::Data;
 use svg::node::element::{Element, Path, Rectangle};

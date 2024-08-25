@@ -96,6 +96,7 @@ impl Layer for FrameStraight {
             big_elements::triangle::BigElementTriangle.type_id(),
             big_elements::two_squares::BigElementTwoSquares.type_id(),
             big_elements::zig_zag::BigElementZigZag.type_id(),
+            big_elements::pill::BigElementPill.type_id(),
         ]
     }
 }
