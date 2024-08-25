@@ -50,8 +50,7 @@ impl Layer for SmallElementCross {
 
             vec![path.into()]
         } else {
-            let (gradient, gradient_name) = if base_color.is_some()
-            {
+            let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
@@ -71,10 +70,7 @@ impl Layer for SmallElementCross {
 
             path = path.set("stroke", format!("url(#{gradient_name})"));
 
-            vec![
-                gradient.into(),
-                path.into(),
-            ]
+            vec![gradient.into(), path.into()]
         }
     }
 }

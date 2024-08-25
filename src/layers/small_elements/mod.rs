@@ -5,6 +5,7 @@ use crate::{
     utils::{exclude_layers, pick_random_layer},
 };
 use arch::SmallElementArch;
+use cross::SmallElementCross;
 use flower::SmallElementFlower;
 use four_circles::SmallElementFourCircles;
 use random::Random;
@@ -13,9 +14,9 @@ use small_element_square::SmallElementSquare;
 use split_circle::SmallElementSplitCircle;
 use split_circle_opposite::SmallElementSplitCircleOpposite;
 use star::SmallElementStar;
-use cross::SmallElementCross;
 
 pub mod arch;
+pub mod cross;
 pub mod flower;
 pub mod four_circles;
 pub mod small_circle;
@@ -23,7 +24,6 @@ pub mod small_element_square;
 pub mod split_circle;
 pub mod split_circle_opposite;
 pub mod star;
-pub mod cross;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights

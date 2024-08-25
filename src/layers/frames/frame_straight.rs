@@ -56,7 +56,7 @@ impl Layer for FrameStraight {
             let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
                 let unwrapped = base_color.unwrap();
-                
+
                 let color1 = HSL {
                     lightness: unwrapped.lightness - 15,
                     ..unwrapped
