@@ -6,6 +6,7 @@ use crate::{
 };
 use arch::SmallElementArch;
 use cross::SmallElementCross;
+use cube::SmallElementCube;
 use flower::SmallElementFlower;
 use four_circles::SmallElementFourCircles;
 use random::Random;
@@ -17,6 +18,7 @@ use star::SmallElementStar;
 
 pub mod arch;
 pub mod cross;
+pub mod cube;
 pub mod flower;
 pub mod four_circles;
 pub mod small_circle;
@@ -37,6 +39,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementFlower), 100),
         (Box::new(SmallElementStar), 100),
         (Box::new(SmallElementCross), 100),
+        (Box::new(SmallElementCube), 1000000),
     ];
 
     // Filter out the excluded layers

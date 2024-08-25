@@ -2,7 +2,7 @@ use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::path::Data;
-use svg::node::element::{Element, Path, Rectangle};
+use svg::node::element::{Element, Path};
 
 pub struct SmallElementCross;
 
