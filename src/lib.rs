@@ -1,15 +1,18 @@
 use scrypto::crypto::hash;
 use scrypto::prelude::*;
 use types::NFTImage;
+use events::Generation;
 
 pub mod hsl;
 pub mod layers;
 pub mod nft_generator;
 pub mod types;
 pub mod utils;
+pub mod events;
 
 #[blueprint]
 #[types(NFTImage, Vec<u8>, Hash, NonFungibleLocalId)]
+#[events(Generation)]
 mod nft_minter {
     struct NftMinter {
         image_nft_manager: ResourceManager,
@@ -98,6 +101,15 @@ mod nft_minter {
                     layers,
                     svg_data: hex::encode(nft_image_data),
                 },
+            );
+
+            // Generate mint event
+            Runtime::emit_event(
+                Generation {
+                    key_image_url: Url::of(svg_data_uri.clone()),
+                    seed_lossy: String::from_utf8_lossy(&seed).into_owned(),
+                    non_fungible_local_id: NonFungibleLocalId::from(self.next_nft_id)
+                }
             );
 
             // Add the hash, seed and NonFungibleLocalId to the used_seeds and existing_hashes KeyValueStores
