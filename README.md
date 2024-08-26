@@ -62,9 +62,9 @@ Seeds are provided hex-encoded. You can use something like https://www.browserli
 
 ## Events
 ### Generation
-The component emits an event upon NFT mint calles `Generation` with the following fields:
+The component emits an event upon NFT mint called `Generation` with the following fields:
 * `key_image_url`: the `key_image_url` as included in the NFT data. This contains the SVG data URI.
-* `seed_lossy`: the (lossy version) of the seed used to mint this NFT.
+* `seed_lossy`: the (lossy) seed used to mint this NFT.
 * `non_fungible_local_id`: the NonFungibleLocalId for this NFT.
 
 # The NFTs
