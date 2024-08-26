@@ -60,6 +60,13 @@ The component instantiated from this blueprint has two methods:
 
 Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. Seed length must be a multiple of 4 (this is a requirement of .Random).
 
+## Events
+### Generation
+The component emits an event upon NFT mint calles `Generation` with the following fields:
+* `key_image_url`: the `key_image_url` as included in the NFT data. This contains the SVG data URI.
+* `seed_lossy`: the (lossy version) of the seed used to mint this NFT.
+* `non_fungible_local_id`: the NonFungibleLocalId for this NFT.
+
 # The NFTs
 This project generates NFTs with shapes that have different sizes and colors. Most of these have an equal chance of occurring, but for esthetical reasons, some things are less likely to occur, such as gradients vs. solid colors. Sometimes a base color is generated, from which all subsequent colors are derived (see `derive_similar_color` under HSL). Also, some layers exclude other layers, because they simply don't work well together.
 
