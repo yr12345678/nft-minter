@@ -1,9 +1,9 @@
-use svgenesis::{svgenesis_test::*, types::SVGenesisNFT};
 use radix_common::network::NetworkDefinition;
 use rand::prelude::*;
 use scrypto_test::prelude::*;
 use scrypto_test::utils::dump_manifest_to_file_system;
 use std::fs;
+use svgenesis::{svgenesis_test::*, types::SVGenesisNFT};
 
 #[test]
 fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
@@ -12,7 +12,7 @@ fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
+    let (mut svgenesis, _) = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
 
@@ -36,7 +36,7 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
+    let (mut svgenesis, _) = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
 
@@ -59,7 +59,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
+    let (mut svgenesis, _) = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
     env.disable_limits_module();

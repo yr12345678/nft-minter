@@ -12,10 +12,10 @@ use four_circles::SmallElementFourCircles;
 use random::Random;
 use small_circle::SmallElementCircle;
 use small_element_square::SmallElementSquare;
+use small_triangle::SmallElementTriangle;
 use split_circle::SmallElementSplitCircle;
 use split_circle_opposite::SmallElementSplitCircleOpposite;
 use star::SmallElementStar;
-use small_triangle::SmallElementTriangle;
 
 pub mod arch;
 pub mod cross;
@@ -24,10 +24,10 @@ pub mod flower;
 pub mod four_circles;
 pub mod small_circle;
 pub mod small_element_square;
+pub mod small_triangle;
 pub mod split_circle;
 pub mod split_circle_opposite;
 pub mod star;
-pub mod small_triangle;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
