@@ -15,6 +15,7 @@ use small_element_square::SmallElementSquare;
 use split_circle::SmallElementSplitCircle;
 use split_circle_opposite::SmallElementSplitCircleOpposite;
 use star::SmallElementStar;
+use small_triangle::SmallElementTriangle;
 
 pub mod arch;
 pub mod cross;
@@ -26,6 +27,7 @@ pub mod small_element_square;
 pub mod split_circle;
 pub mod split_circle_opposite;
 pub mod star;
+pub mod small_triangle;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
@@ -40,6 +42,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementStar), 100),
         (Box::new(SmallElementCross), 100),
         (Box::new(SmallElementCube), 100),
+        (Box::new(SmallElementTriangle), 10000000),
     ];
 
     // Filter out the excluded layers
