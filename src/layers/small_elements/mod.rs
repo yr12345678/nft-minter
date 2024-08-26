@@ -42,7 +42,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementStar), 100),
         (Box::new(SmallElementCross), 100),
         (Box::new(SmallElementCube), 100),
-        (Box::new(SmallElementTriangle), 10000000),
+        (Box::new(SmallElementTriangle), 100),
     ];
 
     // Filter out the excluded layers
