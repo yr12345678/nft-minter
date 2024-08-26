@@ -637,20 +637,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "nft_minter"
-version = "1.0.0"
-dependencies = [
- "getrandom 0.2.15",
- "hex",
- "rand 0.8.5",
- "random",
- "scrypto",
- "scrypto-test",
- "svg",
- "urlencoding",
-]
-
-[[package]]
 name = "num-bigint"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1521,6 +1507,20 @@ version = "0.17.0"
 source = "git+https://github.com/yr12345678/svg#76f472372262060911aa46876546a1857fa7a466"
 dependencies = [
  "scrypto",
+]
+
+[[package]]
+name = "svgenesis"
+version = "1.0.0"
+dependencies = [
+ "getrandom 0.2.15",
+ "hex",
+ "rand 0.8.5",
+ "random",
+ "scrypto",
+ "scrypto-test",
+ "svg",
+ "urlencoding",
 ]
 
 [[package]]

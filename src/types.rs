@@ -1,7 +1,7 @@
 use scrypto::prelude::*;
 
 #[derive(ScryptoSbor, NonFungibleData, Clone, Debug)]
-pub struct NFTImage {
+pub struct SVGenesisNFT {
     pub key_image_url: Url,
     pub name: String,
     pub seed_lossy: String,

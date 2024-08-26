@@ -1,4 +1,4 @@
-use nft_minter::{nft_minter_test::*, types::NFTImage};
+use svgenesis::{svgenesis_test::*, types::SVGenesisNFT};
 use radix_common::network::NetworkDefinition;
 use rand::prelude::*;
 use scrypto_test::prelude::*;
@@ -12,7 +12,7 @@ fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
 
@@ -20,8 +20,8 @@ fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
     rand::thread_rng().fill_bytes(&mut data);
 
     // Act
-    let _first_mint = nft_minter.mint_nft(data.to_vec(), &mut env)?;
-    let second_mint = nft_minter.mint_nft(data.to_vec(), &mut env);
+    let _first_mint = svgenesis.mint_nft(data.to_vec(), &mut env)?;
+    let second_mint = svgenesis.mint_nft(data.to_vec(), &mut env);
 
     // Assert
     assert!(second_mint.is_err());
@@ -36,7 +36,7 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
 
@@ -44,7 +44,7 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
     rand::thread_rng().fill_bytes(&mut data);
 
     // Act
-    let result = nft_minter.mint_nft(data.to_vec(), &mut env);
+    let result = svgenesis.mint_nft(data.to_vec(), &mut env);
 
     // Assert
     assert!(result.is_err());
@@ -59,7 +59,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
-    let mut nft_minter = NftMinter::instantiate(package_address, &mut env)?;
+    let mut svgenesis = SVGenesis::instantiate(package_address, &mut env)?;
 
     env.disable_auth_module();
     env.disable_limits_module();
@@ -70,10 +70,10 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
     for i in 1..1001 {
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
-        let nft_bucket = nft_minter.mint_nft(data.to_vec(), &mut env)?;
+        let nft_bucket = svgenesis.mint_nft(data.to_vec(), &mut env)?;
 
         let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
-        let nft_data = resource_manager.get_non_fungible_data::<_, _, NFTImage>(
+        let nft_data = resource_manager.get_non_fungible_data::<_, _, SVGenesisNFT>(
             nft_bucket
                 .non_fungible_local_ids(&mut env)?
                 .first()
