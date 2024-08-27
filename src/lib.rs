@@ -187,7 +187,7 @@ mod svgenesis {
                 &nft_id,
                 SVGenesisNFT {
                     key_image_url: Url::of(svg_data_uri.clone()),
-                    name: format!("NFT #{}", self.next_nft_id),
+                    name: format!("SVGenesis #{}", self.next_nft_id),
                     // Can't guarantee that all characters will be valid UTF-8, so this is basically best-effort and for fun if someone wants to use their own vanity seed
                     seed_lossy: String::from_utf8_lossy(&seed).into_owned(),
                     layers,
