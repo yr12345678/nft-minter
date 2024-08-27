@@ -52,6 +52,65 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
     Ok(())
 }
 
+#[test]
+fn owner_can_mint_admin_badge() {
+    // Setup the environment
+    let mut ledger = LedgerSimulatorBuilder::new().build();
+
+    // Create an account
+    let (public_key, _private_key, account) = ledger.new_allocated_account();
+
+    // Publish the package
+    let package_address = ledger.compile_and_publish(this_package!());
+
+    // Instantiate the component
+    let manifest = ManifestBuilder::new()
+        .lock_fee_from_faucet()
+        .call_function(
+            package_address,
+            "SVGenesis",
+            "instantiate",
+            manifest_args!(),
+        )
+        .deposit_batch(account)
+        .build();
+
+    let receipt = ledger.execute_manifest(
+        manifest,
+        vec![NonFungibleGlobalId::from_public_key(&public_key)],
+    );
+
+    let component = receipt.expect_commit_success().new_component_addresses()[0];
+    let owner_badge = receipt.expect_commit_success().new_resource_addresses()[0];
+
+    // Mint admin badge
+    let manifest = ManifestBuilder::new()
+        .lock_fee_from_faucet()
+        .call_method(
+            account,
+            "create_proof_of_amount",
+            manifest_args!(
+                owner_badge,
+                dec!(1)
+            )
+        )
+        .call_method(
+            component,
+            "mint_admin_badge",
+            manifest_args!()
+        )
+        .deposit_batch(account)
+        .build();
+
+    let receipt = ledger.execute_manifest(
+            manifest,
+            vec![NonFungibleGlobalId::from_public_key(&public_key)],
+        );
+
+    // Assert
+    receipt.expect_commit_success();
+}
+
 // Mint a load of NFTs for test/review purposes
 #[test]
 fn mint_nft_batch() -> Result<(), RuntimeError> {
@@ -82,7 +141,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
             &mut env,
         )?;
 
-        println!("{:?}: {:#?}", nft_data.name, nft_data.layers);
+        // println!("{:?}: {:#?}", nft_data.name, nft_data.layers);
 
         fs::write(
             format!("test_images/{i}.svg"),
