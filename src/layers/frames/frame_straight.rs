@@ -89,15 +89,15 @@ impl Layer for FrameStraight {
         // Prevent the frame from having any big elements on top
         vec![
             big_elements::big_element_square::BigElementSquare.type_id(),
-            big_elements::full_circle::BigElementFullCircle.type_id(),
-            big_elements::half_circle::BigElementHalfCircle.type_id(),
-            big_elements::quarter_circle::BigElementQuarterCircle.type_id(),
-            big_elements::three_quarter_circle::BigElementThreeQuarterCircle.type_id(),
-            big_elements::triangle::BigElementTriangle.type_id(),
-            big_elements::two_squares::BigElementTwoSquares.type_id(),
-            big_elements::zig_zag::BigElementZigZag.type_id(),
-            big_elements::pill::BigElementPill.type_id(),
-            big_elements::pill_split_circle::BigElementPillSplitCircle.type_id(),
+            big_elements::big_element_full_circle::BigElementFullCircle.type_id(),
+            big_elements::big_element_half_circle::BigElementHalfCircle.type_id(),
+            big_elements::big_element_quarter_circle::BigElementQuarterCircle.type_id(),
+            big_elements::big_element_three_quarter_circle::BigElementThreeQuarterCircle.type_id(),
+            big_elements::big_element_triangle::BigElementTriangle.type_id(),
+            big_elements::big_element_two_squares::BigElementTwoSquares.type_id(),
+            big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
+            big_elements::big_element_pill::BigElementPill.type_id(),
+            big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
         ]
     }
 }

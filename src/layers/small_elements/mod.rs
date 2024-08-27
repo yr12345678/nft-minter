@@ -4,35 +4,35 @@ use crate::{
     layers::Layer,
     utils::{exclude_layers, pick_random_layer},
 };
-use arch::SmallElementArch;
-use cross::SmallElementCross;
-use cube::SmallElementCube;
-use flower::SmallElementFlower;
-use four_circles::SmallElementFourCircles;
+use small_element_arch::SmallElementArch;
+use small_element_cross::SmallElementCross;
+use small_element_cube::SmallElementCube;
+use small_element_flower::SmallElementFlower;
+use small_element_four_circles::SmallElementFourCircles;
 use random::Random;
-use small_circle::SmallElementCircle;
+use small_element_circle::SmallElementCircle;
 use small_element_pill::SmallElementPill;
 use small_element_square::SmallElementSquare;
 use small_element_straight_split_square::SmallElementStraightSplitSquare;
-use small_triangle::SmallElementTriangle;
-use split_circle::SmallElementSplitCircle;
-use split_circle_opposite::SmallElementSplitCircleOpposite;
-use star::SmallElementStar;
+use small_element_triangle::SmallElementTriangle;
+use small_element_split_circle::SmallElementSplitCircle;
+use small_element_split_circle_opposite::SmallElementSplitCircleOpposite;
+use small_element_star::SmallElementStar;
 use small_element_stacked_pills::SmallElementStackedPills;
 
-pub mod arch;
-pub mod cross;
-pub mod cube;
-pub mod flower;
-pub mod four_circles;
-pub mod small_circle;
+pub mod small_element_arch;
+pub mod small_element_cross;
+pub mod small_element_cube;
+pub mod small_element_flower;
+pub mod small_element_four_circles;
+pub mod small_element_circle;
 pub mod small_element_pill;
 pub mod small_element_square;
 pub mod small_element_straight_split_square;
-pub mod small_triangle;
-pub mod split_circle;
-pub mod split_circle_opposite;
-pub mod star;
+pub mod small_element_triangle;
+pub mod small_element_split_circle;
+pub mod small_element_split_circle_opposite;
+pub mod small_element_star;
 pub mod small_element_stacked_pills;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {

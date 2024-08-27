@@ -75,6 +75,6 @@ impl Layer for BigElementPill {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![small_elements::cube::SmallElementCube.type_id()]
+        vec![small_elements::small_element_cube::SmallElementCube.type_id()]
     }
 }

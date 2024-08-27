@@ -5,27 +5,27 @@ use crate::{
     utils::{exclude_layers, pick_random_layer},
 };
 use big_element_square::BigElementSquare;
-use full_circle::BigElementFullCircle;
-use half_circle::BigElementHalfCircle;
-use pill::BigElementPill;
-use pill_split_circle::BigElementPillSplitCircle;
-use quarter_circle::BigElementQuarterCircle;
+use big_element_full_circle::BigElementFullCircle;
+use big_element_half_circle::BigElementHalfCircle;
+use big_element_pill::BigElementPill;
+use big_element_pill_split_circle::BigElementPillSplitCircle;
+use big_element_quarter_circle::BigElementQuarterCircle;
 use random::Random;
-use three_quarter_circle::BigElementThreeQuarterCircle;
-use triangle::BigElementTriangle;
-use two_squares::BigElementTwoSquares;
-use zig_zag::BigElementZigZag;
+use big_element_three_quarter_circle::BigElementThreeQuarterCircle;
+use big_element_triangle::BigElementTriangle;
+use big_element_two_squares::BigElementTwoSquares;
+use big_element_zig_zag::BigElementZigZag;
 
 pub mod big_element_square;
-pub mod full_circle;
-pub mod half_circle;
-pub mod pill;
-pub mod pill_split_circle;
-pub mod quarter_circle;
-pub mod three_quarter_circle;
-pub mod triangle;
-pub mod two_squares;
-pub mod zig_zag;
+pub mod big_element_full_circle;
+pub mod big_element_half_circle;
+pub mod big_element_pill;
+pub mod big_element_pill_split_circle;
+pub mod big_element_quarter_circle;
+pub mod big_element_three_quarter_circle;
+pub mod big_element_triangle;
+pub mod big_element_two_squares;
+pub mod big_element_zig_zag;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights

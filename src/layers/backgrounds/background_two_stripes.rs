@@ -98,9 +98,9 @@ impl Layer for BackgroundTwoStripes {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::zig_zag::BigElementZigZag.type_id(),
-            big_elements::pill::BigElementPill.type_id(),
-            big_elements::pill_split_circle::BigElementPillSplitCircle.type_id(),
+            big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
+            big_elements::big_element_pill::BigElementPill.type_id(),
+            big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
         ]
     }
 }

@@ -102,7 +102,7 @@ impl Layer for BackgroundStraightSplit {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::two_squares::BigElementTwoSquares.type_id(), // The two squares big element doesn't differentiate enough from this background
+            big_elements::big_element_two_squares::BigElementTwoSquares.type_id(), // The two squares big element doesn't differentiate enough from this background
         ]
     }
 }
