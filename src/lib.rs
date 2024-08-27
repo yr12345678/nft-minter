@@ -18,7 +18,7 @@ mod svgenesis {
         roles {
             admin_role => updatable_by: [OWNER];
         },
-        methods { 
+        methods {
             mint_nft => PUBLIC;
             seed_used => PUBLIC;
             mint_admin_badge => restrict_to: [OWNER];
@@ -61,29 +61,31 @@ mod svgenesis {
                 .mint_initial_supply(1);
 
             // Create admin badge
-            let admin_badge_manager = ResourceBuilder::new_fungible(OwnerRole::Updatable(rule!(require(owner_badge.resource_address()))))
-                .divisibility(DIVISIBILITY_NONE)
-                .metadata(metadata! {
-                    init {
-                        "name" => "SVGenesis admin badge", locked;
-                        "symbol" => "SVGADM", locked;
-                        "description" => "An admin badge for the SVGenesis NFT collection.", locked;
-                        "icon_url" => Url::of("https://i.ibb.co/gJY74HX/svgenesis.png"), locked;
-                    }
-                })
-                .mint_roles(mint_roles!(
-                    minter => rule!(require(global_caller(component_address)));
-                    minter_updater => rule!(deny_all);
-                ))
-                .burn_roles(burn_roles!(
-                    burner => rule!(allow_all);
-                    burner_updater => OWNER;
-                ))
-                .recall_roles(recall_roles!(
-                    recaller => OWNER;
-                    recaller_updater => OWNER;
-                ))
-                .create_with_no_initial_supply();
+            let admin_badge_manager = ResourceBuilder::new_fungible(OwnerRole::Updatable(rule!(
+                require(owner_badge.resource_address())
+            )))
+            .divisibility(DIVISIBILITY_NONE)
+            .metadata(metadata! {
+                init {
+                    "name" => "SVGenesis admin badge", locked;
+                    "symbol" => "SVGADM", locked;
+                    "description" => "An admin badge for the SVGenesis NFT collection.", locked;
+                    "icon_url" => Url::of("https://i.ibb.co/gJY74HX/svgenesis.png"), locked;
+                }
+            })
+            .mint_roles(mint_roles!(
+                minter => rule!(require(global_caller(component_address)));
+                minter_updater => rule!(deny_all);
+            ))
+            .burn_roles(burn_roles!(
+                burner => rule!(allow_all);
+                burner_updater => OWNER;
+            ))
+            .recall_roles(recall_roles!(
+                recaller => OWNER;
+                recaller_updater => OWNER;
+            ))
+            .create_with_no_initial_supply();
 
             // Metadata setter rule, we allow the admin to update metadata too to update the dApp definition
             let metadata_setter_rule = rule!(
@@ -104,9 +106,9 @@ mod svgenesis {
                     roles {
                         metadata_setter => metadata_setter_rule.clone();
                         metadata_setter_updater => OWNER;
-                        metadata_locker => OWNER; 
+                        metadata_locker => OWNER;
                         metadata_locker_updater => rule!(deny_all);
-                    },                 
+                    },
                     init {
                         "name" => "SVGenesis", locked;
                         "description" => "SVGenesis is an experimental NFT collection that's generated and hosted completely on-ledger. It's free and unlimited.", updatable;
@@ -115,7 +117,7 @@ mod svgenesis {
                     }
                 })
                 .create_with_no_initial_supply();
-            
+
             // Instantiate the component
             let svgenesis_component = Self {
                 svgenesis_manager,
@@ -133,14 +135,14 @@ mod svgenesis {
             ))))
             .roles(roles! {
                 admin_role => rule!(require(admin_badge_manager.address()));
-            })            
+            })
             .metadata(metadata! (
                 roles {
                     metadata_setter => metadata_setter_rule.clone();
                     metadata_setter_updater => OWNER;
-                    metadata_locker => OWNER; 
+                    metadata_locker => OWNER;
                     metadata_locker_updater => rule!(deny_all);
-                },                
+                },
                 init{
                     "name" => "SVGenesis minter", updatable;
                     "description" => "The component that mints SVGenesis NFTs.", updatable;
@@ -154,9 +156,9 @@ mod svgenesis {
         }
 
         /// Mints an SVGenesis NFT using the provided seed.
-        /// 
+        ///
         /// Returns a Bucket containing the minted NFT.
-        /// 
+        ///
         /// Panics if:
         /// * The seed is not a multiple of 4
         /// * The seed is already used
@@ -225,11 +227,10 @@ mod svgenesis {
         }
 
         /// Mints an admin badge
-        /// 
+        ///
         /// Returns a Bucket with the admin badge
         pub fn mint_admin_badge(&mut self) -> Bucket {
-            ResourceManager::from_address(self.admin_badge)
-                .mint(1)
+            ResourceManager::from_address(self.admin_badge).mint(1)
         }
     }
 }

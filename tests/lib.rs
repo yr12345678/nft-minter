@@ -110,23 +110,16 @@ fn owner_can_mint_admin_badge() {
         .call_method(
             account,
             "create_proof_of_amount",
-            manifest_args!(
-                owner_badge,
-                dec!(1)
-            )
+            manifest_args!(owner_badge, dec!(1)),
         )
-        .call_method(
-            component,
-            "mint_admin_badge",
-            manifest_args!()
-        )
+        .call_method(component, "mint_admin_badge", manifest_args!())
         .deposit_batch(account)
         .build();
 
     let receipt = ledger.execute_manifest(
-            manifest,
-            vec![NonFungibleGlobalId::from_public_key(&public_key)],
-        );
+        manifest,
+        vec![NonFungibleGlobalId::from_public_key(&public_key)],
+    );
 
     // Assert
     receipt.expect_commit_success();
