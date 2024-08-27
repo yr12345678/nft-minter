@@ -45,6 +45,7 @@ mod svgenesis {
                 .metadata(metadata! {
                     init {
                         "name" => "SVGenesis owner badge", locked;
+                        "symbol" => "SVGOWN", locked;
                         "description" => "The owner badge for the SVGenesis NFT collection.", locked;
                         "icon_url" => Url::of("https://i.ibb.co/gJY74HX/svgenesis.png"), locked;
                     }
@@ -65,6 +66,7 @@ mod svgenesis {
                 .metadata(metadata! {
                     init {
                         "name" => "SVGenesis admin badge", locked;
+                        "symbol" => "SVGADM", locked;
                         "description" => "An admin badge for the SVGenesis NFT collection.", locked;
                         "icon_url" => Url::of("https://i.ibb.co/gJY74HX/svgenesis.png"), locked;
                     }
