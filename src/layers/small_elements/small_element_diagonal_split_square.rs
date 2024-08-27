@@ -8,7 +8,7 @@ pub struct SmallElementDiagonalSplitSquare;
 impl Layer for SmallElementDiagonalSplitSquare {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the two triangles that will make up the diagonally split square
-        let random_offset = random.in_range::<u16>(50, 100);
+        let random_offset = random.in_range::<u16>(75, 125);
         let offset_minus = 500 - random_offset;
         let offset_plus = 500 + random_offset;
 
