@@ -6,7 +6,28 @@ use std::fs;
 use svgenesis::{svgenesis_test::*, types::SVGenesisNFT};
 
 #[test]
-fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
+fn can_mint_nft() -> Result<(), RuntimeError> {
+    // Arrange
+    let mut env = TestEnvironment::new();
+    let package_address =
+        PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
+
+    let (mut svgenesis, _) = SVGenesis::instantiate(package_address, &mut env)?;
+
+    let mut data = [0u8; 128];
+    rand::thread_rng().fill_bytes(&mut data);
+
+    // Act
+    let first_mint = svgenesis.mint_nft(data.to_vec(), &mut env);
+
+    // Assert
+    assert!(first_mint.is_ok());
+
+    Ok(())
+}
+
+#[test]
+fn cannot_mint_with_same_seed() -> Result<(), RuntimeError> {
     // Arrange
     let mut env = TestEnvironment::new();
     let package_address =
@@ -30,7 +51,7 @@ fn cannot_minft_with_same_seed() -> Result<(), RuntimeError> {
 }
 
 #[test]
-fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
+fn cannot_mint_with_wrong_seed_length() -> Result<(), RuntimeError> {
     // Arrange
     let mut env = TestEnvironment::new();
     let package_address =
@@ -55,7 +76,7 @@ fn cannot_minft_with_wrong_seed_length() -> Result<(), RuntimeError> {
 #[test]
 fn owner_can_mint_admin_badge() {
     // Setup the environment
-    let mut ledger = LedgerSimulatorBuilder::new().build();
+    let mut ledger = LedgerSimulatorBuilder::new().without_kernel_trace().build();
 
     // Create an account
     let (public_key, _private_key, account) = ledger.new_allocated_account();
