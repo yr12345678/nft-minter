@@ -85,6 +85,11 @@ mod svgenesis {
                 ))
                 .create_with_no_initial_supply();
 
+            // Metadata setter rule, we allow the admin to update metadata too to update the dApp definition
+            let metadata_setter_rule = rule!(
+                require(owner_badge.resource_address()) || require(admin_badge_manager.address())
+            );
+
             // Create the NFT manager
             let svgenesis_manager = ResourceBuilder::new_integer_non_fungible_with_registered_type::<SVGenesisNFT>(OwnerRole::Updatable(rule!(require(owner_badge.resource_address()))))
                 .mint_roles(mint_roles!(
@@ -97,7 +102,7 @@ mod svgenesis {
                 ))
                 .metadata(metadata! {
                     roles {
-                        metadata_setter => OWNER;
+                        metadata_setter => metadata_setter_rule.clone();
                         metadata_setter_updater => OWNER;
                         metadata_locker => OWNER; 
                         metadata_locker_updater => rule!(deny_all);
@@ -110,11 +115,6 @@ mod svgenesis {
                     }
                 })
                 .create_with_no_initial_supply();
-
-            // Metadata setter rule, we allow the admin to update metadata too to update the dApp definition
-            let metadata_setter_rule = rule!(
-                require(owner_badge.resource_address()) || require(admin_badge_manager.address())
-            );
             
             // Instantiate the component
             let svgenesis_component = Self {
@@ -136,7 +136,7 @@ mod svgenesis {
             })            
             .metadata(metadata! (
                 roles {
-                    metadata_setter => metadata_setter_rule;
+                    metadata_setter => metadata_setter_rule.clone();
                     metadata_setter_updater => OWNER;
                     metadata_locker => OWNER; 
                     metadata_locker_updater => rule!(deny_all);
