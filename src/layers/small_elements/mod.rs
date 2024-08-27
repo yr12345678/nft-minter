@@ -9,6 +9,7 @@ use small_element_arch::SmallElementArch;
 use small_element_circle::SmallElementCircle;
 use small_element_cross::SmallElementCross;
 use small_element_cube::SmallElementCube;
+use small_element_diagonal_split_square::SmallElementDiagonalSplitSquare;
 use small_element_flower::SmallElementFlower;
 use small_element_four_circles::SmallElementFourCircles;
 use small_element_pill::SmallElementPill;
@@ -24,6 +25,7 @@ pub mod small_element_arch;
 pub mod small_element_circle;
 pub mod small_element_cross;
 pub mod small_element_cube;
+pub mod small_element_diagonal_split_square;
 pub mod small_element_flower;
 pub mod small_element_four_circles;
 pub mod small_element_pill;
@@ -52,6 +54,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementPill), 100),
         (Box::new(SmallElementStraightSplitSquare), 100),
         (Box::new(SmallElementStackedPills), 100),
+        (Box::new(SmallElementDiagonalSplitSquare), 100),
     ];
 
     // Filter out the excluded layers
