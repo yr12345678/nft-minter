@@ -90,7 +90,7 @@ impl Layer for BigElementHalfCircle {
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
 
-                gradient_definition(random, None, color1, color2)
+                gradient_definition(random, Some(45), color1, color2)
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
@@ -100,7 +100,7 @@ impl Layer for BigElementHalfCircle {
                     ColorMode::Vibrant
                 };
 
-                random_gradient_definition(random, None, color_mode, 100)
+                random_gradient_definition(random, Some(45), color_mode, 100)
             };
 
             path = path.set("fill", format!("url(#{gradient_name})",));

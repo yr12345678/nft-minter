@@ -3,11 +3,11 @@ use background_checkerboard::BackgroundCheckerboard;
 use background_diagonal_split::BackgroundDiagonalSplit;
 use background_double_diagonal_split::BackgroundDoubleDiagonalSplit;
 use background_four_squares::BackgroundFourSquares;
-use random::Random;
 use background_rectangle::BackgroundRectangle;
 use background_straight_split::BackgroundStraightSplit;
 use background_threeway_split::BackgroundThreeWaySplit;
 use background_two_stripes::BackgroundTwoStripes;
+use random::Random;
 
 pub mod background_checkerboard;
 pub mod background_diagonal_split;

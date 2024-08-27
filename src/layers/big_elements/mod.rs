@@ -4,24 +4,24 @@ use crate::{
     layers::Layer,
     utils::{exclude_layers, pick_random_layer},
 };
-use big_element_square::BigElementSquare;
 use big_element_full_circle::BigElementFullCircle;
 use big_element_half_circle::BigElementHalfCircle;
 use big_element_pill::BigElementPill;
 use big_element_pill_split_circle::BigElementPillSplitCircle;
 use big_element_quarter_circle::BigElementQuarterCircle;
-use random::Random;
+use big_element_square::BigElementSquare;
 use big_element_three_quarter_circle::BigElementThreeQuarterCircle;
 use big_element_triangle::BigElementTriangle;
 use big_element_two_squares::BigElementTwoSquares;
 use big_element_zig_zag::BigElementZigZag;
+use random::Random;
 
-pub mod big_element_square;
 pub mod big_element_full_circle;
 pub mod big_element_half_circle;
 pub mod big_element_pill;
 pub mod big_element_pill_split_circle;
 pub mod big_element_quarter_circle;
+pub mod big_element_square;
 pub mod big_element_three_quarter_circle;
 pub mod big_element_triangle;
 pub mod big_element_two_squares;
