@@ -101,6 +101,7 @@ fn owner_can_mint_admin_badge() {
         vec![NonFungibleGlobalId::from_public_key(&public_key)],
     );
 
+    // Get the component and resource addresses
     let component = receipt.expect_commit_success().new_component_addresses()[0];
     let owner_badge = receipt.expect_commit_success().new_resource_addresses()[0];
 
@@ -154,13 +155,16 @@ fn limits_test() {
         vec![NonFungibleGlobalId::from_public_key(&public_key)],
     );
 
+    // Get the component address
     let component = receipt.expect_commit_success().new_component_addresses()[0];
 
+    // Perform a mint X times
     for i in 0..500000 {
+        // Generate a seed
         let mut seed = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut seed);
 
-        // Mint admin badge
+        // Mint NFT
         let manifest = ManifestBuilder::new()
             .lock_fee_from_faucet()
             .call_method(component, "mint_nft", manifest_args!(seed.to_vec()))
@@ -187,23 +191,30 @@ fn limits_test() {
 // Mint a load of NFTs for test/review purposes
 #[test]
 fn mint_nft_batch() -> Result<(), RuntimeError> {
+    // Instantiate the component
     let mut env = TestEnvironment::new();
     let package_address =
         PackageFactory::compile_and_publish(this_package!(), &mut env, CompileProfile::Fast)?;
 
     let (mut svgenesis, _) = SVGenesis::instantiate(package_address, &mut env)?;
 
+    // Disable auth and limits so we don't run into unnecessary issues here
     env.disable_auth_module();
     env.disable_limits_module();
 
     // Create images directory if necessary
     let _ = fs::create_dir_all("test_images");
 
+    // Mint X NFTs and write them to disk
     for i in 1..10001 {
+        // Generate a seed
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
+
+        // Mint the NFT
         let nft_bucket = svgenesis.mint_nft(data.to_vec(), &mut env)?;
 
+        // Get the NFT data
         let resource_manager = ResourceManager(nft_bucket.resource_address(&mut env)?);
         let nft_data = resource_manager.get_non_fungible_data::<_, _, SVGenesisNFT>(
             nft_bucket
@@ -216,6 +227,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
 
         println!("{:?}: {:#?}", nft_data.name, nft_data.layers);
 
+        // Write to disk
         fs::write(
             format!("test_images/{i}.svg"),
             hex::decode(nft_data.svg_data).unwrap(),
@@ -231,7 +243,9 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
 fn build_mint_manifest() -> Result<(), RuntimeError> {
     let mut manifest = ManifestBuilder::new();
 
+    // Generate the mint instructions
     for _ in 0..10 {
+        // Generate a seed to use
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
 
@@ -245,6 +259,7 @@ fn build_mint_manifest() -> Result<(), RuntimeError> {
             manifest.call_method(component_address, "mint_nft", manifest_args!(data.to_vec()));
     }
 
+    // Deposit the minted NFTs
     manifest = manifest.deposit_batch(
         GlobalAddress::try_from_bech32(
             &AddressBech32Decoder::new(&NetworkDefinition::stokenet()),
@@ -253,6 +268,7 @@ fn build_mint_manifest() -> Result<(), RuntimeError> {
         .unwrap(),
     );
 
+    // Write the manifest to disk
     let _ = dump_manifest_to_file_system(
         manifest.object_names(),
         &manifest.build(),
