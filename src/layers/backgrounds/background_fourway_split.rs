@@ -116,7 +116,7 @@ impl Layer for BackgroundFourWaySplit {
             big_elements::big_element_triangle::BigElementTriangle.type_id(),
             big_elements::big_element_two_squares::BigElementTwoSquares.type_id(),
             big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
-            overlays::overlay_triangle::OverlayTriangle.type_id()
+            overlays::overlay_triangle::OverlayTriangle.type_id(),
         ]
     }
 }

@@ -150,7 +150,7 @@ impl Layer for BackgroundDoubleDiagonalSplit {
             big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
-            overlays::overlay_triangle::OverlayTriangle.type_id()
+            overlays::overlay_triangle::OverlayTriangle.type_id(),
         ]
     }
 }

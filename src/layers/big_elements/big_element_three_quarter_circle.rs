@@ -96,8 +96,6 @@ impl Layer for BigElementThreeQuarterCircle {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            overlays::overlay_half_circle::OverlayHalfCircle.type_id()
-        ]
+        vec![overlays::overlay_half_circle::OverlayHalfCircle.type_id()]
     }
 }

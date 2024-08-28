@@ -56,7 +56,7 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
                     exclusions.append(&mut overlay.exclusions());
                     layers.push(overlay);
                 }
-            }            
+            }
         }
 
         // Potentially add a small element and add any exclusions to the exclusions list

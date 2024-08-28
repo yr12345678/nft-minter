@@ -92,7 +92,9 @@ impl Layer for BigElementZigZag {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![frames::frame_straight::FrameStraight.type_id(),
-        overlays::overlay_triangle::OverlayTriangle.type_id()]
+        vec![
+            frames::frame_straight::FrameStraight.type_id(),
+            overlays::overlay_triangle::OverlayTriangle.type_id(),
+        ]
     }
 }

@@ -84,7 +84,9 @@ impl Layer for BackgroundChevron {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
-        overlays::overlay_triangle::OverlayTriangle.type_id()]
+        vec![
+            big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
+            overlays::overlay_triangle::OverlayTriangle.type_id(),
+        ]
     }
 }

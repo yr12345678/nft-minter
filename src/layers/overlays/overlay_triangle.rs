@@ -23,18 +23,20 @@ impl Layer for OverlayTriangle {
         let (gradient, gradient_name) = gradient_definition(
             random,
             None,
-            HSL { // Opacity = 0
-                hue: 0, 
-                saturation: 100, 
-                lightness: 100, 
-                opacity: 0
+            HSL {
+                // Opacity = 0
+                hue: 0,
+                saturation: 100,
+                lightness: 100,
+                opacity: 0,
             },
-            HSL { // Opacity = 0
-                hue: 0, 
-                saturation: 100, 
-                lightness: 100, 
-                opacity: 100
-            }
+            HSL {
+                // Opacity = 0
+                hue: 0,
+                saturation: 100,
+                lightness: 100,
+                opacity: 100,
+            },
         );
 
         triangle = triangle.set("fill", format!("url(#{gradient_name})"));

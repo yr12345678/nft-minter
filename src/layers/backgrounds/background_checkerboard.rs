@@ -1,8 +1,8 @@
 use std::any::Any;
 
-use crate::{hsl::*, layers::overlays};
 use crate::layers::Layer;
 use crate::utils::*;
+use crate::{hsl::*, layers::overlays};
 use random::Random;
 use svg::node::element::{path::Data, Element, Path, Rectangle};
 
@@ -108,8 +108,6 @@ impl Layer for BackgroundCheckerboard {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            overlays::overlay_triangle::OverlayTriangle.type_id()
-        ]
+        vec![overlays::overlay_triangle::OverlayTriangle.type_id()]
     }
 }

@@ -11,11 +11,10 @@ pub struct BackgroundPuzzle;
 impl Layer for BackgroundPuzzle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the two pieces that will form the background
-        let mut piece1 = Polygon::new()
-            .set("points", "0,0 666,0 666,500 334,500 334,1000 0,1000");
+        let mut piece1 = Polygon::new().set("points", "0,0 666,0 666,500 334,500 334,1000 0,1000");
 
-        let mut piece2 = Polygon::new()
-            .set("points", "1000,0 666,0 666,500 334,500 334,1000 1000,1000");
+        let mut piece2 =
+            Polygon::new().set("points", "1000,0 666,0 666,500 334,500 334,1000 1000,1000");
 
         // Set a rotation
         let valid_rotate_amounts = [0, 90];
@@ -105,7 +104,7 @@ impl Layer for BackgroundPuzzle {
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
             big_elements::big_element_three_quarter_circle::BigElementThreeQuarterCircle.type_id(),
-            small_elements::small_element_cross::SmallElementCross.type_id()
+            small_elements::small_element_cross::SmallElementCross.type_id(),
         ]
     }
 }
