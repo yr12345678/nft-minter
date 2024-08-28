@@ -1,7 +1,7 @@
 use std::any::Any;
 
 use crate::hsl::*;
-use crate::layers::{big_elements, overlays};
+use crate::layers::{big_elements, overlays, small_elements};
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::path::Data;
@@ -125,7 +125,8 @@ impl Layer for BackgroundZigZagSplit {
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
             big_elements::big_element_two_squares::BigElementTwoSquares.type_id(),
-            overlays::overlay_triangle::OverlayTriangle.type_id()
+            overlays::overlay_triangle::OverlayTriangle.type_id(),
+            small_elements::small_element_split_circle_opposite::SmallElementSplitCircleOpposite.type_id()
         ]
     }
 }
