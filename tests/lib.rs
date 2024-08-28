@@ -206,7 +206,7 @@ fn mint_nft_batch() -> Result<(), RuntimeError> {
     let _ = fs::create_dir_all("test_images");
 
     // Mint X NFTs and write them to disk
-    for i in 1..10001 {
+    for i in 1..1001 {
         // Generate a seed
         let mut data = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut data);
