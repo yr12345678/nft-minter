@@ -7,6 +7,7 @@ use background_rectangle::BackgroundRectangle;
 use background_straight_split::BackgroundStraightSplit;
 use background_threeway_split::BackgroundThreeWaySplit;
 use background_two_stripes::BackgroundTwoStripes;
+use background_zig_zag::BackgroundZigZag;
 use random::Random;
 
 pub mod background_checkerboard;
@@ -17,6 +18,7 @@ pub mod background_rectangle;
 pub mod background_straight_split;
 pub mod background_threeway_split;
 pub mod background_two_stripes;
+pub mod background_zig_zag;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     // Layers and their weights
@@ -29,6 +31,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
         (Box::new(BackgroundThreeWaySplit), 100),
         (Box::new(BackgroundDoubleDiagonalSplit), 25),
         (Box::new(BackgroundCheckerboard), 15),
+        (Box::new(BackgroundZigZag), 100),
     ];
 
     // Pick a random layer
