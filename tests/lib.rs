@@ -156,7 +156,7 @@ fn limits_test() {
 
     let component = receipt.expect_commit_success().new_component_addresses()[0];
 
-    for _ in 0..500000 {
+    for i in 0..500000 {
         let mut seed = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut seed);
     
@@ -177,6 +177,9 @@ fn limits_test() {
             manifest,
             vec![NonFungibleGlobalId::from_public_key(&public_key)],
         );
+
+        // Print fee cost
+        println!("#{} execution cost: {} XRD", i + 1, receipt.fee_summary.total_cost());
     
         // Assert
         receipt.expect_commit_success();
