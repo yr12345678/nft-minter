@@ -125,6 +125,64 @@ fn owner_can_mint_admin_badge() {
     receipt.expect_commit_success();
 }
 
+// See if we run into any limits when minting a ton of these NFTs
+// #[test]
+fn limits_test() {
+    // Setup the environment
+    let mut ledger = LedgerSimulatorBuilder::new().without_kernel_trace().build();
+
+    // Create an account
+    let (public_key, _private_key, account) = ledger.new_allocated_account();
+
+    // Publish the package
+    let package_address = ledger.compile_and_publish(this_package!());
+
+    // Instantiate the component
+    let manifest = ManifestBuilder::new()
+        .lock_fee_from_faucet()
+        .call_function(
+            package_address,
+            "SVGenesis",
+            "instantiate",
+            manifest_args!(),
+        )
+        .deposit_batch(account)
+        .build();
+
+    let receipt = ledger.execute_manifest(
+        manifest,
+        vec![NonFungibleGlobalId::from_public_key(&public_key)],
+    );
+
+    let component = receipt.expect_commit_success().new_component_addresses()[0];
+
+    for _ in 0..500000 {
+        let mut seed = [0u8; 128];
+        rand::thread_rng().fill_bytes(&mut seed);
+    
+        // Mint admin badge
+        let manifest = ManifestBuilder::new()
+            .lock_fee_from_faucet()
+            .call_method(
+                component,
+                "mint_nft",
+                manifest_args!(
+                    seed.to_vec()
+                ),
+            )
+            .deposit_batch(account)
+            .build();
+    
+        let receipt = ledger.execute_manifest(
+            manifest,
+            vec![NonFungibleGlobalId::from_public_key(&public_key)],
+        );
+    
+        // Assert
+        receipt.expect_commit_success();
+    }
+}
+
 // Mint a load of NFTs for test/review purposes
 #[test]
 fn mint_nft_batch() -> Result<(), RuntimeError> {
