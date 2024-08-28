@@ -159,28 +159,26 @@ fn limits_test() {
     for i in 0..500000 {
         let mut seed = [0u8; 128];
         rand::thread_rng().fill_bytes(&mut seed);
-    
+
         // Mint admin badge
         let manifest = ManifestBuilder::new()
             .lock_fee_from_faucet()
-            .call_method(
-                component,
-                "mint_nft",
-                manifest_args!(
-                    seed.to_vec()
-                ),
-            )
+            .call_method(component, "mint_nft", manifest_args!(seed.to_vec()))
             .deposit_batch(account)
             .build();
-    
+
         let receipt = ledger.execute_manifest(
             manifest,
             vec![NonFungibleGlobalId::from_public_key(&public_key)],
         );
 
         // Print fee cost
-        println!("#{} execution cost: {} XRD", i + 1, receipt.fee_summary.total_cost());
-    
+        println!(
+            "#{} execution cost: {} XRD",
+            i + 1,
+            receipt.fee_summary.total_cost()
+        );
+
         // Assert
         receipt.expect_commit_success();
     }

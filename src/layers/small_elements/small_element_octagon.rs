@@ -1,7 +1,7 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use svg::node::element::{Polygon, Element};
+use svg::node::element::{Element, Polygon};
 
 pub struct SmallElementOctagon;
 
@@ -13,8 +13,10 @@ impl Layer for SmallElementOctagon {
         let offset_quarter_minus = 500 - random_size / 4;
         let offset_quarter_plus = 500 + random_size / 4;
 
-        let mut octagon = Polygon::new()
-            .set("points", format!("
+        let mut octagon = Polygon::new().set(
+            "points",
+            format!(
+                "
             {offset_half_minus},{offset_quarter_plus} 
             {offset_half_minus},{offset_quarter_minus}
             {offset_quarter_minus},{offset_half_minus}
@@ -23,7 +25,9 @@ impl Layer for SmallElementOctagon {
             {offset_half_plus},{offset_quarter_plus}
             {offset_quarter_plus},{offset_half_plus}
             {offset_quarter_minus},{offset_half_plus}
-            "));
+            "
+            ),
+        );
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {

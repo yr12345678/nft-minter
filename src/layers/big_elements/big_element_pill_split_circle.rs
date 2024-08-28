@@ -160,6 +160,7 @@ impl Layer for BigElementPillSplitCircle {
             small_elements::small_element_stacked_pills::SmallElementStackedPills.type_id(),
             small_elements::small_element_diagonal_split_square::SmallElementDiagonalSplitSquare
                 .type_id(),
+            small_elements::small_element_octagon::SmallElementOctagon.type_id(),
         ]
     }
 }
