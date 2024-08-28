@@ -7,9 +7,9 @@ use random::Random;
 use svg::node::element::path::Data;
 use svg::node::element::{Element, Path, Rectangle};
 
-pub struct BackgroundZigZag;
+pub struct BackgroundZigZagSplit;
 
-impl Layer for BackgroundZigZag {
+impl Layer for BackgroundZigZagSplit {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the paths that will form our zig zag background
         let mut rectangle = Rectangle::new()
