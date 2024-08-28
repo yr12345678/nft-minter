@@ -104,6 +104,7 @@ impl Layer for BackgroundPuzzle {
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
             big_elements::big_element_three_quarter_circle::BigElementThreeQuarterCircle.type_id(),
+            big_elements::big_element_half_circle::BigElementHalfCircle.type_id(),
             small_elements::small_element_cross::SmallElementCross.type_id(),
         ]
     }
