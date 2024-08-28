@@ -1,4 +1,6 @@
-use crate::hsl::*;
+use std::any::Any;
+
+use crate::{hsl::*, layers::overlays};
 use crate::layers::Layer;
 use crate::utils::*;
 use random::Random;
@@ -103,5 +105,11 @@ impl Layer for BackgroundCheckerboard {
                 path.into(),
             ]
         }
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            overlays::overlay_triangle::OverlayTriangle.type_id()
+        ]
     }
 }

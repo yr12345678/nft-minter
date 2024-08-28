@@ -1,4 +1,7 @@
+use std::any::Any;
+
 use crate::hsl::*;
+use crate::layers::overlays;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{path::Data, Element, Path};
@@ -107,5 +110,11 @@ impl Layer for BigElementHalfCircle {
 
             vec![gradient.into(), path.into()]
         }
+    }
+
+    fn exclusions(&self) -> Vec<std::any::TypeId> {
+        vec![
+            overlays::overlay_half_circle::OverlayHalfCircle.type_id()
+        ]
     }
 }

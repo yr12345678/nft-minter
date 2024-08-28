@@ -1,6 +1,6 @@
 use std::any::Any;
 
-use crate::layers::Layer;
+use crate::layers::{overlays, Layer};
 use crate::utils::*;
 use crate::{hsl::*, layers::small_elements};
 use random::Random;
@@ -161,6 +161,7 @@ impl Layer for BigElementPillSplitCircle {
             small_elements::small_element_diagonal_split_square::SmallElementDiagonalSplitSquare
                 .type_id(),
             small_elements::small_element_octagon::SmallElementOctagon.type_id(),
+            overlays::overlay_triangle::OverlayTriangle.type_id()
         ]
     }
 }

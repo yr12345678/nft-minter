@@ -49,6 +49,14 @@ pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
                 exclusions.append(&mut big_element.exclusions());
                 layers.push(big_element);
             }
+
+            // Potentially add an overlay and add any exclusions to the exclusions list
+            if random.roll::<u16>(100) < 5 {
+                if let Some(overlay) = random_overlay(&mut random, &exclusions) {
+                    exclusions.append(&mut overlay.exclusions());
+                    layers.push(overlay);
+                }
+            }            
         }
 
         // Potentially add a small element and add any exclusions to the exclusions list

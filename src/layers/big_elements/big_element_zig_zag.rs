@@ -1,6 +1,6 @@
 use std::any::Any;
 
-use crate::layers::Layer;
+use crate::layers::{overlays, Layer};
 use crate::utils::*;
 use crate::{hsl::*, layers::frames};
 use random::Random;
@@ -92,6 +92,7 @@ impl Layer for BigElementZigZag {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![frames::frame_straight::FrameStraight.type_id()]
+        vec![frames::frame_straight::FrameStraight.type_id(),
+        overlays::overlay_triangle::OverlayTriangle.type_id()]
     }
 }

@@ -1,28 +1,28 @@
 use crate::{layers::Layer, utils::pick_random_layer};
 use background_checkerboard::BackgroundCheckerboard;
+use background_chevron::BackgroundChevron;
 use background_diagonal_split::BackgroundDiagonalSplit;
 use background_double_diagonal_split::BackgroundDoubleDiagonalSplit;
 use background_four_squares::BackgroundFourSquares;
+use background_fourway_split::BackgroundFourWaySplit;
 use background_rectangle::BackgroundRectangle;
 use background_straight_split::BackgroundStraightSplit;
 use background_threeway_split::BackgroundThreeWaySplit;
 use background_two_stripes::BackgroundTwoStripes;
 use background_zig_zag_split::BackgroundZigZagSplit;
-use background_chevron::BackgroundChevron;
-use background_fourway_split::BackgroundFourWaySplit;
 use random::Random;
 
 pub mod background_checkerboard;
+pub mod background_chevron;
 pub mod background_diagonal_split;
 pub mod background_double_diagonal_split;
 pub mod background_four_squares;
+pub mod background_fourway_split;
 pub mod background_rectangle;
 pub mod background_straight_split;
 pub mod background_threeway_split;
 pub mod background_two_stripes;
 pub mod background_zig_zag_split;
-pub mod background_chevron;
-pub mod background_fourway_split;
 
 pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
     // Layers and their weights

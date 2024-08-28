@@ -1,6 +1,6 @@
 use std::any::Any;
 
-use crate::layers::Layer;
+use crate::layers::{overlays, Layer};
 use crate::{hsl::*, layers::big_elements};
 use random::Random;
 use svg::node::element::{Definitions, Element, Pattern, Rectangle};
@@ -101,6 +101,7 @@ impl Layer for BackgroundTwoStripes {
             big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
+            overlays::overlay_triangle::OverlayTriangle.type_id()
         ]
     }
 }

@@ -1,9 +1,9 @@
 use std::any::Any;
 
-use crate::layers::Layer;
+use crate::layers::{overlays, Layer};
 use crate::{hsl::*, layers::big_elements};
 use random::Random;
-use svg::node::element::{Definitions, Element, Pattern, Rectangle, Polygon};
+use svg::node::element::{Definitions, Element, Pattern, Polygon, Rectangle};
 
 pub struct BackgroundChevron;
 
@@ -65,10 +65,7 @@ impl Layer for BackgroundChevron {
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
         let pattern = Pattern::new()
             .set("id", pattern_name.clone())
-            .set(
-                "patternTransform",
-                format!("rotate({rotate_amount})"),
-            )
+            .set("patternTransform", format!("rotate({rotate_amount})"))
             .set("patternUnits", "userSpaceOnUse")
             .set("width", 200)
             .set("height", 200)
@@ -87,8 +84,7 @@ impl Layer for BackgroundChevron {
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![
-            big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
-        ]
+        vec![big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
+        overlays::overlay_triangle::OverlayTriangle.type_id()]
     }
 }

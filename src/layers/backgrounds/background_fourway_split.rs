@@ -1,7 +1,7 @@
 use std::any::Any;
 
 use crate::hsl::*;
-use crate::layers::big_elements;
+use crate::layers::{big_elements, overlays};
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Element, Polygon};
@@ -113,13 +113,10 @@ impl Layer for BackgroundFourWaySplit {
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
-            big_elements::big_element_half_circle::BigElementHalfCircle.type_id(),
             big_elements::big_element_triangle::BigElementTriangle.type_id(),
             big_elements::big_element_two_squares::BigElementTwoSquares.type_id(),
-            big_elements::big_element_quarter_circle::BigElementQuarterCircle.type_id(),
             big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
-            big_elements::big_element_pill::BigElementPill.type_id(),
-            big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
+            overlays::overlay_triangle::OverlayTriangle.type_id()
         ]
     }
 }
