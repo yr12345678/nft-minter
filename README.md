@@ -60,6 +60,29 @@ The component instantiated from this blueprint has two methods:
 
 Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. Seed length must be a multiple of 4 (this is a requirement of .Random).
 
+## Manifests
+### Mint NFT
+```
+CALL_METHOD
+    Address("SVGENESIS_COMPONENT_ADDRESS")
+    "mint_nft"
+    Bytes("HEX_ENCODED_SEED")
+;
+CALL_METHOD
+    Address("YOUR_ACCOUNT")
+    "deposit_batch"
+    Expression("ENTIRE_WORKTOP")
+;
+```
+### Check if seed was used
+```
+CALL_METHOD
+    Address("SVGENESIS_COMPONENT_ADDRESS")
+    "seed_used"
+    Bytes("HEX_ENCODED_SEED")
+;
+```
+
 ## Events
 ### Generation
 The component emits an event upon NFT mint called `Generation` with the following fields:
