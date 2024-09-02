@@ -64,12 +64,12 @@ Seeds are provided hex-encoded. You can use something like https://www.browserli
 ### Mint NFT
 ```
 CALL_METHOD
-    Address("SVGENESIS_COMPONENT_ADDRESS")
+    Address("SVGENESIS_COMPONENT_ADDRESS") # Put the SVGenesis component address here
     "mint_nft"
-    Bytes("HEX_ENCODED_SEED")
+    Bytes("HEX_ENCODED_SEED") # Put a hex-encoded seed here
 ;
 CALL_METHOD
-    Address("YOUR_ACCOUNT")
+    Address("YOUR_ACCOUNT") # Put an account address here
     "deposit_batch"
     Expression("ENTIRE_WORKTOP")
 ;
@@ -77,7 +77,7 @@ CALL_METHOD
 ### Check if seed was used
 ```
 CALL_METHOD
-    Address("SVGENESIS_COMPONENT_ADDRESS")
+    Address("SVGENESIS_COMPONENT_ADDRESS") # Put an account address here
     "seed_used"
     Bytes("HEX_ENCODED_SEED")
 ;
