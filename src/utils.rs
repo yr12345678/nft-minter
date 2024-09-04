@@ -2,7 +2,7 @@ use std::any::TypeId;
 
 use crate::{hsl::*, layers::Layer};
 use random::Random;
-use svg::node::element::{Definitions, LinearGradient, Stop};
+use svg::node::element::{Definitions, LinearGradient, RadialGradient, Stop};
 
 /// Generates a gradient using randomness
 pub fn random_gradient_definition(
@@ -49,6 +49,40 @@ pub fn gradient_definition(
     // Set up the gradient
     let gradient_name = format!("gr{}", random.in_range::<u16>(0, 65535));
     let mut gradient = LinearGradient::new()
+        .set("id", gradient_name.clone())
+        .add(
+            Stop::new()
+                .set("offset", "0%")
+                .set("stop-color", color1.as_string()),
+        )
+        .add(
+            Stop::new()
+                .set("offset", "100%")
+                .set("stop-color", color2.as_string()),
+        );
+
+    // Apply rotation if necessary
+    if rotation.is_some() {
+        let rotation = rotation.unwrap();
+        gradient = gradient.set("gradientTransform", format!("rotate({rotation}, 0.5, 0.5)"));
+    }
+
+    // Put the gradient in a definition and return that with its name, which can be used to refer to it in a fill
+    let defs = Definitions::new().add(gradient);
+
+    (defs, gradient_name)
+}
+
+/// Generates a radial gradient using color input
+pub fn radial_gradient_definition(
+    random: &mut Random,
+    rotation: Option<u16>,
+    color1: HSL,
+    color2: HSL,
+) -> (Definitions, String) {
+    // Set up the radial gradient
+    let gradient_name = format!("gr{}", random.in_range::<u16>(0, 65535));
+    let mut gradient = RadialGradient::new()
         .set("id", gradient_name.clone())
         .add(
             Stop::new()

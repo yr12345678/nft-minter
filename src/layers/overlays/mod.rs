@@ -6,16 +6,19 @@ use crate::{
 };
 use overlay_half_circle::OverlayHalfCircle;
 use overlay_triangle::OverlayTriangle;
+use overlay_diamond::OverlayDiamond;
 use random::Random;
 
 pub mod overlay_half_circle;
 pub mod overlay_triangle;
+pub mod overlay_diamond;
 
 pub fn random_overlay(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
     let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
         (Box::new(OverlayTriangle), 100),
         (Box::new(OverlayHalfCircle), 100),
+        (Box::new(OverlayDiamond), 100),
     ];
 
     // Filter out the excluded layers
