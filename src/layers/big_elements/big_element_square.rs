@@ -10,7 +10,7 @@ impl Layer for BigElementSquare {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Generate the required values for building the rectangle. It will vary in size
         // and we have to adjust its position with it.
-        let random_dimension = random.in_range::<u16>(200, 300) * 2;
+        let random_dimension = random.in_range::<u16>(200, 250) * 2;
         let rx = random_dimension / 5; // This will just get rounded, which is fine
         let position = 500 - (random_dimension / 2);
 

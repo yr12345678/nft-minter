@@ -1,4 +1,7 @@
+use std::any::Any;
+
 use crate::hsl::*;
+use crate::layers::overlays;
 use crate::{layers::Layer, utils::*};
 use random::Random;
 use svg::node::element::{Circle, Element};
@@ -8,7 +11,7 @@ pub struct BigElementFullCircle;
 impl Layer for BigElementFullCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
         // Pick a random radius to introduce some variety
-        let random_radius = random.in_range::<u16>(150, 250) * 2; // Always an even number
+        let random_radius = random.in_range::<u16>(125, 175) * 2; // Always an even number
 
         // Create our circle
         let mut circle = Circle::new()
