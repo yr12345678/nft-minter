@@ -24,9 +24,11 @@ impl Layer for BackgroundTwoStripes {
                 _ => panic!("Invalid color variant"),
             }
         } else {
-            // Pick a random color mode
+            // Pick a random color
             let roll = random.roll::<u8>(100);
-            let color_mode = if roll < 30 {
+            let color_mode = if roll < 20 {
+                ColorMode::Tone
+            } else if roll < 50 {
                 ColorMode::Light
             } else {
                 ColorMode::Vibrant

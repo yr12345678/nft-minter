@@ -41,7 +41,9 @@ impl Layer for BackgroundStraightSplit {
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
-                let color_mode = if roll < 30 {
+                let color_mode = if roll < 15 {
+                    ColorMode::Tone
+                } else if roll < 50 {
                     ColorMode::Light
                 } else {
                     ColorMode::Vibrant
@@ -75,7 +77,9 @@ impl Layer for BackgroundStraightSplit {
             } else {
                 // Pick a random color
                 let roll = random.roll::<u8>(100);
-                let color_mode = if roll < 30 {
+                let color_mode = if roll < 15 {
+                    ColorMode::Tone
+                } else if roll < 50 {
                     ColorMode::Light
                 } else {
                     ColorMode::Vibrant
