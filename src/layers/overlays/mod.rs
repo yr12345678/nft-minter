@@ -4,14 +4,14 @@ use crate::{
     layers::Layer,
     utils::{exclude_layers, pick_random_layer},
 };
+use overlay_diamond::OverlayDiamond;
 use overlay_half_circle::OverlayHalfCircle;
 use overlay_triangle::OverlayTriangle;
-use overlay_diamond::OverlayDiamond;
 use random::Random;
 
+pub mod overlay_diamond;
 pub mod overlay_half_circle;
 pub mod overlay_triangle;
-pub mod overlay_diamond;
 
 pub fn random_overlay(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights

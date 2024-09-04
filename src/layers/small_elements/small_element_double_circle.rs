@@ -7,7 +7,7 @@ pub struct SmallElementDoubleCircle;
 
 impl Layer for SmallElementDoubleCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        let random_radius = random.in_range::<u16>(25, 45) * 4; 
+        let random_radius = random.in_range::<u16>(25, 45) * 4;
 
         let mut circle1 = Circle::new()
             .set("cx", 500 - random_radius / 4)
@@ -17,7 +17,7 @@ impl Layer for SmallElementDoubleCircle {
         let mut circle2 = Circle::new()
             .set("cx", 500 + random_radius / 4)
             .set("cy", 500)
-            .set("r", random_radius);        
+            .set("r", random_radius);
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
@@ -48,7 +48,8 @@ impl Layer for SmallElementDoubleCircle {
             vec![circle1.into(), circle2.into()]
         } else {
             // Get a gradient definition
-            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some() {
+            let ((gradient1, gradient1_name), (gradient2, gradient2_name)) = if base_color.is_some()
+            {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
@@ -77,7 +78,12 @@ impl Layer for SmallElementDoubleCircle {
             circle1 = circle1.set("fill", format!("url(#{gradient1_name})"));
             circle2 = circle2.set("fill", format!("url(#{gradient2_name})"));
 
-            vec![gradient1.into(), gradient2.into(), circle1.into(), circle2.into()]
+            vec![
+                gradient1.into(),
+                gradient2.into(),
+                circle1.into(),
+                circle2.into(),
+            ]
         }
     }
 }

@@ -10,6 +10,8 @@ use small_element_circle::SmallElementCircle;
 use small_element_cross::SmallElementCross;
 use small_element_cube::SmallElementCube;
 use small_element_diagonal_split_square::SmallElementDiagonalSplitSquare;
+use small_element_double_circle::SmallElementDoubleCircle;
+use small_element_double_diamond::SmallElementDoubleDiamond;
 use small_element_flower::SmallElementFlower;
 use small_element_four_circles::SmallElementFourCircles;
 use small_element_octagon::SmallElementOctagon;
@@ -21,14 +23,14 @@ use small_element_stacked_pills::SmallElementStackedPills;
 use small_element_star::SmallElementStar;
 use small_element_straight_split_square::SmallElementStraightSplitSquare;
 use small_element_triangle::SmallElementTriangle;
-use small_element_double_circle::SmallElementDoubleCircle;
-use small_element_double_diamond::SmallElementDoubleDiamond;
 
 pub mod small_element_arch;
 pub mod small_element_circle;
 pub mod small_element_cross;
 pub mod small_element_cube;
 pub mod small_element_diagonal_split_square;
+pub mod small_element_double_circle;
+pub mod small_element_double_diamond;
 pub mod small_element_flower;
 pub mod small_element_four_circles;
 pub mod small_element_octagon;
@@ -40,8 +42,6 @@ pub mod small_element_stacked_pills;
 pub mod small_element_star;
 pub mod small_element_straight_split_square;
 pub mod small_element_triangle;
-pub mod small_element_double_circle;
-pub mod small_element_double_diamond;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights

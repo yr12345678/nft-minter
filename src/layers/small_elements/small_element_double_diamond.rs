@@ -19,13 +19,13 @@ impl Layer for SmallElementDoubleDiamond {
             .set("x", 500 - random_size / 2 + random_size / 8)
             .set("y", 500 - random_size / 2 + random_size / 8)
             .set("width", random_size)
-            .set("height", random_size);    
+            .set("height", random_size);
 
         // Apply rotation
         let valid_rotate_amounts = [45, 135, 225, 315];
         let rotate_amount = valid_rotate_amounts
             .get(random.roll::<usize>(4))
-            .expect("Did not find a valid rotation amount. This should never happen."); 
+            .expect("Did not find a valid rotation amount. This should never happen.");
 
         rectangle1 = rectangle1.set("transform", format!("rotate({rotate_amount}, 500, 500)"));
         rectangle2 = rectangle2.set("transform", format!("rotate({rotate_amount}, 500, 500)"));
