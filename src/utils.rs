@@ -2,7 +2,9 @@ use std::any::TypeId;
 
 use crate::{hsl::*, layers::Layer};
 use random::Random;
-use svg::node::element::{Definitions, LinearGradient, RadialGradient, Stop};
+use svg::node::element::{
+    Definitions, Filter, FilterEffectDropShadow, LinearGradient, RadialGradient, Stop,
+};
 
 /// Generates a gradient using randomness
 pub fn random_gradient_definition(
@@ -105,6 +107,45 @@ pub fn radial_gradient_definition(
     let defs = Definitions::new().add(gradient);
 
     (defs, gradient_name)
+}
+
+/// Generates a drop-shadow definition
+pub fn drop_shadow_definition(
+    random: &mut Random,
+    dx: i8,
+    dy: i8,
+    std_deviation: i8,
+    flood_color: HSL,
+    flood_opacity: u8, // 0-100
+) -> (Definitions, String) {
+    // Create filter
+    let filter_name = format!("f{}", random.in_range::<u16>(0, 65535));
+    let mut filter = Filter::new()
+        .set("x", "-50%")
+        .set("y", "-50%")
+        .set("width", "200%")
+        .set("height", "200%")
+        .set("id", filter_name.clone());
+
+    // Create drop-shadow
+    let flood_opacity_string = match flood_opacity {
+        100 => "1".to_string(),
+        _ => format!("0.{:0>2}", flood_opacity),
+    };
+
+    let drop_shadow = FilterEffectDropShadow::new()
+        .set("dx", dx)
+        .set("dy", dy)
+        .set("stdDeviation", std_deviation)
+        .set("flood-color", flood_color.as_string())
+        .set("flood-opacity", flood_opacity_string);
+
+    filter = filter.add(drop_shadow);
+
+    // Put the filter in a definition and return that with its name, which can be used to refer to it
+    let defs = Definitions::new().add(filter);
+
+    (defs, filter_name)
 }
 
 /// Picks a random layer based on the weights of the layers

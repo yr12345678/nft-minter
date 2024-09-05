@@ -27,6 +27,19 @@ impl Layer for SmallElementCross {
             path = path.set("transform", "rotate(45, 500, 500)");
         };
 
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 35, drop_shadow_color, 70);
+
+            path = path.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }
+
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
             // Solid colors
@@ -48,7 +61,7 @@ impl Layer for SmallElementCross {
             // Add the fill to the paths
             path = path.set("stroke", color.clone());
 
-            vec![path.into()]
+            elements.push(path.into());
         } else {
             let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
@@ -70,7 +83,10 @@ impl Layer for SmallElementCross {
 
             path = path.set("stroke", format!("url(#{gradient_name})"));
 
-            vec![gradient.into(), path.into()]
+            elements.extend(vec![gradient.into(), path.into()]);
         }
+
+        // Return vector of elements
+        elements
     }
 }

@@ -23,6 +23,19 @@ impl Layer for SmallElementTriangle {
             .set("points", format!("{offset_minus},{offset_half_plus} {offset_plus},{offset_half_plus} 500,{offset_half_minus}"))
             .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 25, drop_shadow_color, 70);
+
+            triangle = triangle.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }  
+
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
             let color = if base_color.is_some() {
@@ -42,7 +55,7 @@ impl Layer for SmallElementTriangle {
 
             triangle = triangle.set("fill", color);
 
-            vec![triangle.into()]
+            elements.push(triangle.into());
         } else {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
@@ -65,7 +78,10 @@ impl Layer for SmallElementTriangle {
 
             triangle = triangle.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), triangle.into()]
+            elements.extend(vec![gradient.into(), triangle.into()]);
         }
+
+        // Return the vector of elements
+        elements
     }
 }

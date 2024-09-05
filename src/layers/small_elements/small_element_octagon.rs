@@ -7,7 +7,7 @@ pub struct SmallElementOctagon;
 
 impl Layer for SmallElementOctagon {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        let random_size = random.in_range::<u16>(25, 60) * 4;
+        let random_size = random.in_range::<u16>(30, 60) * 4;
         let offset_half_minus = 500 - random_size / 2;
         let offset_half_plus = 500 + random_size / 2;
         let offset_quarter_minus = 500 - random_size / 4;
@@ -16,18 +16,22 @@ impl Layer for SmallElementOctagon {
         let mut octagon = Polygon::new().set(
             "points",
             format!(
-                "
-            {offset_half_minus},{offset_quarter_plus} 
-            {offset_half_minus},{offset_quarter_minus}
-            {offset_quarter_minus},{offset_half_minus}
-            {offset_quarter_plus},{offset_half_minus}
-            {offset_half_plus},{offset_quarter_minus}
-            {offset_half_plus},{offset_quarter_plus}
-            {offset_quarter_plus},{offset_half_plus}
-            {offset_quarter_minus},{offset_half_plus}
-            "
+                "{offset_half_minus},{offset_quarter_plus} {offset_half_minus},{offset_quarter_minus} {offset_quarter_minus},{offset_half_minus} {offset_quarter_plus},{offset_half_minus} {offset_half_plus},{offset_quarter_minus} {offset_half_plus},{offset_quarter_plus} {offset_quarter_plus},{offset_half_plus} {offset_quarter_minus},{offset_half_plus}"
             ),
         );
+
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 25, drop_shadow_color, 70);
+
+            octagon = octagon.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
@@ -48,7 +52,7 @@ impl Layer for SmallElementOctagon {
 
             octagon = octagon.set("fill", color);
 
-            vec![octagon.into()]
+            elements.push(octagon.into());
         } else {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
@@ -71,7 +75,10 @@ impl Layer for SmallElementOctagon {
 
             octagon = octagon.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), octagon.into()]
+            elements.extend(vec![gradient.into(), octagon.into()]);
         }
+
+        // Return vector of elements
+        elements
     }
 }

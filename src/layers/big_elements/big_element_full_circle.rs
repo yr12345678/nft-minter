@@ -16,6 +16,19 @@ impl Layer for BigElementFullCircle {
             .set("cy", 500)
             .set("r", random_radius);
 
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 75, drop_shadow_color, 70);
+
+            circle = circle.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }
+
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
             let color = if base_color.is_some() {
@@ -35,7 +48,7 @@ impl Layer for BigElementFullCircle {
 
             circle = circle.set("fill", color);
 
-            vec![circle.into()]
+            elements.push(circle.into())
         } else {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
@@ -58,7 +71,10 @@ impl Layer for BigElementFullCircle {
 
             circle = circle.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), circle.into()]
+            elements.extend(vec![gradient.into(), circle.into()]);
         }
+
+        // Return the elements vector
+        elements
     }
 }

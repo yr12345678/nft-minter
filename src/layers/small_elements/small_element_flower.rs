@@ -33,10 +33,23 @@ impl Layer for SmallElementFlower {
             .get(random.roll::<usize>(2))
             .expect("Did not find a valid rotation amount. This should never happen.");
 
-        // Generate the paths
-        let mut path1 = Path::new()
+        // Generate the path
+        let mut path = Path::new()
             .set("d", data)
             .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
+
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 35, drop_shadow_color, 70);
+
+            path = path.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }        
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
@@ -57,11 +70,11 @@ impl Layer for SmallElementFlower {
             };
 
             // Add the fill to the paths
-            path1 = path1.set("fill", color);
+            path = path.set("fill", color);
 
-            vec![path1.into()]
+            elements.push(path.into());
         } else {
-            let (gradient1, gradient1_name) = if base_color.is_some() {
+            let (gradient, gradient_name) = if base_color.is_some() {
                 // We have a base color, so we derive something similar
                 let color1 = base_color.unwrap().derive_similar_color(random);
                 let color2 = base_color.unwrap().derive_similar_color(random);
@@ -79,9 +92,12 @@ impl Layer for SmallElementFlower {
                 random_gradient_definition(random, Some(45), color_mode, 100)
             };
 
-            path1 = path1.set("fill", format!("url(#{gradient1_name})"));
+            path = path.set("fill", format!("url(#{gradient_name})"));
 
-            vec![gradient1.into(), path1.into()]
+            elements.extend(vec![gradient.into(), path.into()]);
         }
+
+        // Return the vector of elements
+        elements
     }
 }

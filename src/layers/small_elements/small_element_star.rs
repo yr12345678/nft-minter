@@ -12,7 +12,7 @@ impl Layer for SmallElementStar {
         let valid_radii = [90, 120, 150];
         let radius = valid_radii
             .get(random.roll::<usize>(3))
-            .expect("Did not find a valid rotation amount. This should never happen.");
+            .expect("Did not find a valid radius. This should never happen.");
 
         // Generate the star
         let data = Data::new()
@@ -32,6 +32,19 @@ impl Layer for SmallElementStar {
             path = path.set("transform", "rotate(45, 500, 500)");
         }
 
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 25, drop_shadow_color, 75);
+
+            path = path.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }          
+
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
             let color = if base_color.is_some() {
@@ -50,7 +63,7 @@ impl Layer for SmallElementStar {
 
             path = path.set("fill", color);
 
-            vec![path.into()]
+            elements.push(path.into());
         } else {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
@@ -73,7 +86,10 @@ impl Layer for SmallElementStar {
 
             path = path.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), path.into()]
+            elements.extend(vec![gradient.into(), path.into()]);
         }
+
+        // Return the vector of elements
+        elements
     }
 }

@@ -31,6 +31,19 @@ impl Layer for SmallElementSquare {
             rectangle = rectangle.set("rx", rx);
         }
 
+        // Initalialize the elements vector
+        let mut elements: Vec<Element> = vec![];
+
+        // Possibly add a drop-shadow
+        if random.roll::<u8>(100) < 15 {
+            let drop_shadow_color = HSL::new(0, 0, 0, 100);
+            let (drop_shadow, drop_shadow_name) =
+                drop_shadow_definition(random, 0, 0, 35, drop_shadow_color, 70);
+
+            rectangle = rectangle.set("filter", format!("url(#{drop_shadow_name})"));
+            elements.push(drop_shadow.into());
+        }
+
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
             // Pick a solid color
@@ -51,7 +64,7 @@ impl Layer for SmallElementSquare {
 
             rectangle = rectangle.set("fill", color);
 
-            vec![rectangle.into()]
+            elements.push(rectangle.into());
         } else {
             // Get a gradient definition
             let (gradient, gradient_name) = if base_color.is_some() {
@@ -74,7 +87,10 @@ impl Layer for SmallElementSquare {
 
             rectangle = rectangle.set("fill", format!("url(#{gradient_name})",));
 
-            vec![gradient.into(), rectangle.into()]
+            elements.extend(vec![gradient.into(), rectangle.into()]);
         }
+
+        // Return the vector of elements
+        elements
     }
 }
