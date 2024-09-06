@@ -18,16 +18,6 @@ impl Layer for SmallElementCircle {
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];
 
-        // Possibly add a drop-shadow
-        if random.roll::<u8>(100) < 15 {
-            let drop_shadow_color = HSL::new(0, 0, 0, 100);
-            let (drop_shadow, drop_shadow_name) =
-                drop_shadow_definition(random, 0, 0, (random_radius / 4).to_i8().unwrap(), drop_shadow_color, 70);
-
-            circle = circle.set("filter", format!("url(#{drop_shadow_name})"));
-            elements.push(drop_shadow.into());
-        }
-
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
             let color = if base_color.is_some() {

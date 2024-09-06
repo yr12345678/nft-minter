@@ -40,17 +40,7 @@ impl Layer for SmallElementFlower {
             .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
         // Initalialize the elements vector
-        let mut elements: Vec<Element> = vec![];
-
-        // Possibly add a drop-shadow
-        if random.roll::<u8>(100) < 15 {
-            let drop_shadow_color = HSL::new(0, 0, 0, 100);
-            let (drop_shadow, drop_shadow_name) =
-                drop_shadow_definition(random, 0, 0, (random_size / 2).to_i8().unwrap(), drop_shadow_color, 70);
-
-            path = path.set("filter", format!("url(#{drop_shadow_name})"));
-            elements.push(drop_shadow.into());
-        }        
+        let mut elements: Vec<Element> = vec![];    
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {
