@@ -40,7 +40,7 @@ impl Layer for SmallElementFlower {
             .set("transform", format!("rotate({rotate_amount}, 500, 500)"));
 
         // Initalialize the elements vector
-        let mut elements: Vec<Element> = vec![];    
+        let mut elements: Vec<Element> = vec![];
 
         // Pick random solid colors
         if random.roll::<u8>(100) < 85 {

@@ -1,7 +1,6 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use scrypto::prelude::ToPrimitive;
 use svg::node::element::path::Data;
 use svg::node::element::{Element, Path};
 
@@ -34,7 +33,7 @@ impl Layer for SmallElementStar {
         }
 
         // Initalialize the elements vector
-        let mut elements: Vec<Element> = vec![];         
+        let mut elements: Vec<Element> = vec![];
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {

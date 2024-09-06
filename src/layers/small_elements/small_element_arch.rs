@@ -23,7 +23,7 @@ impl Layer for SmallElementArch {
         let mut path = Path::new().set("d", data);
 
         // Initalialize the elements vector
-        let mut elements: Vec<Element> = vec![];          
+        let mut elements: Vec<Element> = vec![];
 
         // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
         if random.roll::<u8>(100) < 85 {
