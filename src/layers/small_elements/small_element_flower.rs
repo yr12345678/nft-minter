@@ -1,7 +1,6 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
-use scrypto::prelude::ToPrimitive;
 use svg::node::element::path::Data;
 use svg::node::element::{Element, Path};
 

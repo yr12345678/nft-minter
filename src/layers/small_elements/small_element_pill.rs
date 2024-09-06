@@ -2,7 +2,6 @@ use crate::hsl::*;
 use crate::layers::Layer;
 use crate::utils::*;
 use random::Random;
-use scrypto::prelude::ToPrimitive;
 use svg::node::element::{Element, Rectangle};
 
 pub struct SmallElementPill;
