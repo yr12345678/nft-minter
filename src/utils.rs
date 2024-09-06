@@ -123,8 +123,8 @@ pub fn drop_shadow_definition(
     let mut filter = Filter::new()
         .set("x", "-50%")
         .set("y", "-50%")
-        .set("width", "200%")
-        .set("height", "200%")
+        .set("width", "250%")
+        .set("height", "250%")
         .set("id", filter_name.clone());
 
     // Create drop-shadow

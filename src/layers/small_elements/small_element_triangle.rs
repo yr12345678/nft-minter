@@ -1,6 +1,7 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
+use scrypto::prelude::ToPrimitive;
 use svg::node::element::{Element, Polygon};
 
 pub struct SmallElementTriangle;
@@ -30,7 +31,7 @@ impl Layer for SmallElementTriangle {
         if random.roll::<u8>(100) < 15 {
             let drop_shadow_color = HSL::new(0, 0, 0, 100);
             let (drop_shadow, drop_shadow_name) =
-                drop_shadow_definition(random, 0, 0, 25, drop_shadow_color, 70);
+                drop_shadow_definition(random, 0, 0, (random_offset / 4).to_i8().unwrap(), drop_shadow_color, 70);
 
             triangle = triangle.set("filter", format!("url(#{drop_shadow_name})"));
             elements.push(drop_shadow.into());

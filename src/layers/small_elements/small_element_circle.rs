@@ -1,13 +1,14 @@
 use crate::hsl::*;
 use crate::{layers::Layer, utils::*};
 use random::Random;
+use scrypto::prelude::ToPrimitive;
 use svg::node::element::{Circle, Element};
 
 pub struct SmallElementCircle;
 
 impl Layer for SmallElementCircle {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        let random_radius = random.in_range::<u16>(50, 100) * 2; // Always an even number
+        let random_radius = random.in_range::<u16>(35, 100) * 2; // Always an even number
 
         let mut circle = Circle::new()
             .set("cx", 500)
@@ -21,7 +22,7 @@ impl Layer for SmallElementCircle {
         if random.roll::<u8>(100) < 15 {
             let drop_shadow_color = HSL::new(0, 0, 0, 100);
             let (drop_shadow, drop_shadow_name) =
-                drop_shadow_definition(random, 0, 0, 35, drop_shadow_color, 70);
+                drop_shadow_definition(random, 0, 0, (random_radius / 4).to_i8().unwrap(), drop_shadow_color, 70);
 
             circle = circle.set("filter", format!("url(#{drop_shadow_name})"));
             elements.push(drop_shadow.into());
