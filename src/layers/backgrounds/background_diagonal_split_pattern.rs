@@ -2,9 +2,9 @@ use std::any::Any;
 
 use crate::layers::Layer;
 use crate::utils::*;
-use crate::{hsl::*, layers::overlays};
+use crate::{hsl::*, layers::small_elements};
 use random::Random;
-use svg::node::element::{Element, Rectangle, Polygon, Definitions, Pattern};
+use svg::node::element::{Definitions, Element, Pattern, Polygon, Rectangle};
 
 pub struct BackgroundDiagonalSplitPattern;
 
@@ -14,8 +14,7 @@ impl Layer for BackgroundDiagonalSplitPattern {
         let mut pattern_rectangle = Rectangle::new().set("width", "100%").set("height", "100%");
 
         // Generate the polygon that will form the diagonal split
-        let mut polygon = Polygon::new()
-            .set("points", "0,0 250,250 0,250");
+        let mut polygon = Polygon::new().set("points", "0,0 250,250 0,250");
 
         // Generate the pattern
         let pattern_name = format!("pat{}", random.in_range::<u16>(0, 65535));
@@ -29,12 +28,9 @@ impl Layer for BackgroundDiagonalSplitPattern {
         let valid_rotate_amounts = [0, 90];
         let rotate_amount = valid_rotate_amounts
             .get(random.roll::<usize>(2))
-            .expect("Did not find a valid rotation amount. This should never happen.");     
+            .expect("Did not find a valid rotation amount. This should never happen.");
 
-        pattern = pattern.set(
-            "patternTransform",
-            format!("rotate({rotate_amount})"),
-        );
+        pattern = pattern.set("patternTransform", format!("rotate({rotate_amount})"));
 
         // Set the fill, which can be either solid or gradient
         if random.roll::<u8>(100) < 80 {
@@ -64,17 +60,15 @@ impl Layer for BackgroundDiagonalSplitPattern {
 
             pattern_rectangle = pattern_rectangle.set("fill", color1);
             polygon = polygon.set("fill", color2);
-            pattern = pattern
-                .add(pattern_rectangle)
-                .add(polygon);
-        
+            pattern = pattern.add(pattern_rectangle).add(polygon);
+
             let defs = Definitions::new().add(pattern);
 
             // Create a rectangle with that pattern, which serves as the background
             let background = Rectangle::new()
                 .set("width", "100%")
                 .set("height", "100%")
-                .set("fill", format!("url(#{pattern_name})"));            
+                .set("fill", format!("url(#{pattern_name})"));
 
             vec![defs.into(), background.into()]
         } else {
@@ -110,26 +104,29 @@ impl Layer for BackgroundDiagonalSplitPattern {
 
             pattern_rectangle = pattern_rectangle.set("fill", format!("url(#{gradient1_name})"));
             polygon = polygon.set("fill", format!("url(#{gradient2_name})"));
-            pattern = pattern
-                .add(pattern_rectangle)
-                .add(polygon);    
+            pattern = pattern.add(pattern_rectangle).add(polygon);
 
             let defs = Definitions::new()
                 .add(gradient1)
                 .add(gradient2)
-                .add(pattern);            
+                .add(pattern);
 
             // Create a rectangle with that pattern, which serves as the background
             let background = Rectangle::new()
                 .set("width", "100%")
                 .set("height", "100%")
-                .set("fill", format!("url(#{pattern_name})"));            
+                .set("fill", format!("url(#{pattern_name})"));
 
             vec![defs.into(), background.into()]
         }
     }
 
     fn exclusions(&self) -> Vec<std::any::TypeId> {
-        vec![overlays::overlay_triangle::OverlayTriangle.type_id()]
+        vec![
+            small_elements::small_element_diagonal_split_square::SmallElementDiagonalSplitSquare
+                .type_id(),
+            small_elements::small_element_triangle::SmallElementTriangle.type_id(),
+            small_elements::small_element_square::SmallElementSquare.type_id(),
+        ]
     }
 }
