@@ -6,6 +6,7 @@ use crate::{
 };
 use random::Random;
 use small_element_arch::SmallElementArch;
+use small_element_ball::SmallElementBall;
 use small_element_circle::SmallElementCircle;
 use small_element_cross::SmallElementCross;
 use small_element_cube::SmallElementCube;
@@ -23,9 +24,9 @@ use small_element_stacked_pills::SmallElementStackedPills;
 use small_element_star::SmallElementStar;
 use small_element_straight_split_square::SmallElementStraightSplitSquare;
 use small_element_triangle::SmallElementTriangle;
-use small_element_ball::SmallElementBall;
 
 pub mod small_element_arch;
+pub mod small_element_ball;
 pub mod small_element_circle;
 pub mod small_element_cross;
 pub mod small_element_cube;
@@ -43,7 +44,6 @@ pub mod small_element_stacked_pills;
 pub mod small_element_star;
 pub mod small_element_straight_split_square;
 pub mod small_element_triangle;
-pub mod small_element_ball;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights

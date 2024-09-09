@@ -12,9 +12,9 @@ use big_element_quarter_circle::BigElementQuarterCircle;
 use big_element_square::BigElementSquare;
 use big_element_three_quarter_circle::BigElementThreeQuarterCircle;
 use big_element_triangle::BigElementTriangle;
+use big_element_two_rectangles::BigElementTwoRectangles;
 use big_element_two_squares::BigElementTwoSquares;
 use big_element_zig_zag::BigElementZigZag;
-use big_element_two_rectangles::BigElementTwoRectangles;
 use random::Random;
 
 pub mod big_element_full_circle;
@@ -25,9 +25,9 @@ pub mod big_element_quarter_circle;
 pub mod big_element_square;
 pub mod big_element_three_quarter_circle;
 pub mod big_element_triangle;
+pub mod big_element_two_rectangles;
 pub mod big_element_two_squares;
 pub mod big_element_zig_zag;
-pub mod big_element_two_rectangles;
 
 pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
