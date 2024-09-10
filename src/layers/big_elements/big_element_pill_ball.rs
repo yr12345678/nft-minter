@@ -164,7 +164,7 @@ impl Layer for BigElementPillBall {
             small_elements::small_element_double_circle::SmallElementDoubleCircle.type_id(),
             small_elements::small_element_double_diamond::SmallElementDoubleDiamond.type_id(),
             overlays::overlay_triangle::OverlayTriangle.type_id(),
-            overlays::overlay_half_circle::OverlayHalfCircle.type_id()
+            overlays::overlay_half_circle::OverlayHalfCircle.type_id(),
         ]
     }
 }
