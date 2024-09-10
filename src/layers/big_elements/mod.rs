@@ -7,6 +7,7 @@ use crate::{
 use big_element_full_circle::BigElementFullCircle;
 use big_element_half_circle::BigElementHalfCircle;
 use big_element_pill::BigElementPill;
+use big_element_pill_ball::BigElementPillBall;
 use big_element_pill_split_circle::BigElementPillSplitCircle;
 use big_element_quarter_circle::BigElementQuarterCircle;
 use big_element_square::BigElementSquare;
@@ -20,6 +21,7 @@ use random::Random;
 pub mod big_element_full_circle;
 pub mod big_element_half_circle;
 pub mod big_element_pill;
+pub mod big_element_pill_ball;
 pub mod big_element_pill_split_circle;
 pub mod big_element_quarter_circle;
 pub mod big_element_square;
@@ -40,9 +42,10 @@ pub fn random_big_element(random: &mut Random, exclusions: &[TypeId]) -> Option<
         (Box::new(BigElementQuarterCircle), 100),
         (Box::new(BigElementZigZag), 50),
         (Box::new(BigElementSquare), 100),
-        (Box::new(BigElementPill), 50),
-        (Box::new(BigElementPillSplitCircle), 50),
+        (Box::new(BigElementPill), 33),
+        (Box::new(BigElementPillSplitCircle), 33),
         (Box::new(BigElementTwoRectangles), 50),
+        (Box::new(BigElementPillBall), 33),
     ];
 
     // Filter out the excluded layers
