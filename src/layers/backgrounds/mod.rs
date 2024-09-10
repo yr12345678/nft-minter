@@ -4,6 +4,7 @@ use background_chevron::BackgroundChevron;
 use background_circle_pattern::BackgroundCirclePattern;
 use background_diagonal_split::BackgroundDiagonalSplit;
 use background_diagonal_split_pattern::BackgroundDiagonalSplitPattern;
+use background_diamond_pattern::BackgroundDiagmondPattern;
 use background_double_diagonal_split::BackgroundDoubleDiagonalSplit;
 use background_four_squares::BackgroundFourSquares;
 use background_fourway_split::BackgroundFourWaySplit;
@@ -20,6 +21,7 @@ pub mod background_chevron;
 pub mod background_circle_pattern;
 pub mod background_diagonal_split;
 pub mod background_diagonal_split_pattern;
+pub mod background_diamond_pattern;
 pub mod background_double_diagonal_split;
 pub mod background_four_squares;
 pub mod background_fourway_split;
@@ -47,6 +49,7 @@ pub fn random_background(random: &mut Random) -> Box<dyn Layer> {
         (Box::new(BackgroundPuzzle), 100),
         (Box::new(BackgroundDiagonalSplitPattern), 5),
         (Box::new(BackgroundCirclePattern), 5),
+        (Box::new(BackgroundDiagmondPattern), 5),
     ];
 
     // Pick a random layer
