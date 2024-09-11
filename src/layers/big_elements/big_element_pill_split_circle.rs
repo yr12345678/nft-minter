@@ -164,6 +164,7 @@ impl Layer for BigElementPillSplitCircle {
             small_elements::small_element_ball::SmallElementBall.type_id(),
             small_elements::small_element_double_circle::SmallElementDoubleCircle.type_id(),
             small_elements::small_element_double_diamond::SmallElementDoubleDiamond.type_id(),
+            small_elements::small_element_cross_shadow::SmallElementCrossShadow.type_id(),
             overlays::overlay_triangle::OverlayTriangle.type_id(),
             overlays::overlay_half_circle::OverlayHalfCircle.type_id(),
         ]
