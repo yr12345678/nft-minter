@@ -88,7 +88,7 @@ fn generate_svg(
     let mut document = Document::new().set("viewBox", (0, 0, 1000, 1000));
 
     // Vectors we need
-    let mut definition_nodes: Vec<Box<dyn Node>> = vec![];
+    let mut defs = Definitions::new();
     let mut layer_elements_to_add: Vec<Element> = vec![];
     let mut layer_names: Vec<String> = vec![];
 
@@ -102,7 +102,7 @@ fn generate_svg(
             match element.get_name().as_str() {
                 "defs" => {
                     for def_element in element.get_children() {
-                        definition_nodes.push(def_element.to_owned());
+                        defs.append(def_element.to_owned())
                     }
                 }
                 _ => {
@@ -116,11 +116,6 @@ fn generate_svg(
     }
 
     // Add the definitions to the document
-    let mut defs = Definitions::new();
-    for definition_node in definition_nodes {
-        defs.append(definition_node);
-    }
-
     if !defs.get_children().is_empty() {
         document.append(defs)
     };
