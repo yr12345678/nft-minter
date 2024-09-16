@@ -160,6 +160,7 @@ impl Layer for BigElementPillBall {
             small_elements::small_element_diagonal_split_square::SmallElementDiagonalSplitSquare
                 .type_id(),
             small_elements::small_element_octagon::SmallElementOctagon.type_id(),
+            small_elements::small_element_octagon_shadow::SmallElementOctagonShadow.type_id(),
             small_elements::small_element_ball::SmallElementBall.type_id(),
             small_elements::small_element_double_circle::SmallElementDoubleCircle.type_id(),
             small_elements::small_element_double_diamond::SmallElementDoubleDiamond.type_id(),
