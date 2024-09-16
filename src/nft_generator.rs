@@ -1,9 +1,6 @@
-use std::any::Any;
-
 use crate::hsl::*;
 use crate::layers::*;
 use random::Random;
-use scrypto::info;
 use svg::node::element::Definitions;
 use svg::node::element::Element;
 use svg::Document;
@@ -107,13 +104,13 @@ fn generate_svg(
                     for def_element in element.get_children() {
                         definition_nodes.push(def_element.to_owned());
                     }
-                },
+                }
                 _ => {
                     layer_elements_to_add.push(element);
                 }
             }
         }
-        
+
         // Add the layer name to the layer name vector; we store this on the NFT data.
         layer_names.push(layer.layer_name());
     }
@@ -124,7 +121,9 @@ fn generate_svg(
         defs.append(definition_node);
     }
 
-    if !defs.get_children().is_empty() { document.append(defs) };
+    if !defs.get_children().is_empty() {
+        document.append(defs)
+    };
 
     // Add the layer elements to the document
     for layer in layer_elements_to_add {

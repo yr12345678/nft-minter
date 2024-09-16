@@ -15,10 +15,8 @@ impl Layer for SmallElementCircleShadow {
             .set("r", random_radius)
             .set("transform", "translate(-5, -5)");
 
-        let mut circle_shadow = circle
-            .clone()
-            .set("transform", "translate(5, 5)");
-            
+        let mut circle_shadow = circle.clone().set("transform", "translate(5, 5)");
+
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];
 
