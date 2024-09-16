@@ -25,6 +25,7 @@ use small_element_stacked_pills::SmallElementStackedPills;
 use small_element_star::SmallElementStar;
 use small_element_straight_split_square::SmallElementStraightSplitSquare;
 use small_element_triangle::SmallElementTriangle;
+use small_element_square_shadow::SmallElementSquareShadow;
 
 pub mod small_element_arch;
 pub mod small_element_ball;
@@ -46,6 +47,7 @@ pub mod small_element_stacked_pills;
 pub mod small_element_star;
 pub mod small_element_straight_split_square;
 pub mod small_element_triangle;
+pub mod small_element_square_shadow;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
@@ -70,6 +72,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementDoubleDiamond), 100),
         (Box::new(SmallElementBall), 100),
         (Box::new(SmallElementCrossShadow), 100),
+        (Box::new(SmallElementSquareShadow), 100),
     ];
 
     // Filter out the excluded layers
