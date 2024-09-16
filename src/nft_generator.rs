@@ -1,7 +1,13 @@
+use std::any::Any;
+
 use crate::hsl::*;
 use crate::layers::*;
 use random::Random;
+use scrypto::info;
+use svg::node::element::Definitions;
+use svg::node::element::Element;
 use svg::Document;
+use svg::Node;
 
 pub fn generate_nft_image_data(seed: &Vec<u8>) -> (String, Vec<String>) {
     // Instantiate the randomness
@@ -84,17 +90,45 @@ fn generate_svg(
     // Set up the base Document
     let mut document = Document::new().set("viewBox", (0, 0, 1000, 1000));
 
-    // Vector of layer names
+    // Vectors we need
+    let mut definition_nodes: Vec<Box<dyn Node>> = vec![];
+    let mut layer_elements_to_add: Vec<Element> = vec![];
     let mut layer_names: Vec<String> = vec![];
 
-    // Iterate through all layers, generate them and add the elements to the Document
+    // Seperate definition and layer elements so we can add just a single Definitions node to the beginning of the document
     for layer in layers {
+        // Generate all layer elements, including definitions
         let elements = layer.generate(random, base_color);
-        for element in elements {
-            document = document.add(element);
-        }
 
+        // Go through all elements and add all definition elements to a larger vector
+        for element in elements {
+            match element.get_name().as_str() {
+                "defs" => {
+                    for def_element in element.get_children() {
+                        definition_nodes.push(def_element.to_owned());
+                    }
+                },
+                _ => {
+                    layer_elements_to_add.push(element);
+                }
+            }
+        }
+        
+        // Add the layer name to the layer name vector; we store this on the NFT data.
         layer_names.push(layer.layer_name());
+    }
+
+    // Add the definitions to the document
+    let mut defs = Definitions::new();
+    for definition_node in definition_nodes {
+        defs.append(definition_node);
+    }
+
+    if !defs.get_children().is_empty() { document.append(defs) };
+
+    // Add the layer elements to the document
+    for layer in layer_elements_to_add {
+        document.append(layer);
     }
 
     (document, layer_names)
