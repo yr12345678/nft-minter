@@ -128,6 +128,7 @@ impl Layer for BackgroundZigZagSplit {
             big_elements::big_element_half_circle::BigElementHalfCircle.type_id(),
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
+            big_elements::big_element_pill_ball::BigElementPillBall.type_id(),
             big_elements::big_element_two_squares::BigElementTwoSquares.type_id(),
             big_elements::big_element_two_rectangles::BigElementTwoRectangles.type_id(),
             overlays::overlay_triangle::OverlayTriangle.type_id(),

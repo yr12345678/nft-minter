@@ -100,6 +100,7 @@ impl Layer for BackgroundDiagonalSplit {
             big_elements::big_element_zig_zag::BigElementZigZag.type_id(),
             big_elements::big_element_pill::BigElementPill.type_id(),
             big_elements::big_element_pill_split_circle::BigElementPillSplitCircle.type_id(),
+            big_elements::big_element_pill_ball::BigElementPillBall.type_id(),
         ]
     }
 }
