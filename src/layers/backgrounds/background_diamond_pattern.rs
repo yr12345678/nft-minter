@@ -114,6 +114,7 @@ impl Layer for BackgroundDiagmondPattern {
                 .type_id(),
             small_elements::small_element_triangle::SmallElementTriangle.type_id(),
             small_elements::small_element_square::SmallElementSquare.type_id(),
+            small_elements::small_element_square_shadow::SmallElementSquareShadow.type_id(),
             small_elements::small_element_double_diamond::SmallElementDoubleDiamond.type_id(),
         ]
     }

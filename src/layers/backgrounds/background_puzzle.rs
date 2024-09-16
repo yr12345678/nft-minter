@@ -111,6 +111,7 @@ impl Layer for BackgroundPuzzle {
             big_elements::big_element_half_circle::BigElementHalfCircle.type_id(),
             big_elements::big_element_two_rectangles::BigElementTwoRectangles.type_id(),
             small_elements::small_element_cross::SmallElementCross.type_id(),
+            small_elements::small_element_cross_shadow::SmallElementCrossShadow.type_id(),
         ]
     }
 }

@@ -112,6 +112,7 @@ impl Layer for BackgroundCirclePattern {
     fn exclusions(&self) -> Vec<std::any::TypeId> {
         vec![
             small_elements::small_element_circle::SmallElementCircle.type_id(),
+            small_elements::small_element_circle_shadow::SmallElementCircleShadow.type_id(),
             small_elements::small_element_double_circle::SmallElementDoubleCircle.type_id(),
             small_elements::small_element_split_circle::SmallElementSplitCircle.type_id(),
         ]
