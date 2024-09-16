@@ -1,57 +1,29 @@
 use crate::hsl::*;
-use crate::layers::Layer;
-use crate::utils::*;
+use crate::{layers::Layer, utils::*};
 use random::Random;
-use svg::node::element::{Element, Rectangle};
+use svg::node::element::{Circle, Element};
 
-pub struct SmallElementSquareShadow;
+pub struct SmallElementCircleShadow;
 
-impl Layer for SmallElementSquareShadow {
+impl Layer for SmallElementCircleShadow {
     fn generate(&self, random: &mut Random, base_color: &Option<HSL>) -> Vec<Element> {
-        // Generate the required values for building the rectangle. It will vary in size
-        // and we have to adjust its position and corner radius with it.
-        let random_dimension = random.in_range::<u16>(75, 125) * 2;
-        let rx = random_dimension / 5; // This will just get rounded, which is fine
-        let position = 500 - (random_dimension / 2);
+        let random_radius = random.in_range::<u16>(35, 100) * 2; // Always an even number
 
-        // Build the rectangle
-        let mut rectangle = Rectangle::new()
-            .set("width", random_dimension)
-            .set("height", random_dimension)
-            .set("x", position)
-            .set("y", position);
+        let mut circle = Circle::new()
+            .set("cx", 500)
+            .set("cy", 500)
+            .set("r", random_radius)
+            .set("transform", "translate(-5, -5)");
 
-        // The shadow
-        let mut rectangle_shadow = rectangle.clone();
-
-        // Add rotation and translate
-        let valid_rotate_amounts = [0, 45];
-        let rotate_amount = valid_rotate_amounts
-            .get(random.roll::<usize>(2))
-            .expect("Did not find a valid rotation amount. This should never happen.");
-
-        rectangle = rectangle.set(
-            "transform",
-            format!("rotate({rotate_amount}, 500, 500) translate(-5, -5)"),
-        );
-
-        rectangle_shadow = rectangle_shadow.set(
-            "transform",
-            format!("rotate({rotate_amount}, 500, 500) translate(5, 5)"),
-        );
-
-        // Possibly add rounded corners
-        if random.next_bool() {
-            rectangle = rectangle.set("rx", rx);
-            rectangle_shadow = rectangle_shadow.set("rx", rx);
-        }
-
+        let mut circle_shadow = circle
+            .clone()
+            .set("transform", "translate(5, 5)");
+            
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];
 
-        // Set the fill, which can be either solid or gradient
-        if random.roll::<u8>(100) < 80 {
-            // Pick a solid color
+        // Set the fill, which can be either solid or gradient, with a higher chance of solid than gradient
+        if random.roll::<u8>(100) < 85 {
             let color = if base_color.is_some() {
                 // Use the base color and derive something similar
                 base_color.unwrap().derive_similar_color(random)
@@ -67,8 +39,8 @@ impl Layer for SmallElementSquareShadow {
                 HSL::new_random(random, color_mode, 100)
             };
 
-            rectangle = rectangle.set("fill", color.as_string());
-            rectangle_shadow = rectangle_shadow.set(
+            circle = circle.set("fill", color.as_string());
+            circle_shadow = circle_shadow.set(
                 "fill",
                 HSL {
                     lightness: color.lightness - 10,
@@ -77,7 +49,7 @@ impl Layer for SmallElementSquareShadow {
                 .as_string(),
             );
 
-            elements.extend(vec![rectangle_shadow.into(), rectangle.into()]);
+            elements.extend(vec![circle_shadow.into(), circle.into()]);
         } else {
             // Get a gradient definition
             let ((gradient, gradient_name), shadow_color) = if base_color.is_some() {
@@ -95,7 +67,7 @@ impl Layer for SmallElementSquareShadow {
                     color3,
                 )
             } else {
-                // Pick a random color
+                // Randomize the color mode, but prefer vibrant
                 let roll = random.roll::<u8>(100);
                 let color_mode = if roll < 30 {
                     ColorMode::Light
@@ -117,17 +89,13 @@ impl Layer for SmallElementSquareShadow {
                 )
             };
 
-            rectangle = rectangle.set("fill", format!("url(#{gradient_name})",));
-            rectangle_shadow = rectangle_shadow.set("fill", shadow_color);
+            circle = circle.set("fill", format!("url(#{gradient_name})",));
+            circle_shadow = circle_shadow.set("fill", shadow_color);
 
-            elements.extend(vec![
-                gradient.into(),
-                rectangle_shadow.into(),
-                rectangle.into(),
-            ]);
+            elements.extend(vec![gradient.into(), circle_shadow.into(), circle.into()]);
         }
 
-        // Return the vector of elements
+        // Return vector of elements
         elements
     }
 }

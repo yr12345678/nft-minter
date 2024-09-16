@@ -38,9 +38,9 @@ impl Layer for OverlayTriangle {
                         saturation: 100,
                         lightness: 100,
                         opacity: 100,
-                    }
-                )            
-            },
+                    },
+                )
+            }
             1 => {
                 // Black
                 (
@@ -55,19 +55,14 @@ impl Layer for OverlayTriangle {
                         saturation: 100,
                         lightness: 0,
                         opacity: 80,
-                    }
-                )            
-            },
-            _ => panic!("No matching overlay color type found!")
-        };        
+                    },
+                )
+            }
+            _ => panic!("No matching overlay color type found!"),
+        };
 
         // Set the gradient
-        let (gradient, gradient_name) = gradient_definition(
-            random,
-            None,
-            color1,
-            color2
-        );
+        let (gradient, gradient_name) = gradient_definition(random, None, color1, color2);
 
         triangle = triangle.set("fill", format!("url(#{gradient_name})"));
 

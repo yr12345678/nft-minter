@@ -8,6 +8,7 @@ use random::Random;
 use small_element_arch::SmallElementArch;
 use small_element_ball::SmallElementBall;
 use small_element_circle::SmallElementCircle;
+use small_element_circle_shadow::SmallElementCircleShadow;
 use small_element_cross::SmallElementCross;
 use small_element_cross_shadow::SmallElementCrossShadow;
 use small_element_cube::SmallElementCube;
@@ -21,15 +22,16 @@ use small_element_pill::SmallElementPill;
 use small_element_split_circle::SmallElementSplitCircle;
 use small_element_split_circle_opposite::SmallElementSplitCircleOpposite;
 use small_element_square::SmallElementSquare;
+use small_element_square_shadow::SmallElementSquareShadow;
 use small_element_stacked_pills::SmallElementStackedPills;
 use small_element_star::SmallElementStar;
 use small_element_straight_split_square::SmallElementStraightSplitSquare;
 use small_element_triangle::SmallElementTriangle;
-use small_element_square_shadow::SmallElementSquareShadow;
 
 pub mod small_element_arch;
 pub mod small_element_ball;
 pub mod small_element_circle;
+pub mod small_element_circle_shadow;
 pub mod small_element_cross;
 pub mod small_element_cross_shadow;
 pub mod small_element_cube;
@@ -43,11 +45,11 @@ pub mod small_element_pill;
 pub mod small_element_split_circle;
 pub mod small_element_split_circle_opposite;
 pub mod small_element_square;
+pub mod small_element_square_shadow;
 pub mod small_element_stacked_pills;
 pub mod small_element_star;
 pub mod small_element_straight_split_square;
 pub mod small_element_triangle;
-pub mod small_element_square_shadow;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
@@ -73,6 +75,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementBall), 100),
         (Box::new(SmallElementCrossShadow), 100),
         (Box::new(SmallElementSquareShadow), 100),
+        (Box::new(SmallElementCircleShadow), 100),
     ];
 
     // Filter out the excluded layers
