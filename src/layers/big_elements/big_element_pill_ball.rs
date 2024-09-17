@@ -142,6 +142,7 @@ impl Layer for BigElementPillBall {
         vec![
             // Small elements don't combine well with this element
             small_elements::small_element_arch::SmallElementArch.type_id(),
+            small_elements::small_element_arch_shadow::SmallElementArchShadow.type_id(),
             small_elements::small_element_cross::SmallElementCross.type_id(),
             small_elements::small_element_cube::SmallElementCube.type_id(),
             small_elements::small_element_flower::SmallElementFlower.type_id(),

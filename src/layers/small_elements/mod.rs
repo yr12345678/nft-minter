@@ -29,6 +29,7 @@ use small_element_straight_split_square::SmallElementStraightSplitSquare;
 use small_element_triangle::SmallElementTriangle;
 use small_element_octagon_shadow::SmallElementOctagonShadow;
 use small_element_flower_shadow::SmallElementFlowerShadow;
+use small_element_arch_shadow::SmallElementArchShadow;
 
 pub mod small_element_arch;
 pub mod small_element_ball;
@@ -54,13 +55,14 @@ pub mod small_element_straight_split_square;
 pub mod small_element_triangle;
 pub mod small_element_octagon_shadow;
 pub mod small_element_flower_shadow;
+pub mod small_element_arch_shadow;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
     let available_layers: Vec<(Box<dyn Layer>, u32)> = vec![
         (Box::new(SmallElementCircle), 50),
         (Box::new(SmallElementSquare), 50),
-        (Box::new(SmallElementArch), 100),
+        (Box::new(SmallElementArch), 50),
         (Box::new(SmallElementSplitCircle), 100),
         (Box::new(SmallElementSplitCircleOpposite), 100),
         (Box::new(SmallElementFourCircles), 20),
@@ -82,6 +84,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementCircleShadow), 50),
         (Box::new(SmallElementOctagonShadow), 50),
         (Box::new(SmallElementFlowerShadow), 50),
+        (Box::new(SmallElementArchShadow), 50),
     ];
 
     // Filter out the excluded layers
