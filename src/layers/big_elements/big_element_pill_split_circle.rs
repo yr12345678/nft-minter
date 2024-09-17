@@ -157,6 +157,7 @@ impl Layer for BigElementPillSplitCircle {
             small_elements::small_element_star::SmallElementStar.type_id(),
             small_elements::small_element_triangle::SmallElementTriangle.type_id(),
             small_elements::small_element_pill::SmallElementPill.type_id(),
+            small_elements::small_element_pill_shadow::SmallElementPillShadow.type_id(),
             small_elements::small_element_straight_split_square::SmallElementStraightSplitSquare
                 .type_id(),
             small_elements::small_element_stacked_pills::SmallElementStackedPills.type_id(),
