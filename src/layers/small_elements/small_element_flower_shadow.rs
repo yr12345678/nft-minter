@@ -34,13 +34,15 @@ impl Layer for SmallElementFlowerShadow {
             .expect("Did not find a valid rotation amount. This should never happen.");
 
         // Generate the path
-        let mut flower = Path::new()
-            .set("d", data)
-            .set("transform", format!("rotate({rotate_amount}, 500, 500) translate(-5, -5)"));
+        let mut flower = Path::new().set("d", data).set(
+            "transform",
+            format!("rotate({rotate_amount}, 500, 500) translate(-5, -5)"),
+        );
 
-        let mut flower_shadow = flower
-            .clone()
-            .set("transform", format!("rotate({rotate_amount}, 500, 500) translate(5, 5)"));
+        let mut flower_shadow = flower.clone().set(
+            "transform",
+            format!("rotate({rotate_amount}, 500, 500) translate(5, 5)"),
+        );
 
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];

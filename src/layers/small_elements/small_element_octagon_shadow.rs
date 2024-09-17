@@ -22,9 +22,7 @@ impl Layer for SmallElementOctagonShadow {
             )
             .set("transform", "translate(-5, -5)");
 
-        let mut octagon_shadow = octagon
-            .clone()
-            .set("transform", "translate(5, 5)");
+        let mut octagon_shadow = octagon.clone().set("transform", "translate(5, 5)");
 
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];

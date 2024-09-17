@@ -23,9 +23,7 @@ impl Layer for SmallElementArchShadow {
             .set("d", data)
             .set("transform", "translate(-5, -5)");
 
-        let mut arch_shadow = arch
-            .clone()
-            .set("transform", "translate(5, 5)");
+        let mut arch_shadow = arch.clone().set("transform", "translate(5, 5)");
 
         // Initalialize the elements vector
         let mut elements: Vec<Element> = vec![];

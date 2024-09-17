@@ -29,9 +29,7 @@ impl Layer for SmallElementStarShadow {
             .set("d", data)
             .set("transform", "translate(-5, -5)");
 
-        let mut star_shadow = star
-            .clone()
-            .set("transform", "translate(5, 5)");
+        let mut star_shadow = star.clone().set("transform", "translate(5, 5)");
 
         // Possibly rotate
         if random.next_bool() {
@@ -113,11 +111,7 @@ impl Layer for SmallElementStarShadow {
             star = star.set("fill", format!("url(#{gradient_name})",));
             star_shadow = star_shadow.set("fill", shadow_color);
 
-            elements.extend(vec![
-                gradient.into(),
-                star_shadow.into(),
-                star.into(),
-            ]);
+            elements.extend(vec![gradient.into(), star_shadow.into(), star.into()]);
         }
 
         // Return the vector of elements

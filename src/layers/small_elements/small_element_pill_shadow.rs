@@ -19,9 +19,7 @@ impl Layer for SmallElementPillShadow {
             .set("rx", random_width / 4)
             .set("transform", "translate(-5, -5)");
 
-        let mut pill_shadow = pill
-            .clone()
-            .set("transform", "translate(5, 5)");
+        let mut pill_shadow = pill.clone().set("transform", "translate(5, 5)");
 
         // Possibly add a 90 degree rotation
         if random.next_bool() {
