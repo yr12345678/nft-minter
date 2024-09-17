@@ -154,6 +154,7 @@ impl Layer for BigElementPillBall {
                 .type_id(),
             small_elements::small_element_split_circle::SmallElementSplitCircle.type_id(),
             small_elements::small_element_star::SmallElementStar.type_id(),
+            small_elements::small_element_star_shadow::SmallElementStarShadow.type_id(),
             small_elements::small_element_triangle::SmallElementTriangle.type_id(),
             small_elements::small_element_pill::SmallElementPill.type_id(),
             small_elements::small_element_pill_shadow::SmallElementPillShadow.type_id(),
