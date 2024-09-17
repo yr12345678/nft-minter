@@ -31,6 +31,7 @@ use small_element_octagon_shadow::SmallElementOctagonShadow;
 use small_element_flower_shadow::SmallElementFlowerShadow;
 use small_element_arch_shadow::SmallElementArchShadow;
 use small_element_pill_shadow::SmallElementPillShadow;
+use small_element_star_shadow::SmallElementStarShadow;
 
 pub mod small_element_arch;
 pub mod small_element_ball;
@@ -58,6 +59,7 @@ pub mod small_element_octagon_shadow;
 pub mod small_element_flower_shadow;
 pub mod small_element_arch_shadow;
 pub mod small_element_pill_shadow;
+pub mod small_element_star_shadow;
 
 pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Option<Box<dyn Layer>> {
     // Layers and their weights
@@ -69,7 +71,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementSplitCircleOpposite), 100),
         (Box::new(SmallElementFourCircles), 20),
         (Box::new(SmallElementFlower), 50),
-        (Box::new(SmallElementStar), 100),
+        (Box::new(SmallElementStar), 50),
         (Box::new(SmallElementCross), 50),
         (Box::new(SmallElementCube), 100),
         (Box::new(SmallElementTriangle), 100),
@@ -88,6 +90,7 @@ pub fn random_small_element(random: &mut Random, exclusions: &[TypeId]) -> Optio
         (Box::new(SmallElementFlowerShadow), 50),
         (Box::new(SmallElementArchShadow), 50),
         (Box::new(SmallElementPillShadow), 50),
+        (Box::new(SmallElementStarShadow), 50),
     ];
 
     // Filter out the excluded layers
