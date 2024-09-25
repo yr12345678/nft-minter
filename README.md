@@ -77,7 +77,7 @@ CALL_METHOD
 ### Check if seed was used
 ```
 CALL_METHOD
-    Address("SVGENESIS_COMPONENT_ADDRESS") # Put an account address here
+    Address("YOUR_ACCOUNT") # Put an account address here
     "seed_used"
     Bytes("HEX_ENCODED_SEED")
 ;
