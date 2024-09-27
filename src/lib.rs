@@ -1,5 +1,4 @@
 use events::Generation;
-use scrypto::crypto::hash;
 use scrypto::prelude::*;
 use types::SVGenesisNFT;
 
