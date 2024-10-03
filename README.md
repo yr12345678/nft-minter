@@ -53,6 +53,15 @@ This project uses pseudo-randomness via .Random to generate NFTs. The collection
 
 If you plan on generating a collection that is limited, costs money and/or has the concept of rarity, you **should not allow anyone to provide a seed themselves**. Instead, you should be using the RandomComponent described in the .Random documentation: https://github.com/dot-random/dot-random.
 
+# Components
+If you want to integrate SVGenesis mints in your product, use the components below.
+
+## Stokenet
+`component_tdx_2_1cqs9mhe56cpj4fakklcup3ax6jr00hvyrheg2ju6ua4xhh3h5r536q`
+
+## Mainnet
+`component_rdx1cpjnvp4q44mjdngrgyhvyhvwva4mhac6wgrj8msjx00tmszkz850ty`
+
 # Interface
 The component instantiated from this blueprint has two methods:
 * `seed_used(seed: Vec<u8>)`: returns `(bool, Option<NonFungibleLocalId>)` indicating whether a seed was already used, and if so, which NFT was generated with it.
