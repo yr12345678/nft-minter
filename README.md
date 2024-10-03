@@ -4,7 +4,7 @@ To make this work, this repository uses:
 * Mleekko's .Random for pseudo-randomness: https://github.com/dot-random/dot-random
 * A modified version of an SVG generator (https://github.com/bodoni/svg/) from which any references to floats are stripped (as they're not allowed), which can be found at https://github.com/yr12345678/svg
 
-This NFT project utilises the fact that can natively render the SVG data URIs in the `key_image_url` field to display the NFTs. The official wallets support rendering the SVGs through the image server they use, because of lacking SVG renderer libraries for (mostly) Swift. This means that we don't have to store images externally and can generate and store the NFTs on-ledger completely.
+This NFT project utilises the fact that the `key_image_url` field supports SVG data URIs. Browsers render this natively. The official wallets support rendering the SVGs through the image server they use, because of lacking SVG renderer libraries for (mostly) Swift. This means that we don't have to store images externally and can generate and store the NFTs on-ledger completely.
 
 # Setup
 The project has a simple NFT generation system that allows you to define layers and exclusions. It then picks layers taking into account these exclusions, but also any weights you've assigned to the layers.
@@ -58,7 +58,7 @@ The component instantiated from this blueprint has two methods:
 * `seed_used(seed: Vec<u8>)`: returns `(bool, Option<NonFungibleLocalId>)` indicating whether a seed was already used, and if so, which NFT was generated with it.
 * `mint_nft(seed: Vec<u8>)`: returns a `Bucket` with the generated NFT, as long as the seed was not already used and the generated SVG code does not already exist. 
 
-Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. Seed length must be a multiple of 4 (this is a requirement of .Random).
+Seeds are provided hex-encoded. You can use something like https://www.browserling.com/tools/random-hex to generate a random seed. **Seed length must be a multiple of 4** (this is a requirement of .Random).
 
 ## Manifests
 ### Mint NFT

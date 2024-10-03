@@ -112,7 +112,7 @@ mod svgenesis {
                         "name" => "SVGenesis", locked;
                         "description" => "SVGenesis is an experimental NFT collection that's generated and hosted completely on-ledger. It's free and unlimited.", updatable;
                         "icon_url" => Url::of("https://i.ibb.co/gJY74HX/svgenesis.png"), updatable;
-                        "tags" => vec!["nft", "collection"], updatable;
+                        "tags" => vec!["nft", "collection", "svg"], updatable;
                     }
                 })
                 .create_with_no_initial_supply();
